@@ -203,7 +203,6 @@
 
       const DEFAULT_SEASON = "2026";
 
-      // Map from 3-letter code to full team name
       const TEAM_NAMES = {
         ATL: "Atlanta Hawks",
         BOS: "Boston Celtics",
@@ -309,7 +308,9 @@
             tbody.appendChild(tr);
           });
 
-          status.textContent = `Loaded ${ratingsArray.length} teams from ${file}.`;
+          // REMOVED THE LINE THAT PRINTED:
+          // "Loaded 30 teams from ratings_2026.json."
+          status.textContent = ""; 
         } catch (err) {
           console.error(err);
           status.textContent = `Error loading ${file}: ${err}`;
@@ -317,7 +318,6 @@
         }
       }
 
-      // Force default to 2025–26 on load
       seasonSelect.value = DEFAULT_SEASON;
       loadSeason(DEFAULT_SEASON);
 
@@ -325,6 +325,7 @@
         loadSeason(seasonSelect.value);
       });
     });
-  </script>
+</script>
+
 </body>
 </html>
