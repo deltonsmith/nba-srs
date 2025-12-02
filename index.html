@@ -12,7 +12,7 @@
       margin-bottom: 0.5rem;
     }
     #controls {
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
     select {
       padding: 4px 8px;
@@ -78,6 +78,28 @@
       const tbody = document.querySelector("#ratings-table tbody");
       const status = document.getElementById("status");
 
+      function normalizeRatings(data) {
+        // 1) Already an array: [{team, rating}, ...]
+        if (Array.isArray(data)) {
+          return data;
+        }
+
+        // 2) Wrapped: { season, ratings: [...] }
+        if (data && Array.isArray(data.ratings)) {
+          return data.ratings;
+        }
+
+        // 3) Plain object map: { "BOS": 10.6, "OKC": 9.0, ... }
+        if (data && typeof data === "object") {
+          return Object.entries(data).map(([team, rating]) => ({
+            team,
+            rating,
+          }));
+        }
+
+        return [];
+      }
+
       async function loadSeason(season) {
         const file = SEASON_FILES[season];
         if (!file) {
@@ -96,8 +118,8 @@
             return;
           }
 
-          const data = await res.json();
-          const ratingsArray = Array.isArray(data) ? data : (data.ratings || []);
+          const raw = await res.json();
+          const ratingsArray = normalizeRatings(raw);
 
           if (!ratingsArray || ratingsArray.length === 0) {
             status.textContent = `No data in ${file}.`;
@@ -105,24 +127,32 @@
             return;
           }
 
-          // Sort best to worst
-          ratingsArray.sort((a, b) => Number(b.rating) - Number(a.rating));
+          ratingsArray.sort(
+            (a, b) => Number(b.rating ?? b.value ?? b.srs ?? 0) -
+                     Number(a.rating ?? a.value ?? a.srs ?? 0)
+          );
 
           tbody.innerHTML = "";
           ratingsArray.forEach((entry, idx) => {
+            const team =
+              entry.team ??
+              entry.Team ??
+              entry.team_id ??
+              entry.team_code ??
+              "";
+
+            const ratingVal =
+              entry.rating ??
+              entry.value ??
+              entry.srs ??
+              0;
+
             const tr = document.createElement("tr");
-            const rankTd = document.createElement("td");
-            const teamTd = document.createElement("td");
-            const ratingTd = document.createElement("td");
-
-            rankTd.textContent = idx + 1;
-            teamTd.textContent = entry.team || entry.Team || "";
-            const val = entry.rating ?? entry.value ?? entry.srs ?? 0;
-            ratingTd.textContent = Number(val).toFixed(3);
-
-            tr.appendChild(rankTd);
-            tr.appendChild(teamTd);
-            tr.appendChild(ratingTd);
+            tr.innerHTML = `
+              <td>${idx + 1}</td>
+              <td>${team}</td>
+              <td>${Number(ratingVal).toFixed(3)}</td>
+            `;
             tbody.appendChild(tr);
           });
 
@@ -138,7 +168,6 @@
         loadSeason(seasonSelect.value);
       });
 
-      // initial load
       loadSeason(seasonSelect.value);
     });
   </script>
