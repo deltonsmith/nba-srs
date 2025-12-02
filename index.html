@@ -1,210 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>PowerIndex – NBA Ratings</title>
-
-  <!-- Compact, data-focused font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
-
-  <style>
-    :root {
-      --bg: #050816;
-      --border-subtle: rgba(148, 163, 184, 0.55);
-      --text-main: #e5e7eb;
-      --text-muted: #6b7280;
-      --accent: #3b82f6;
-
-      --font-main: "JetBrains Mono", monospace;
-      --font-size-base: 10px;
-      --font-size-small: 9px;
-      --font-size-header: 14px;
-    }
-
-.rating-note {
-    font-size: 0.75rem;
-    color: #cccccc;
-    margin-top: 8px;
-}
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: var(--font-main);
-      font-size: var(--font-size-base);
-      background: var(--bg);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
-      padding: 10px 12px;
-    }
-
-    h1 {
-      font-size: var(--font-size-header);
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    #controls {
-      margin: 4px 0 4px 0;
-      font-size: var(--font-size-small);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    label {
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      font-size: 8px;
-    }
-
-    select {
-      padding: 2px 4px;
-      font-size: var(--font-size-base);
-      font-family: var(--font-main);
-      border: 1px solid var(--border-subtle);
-      background: #020617;
-      color: var(--text-main);
-      outline: none;
-      height: 20px;
-      line-height: 16px;
-    }
-
-    select:focus {
-      border-color: var(--accent);
-    }
-
-    #status {
-      margin: 2px 0 6px 0;
-      font-size: var(--font-size-small);
-      color: var(--text-muted);
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      max-width: 460px;
-      border: 1px solid var(--border-subtle);
-      background: #020617;
-      table-layout: fixed;
-    }
-
-    thead {
-      background: #020617;
-    }
-
-    th,
-    td {
-      border-bottom: 1px solid rgba(55, 65, 81, 0.9);
-      border-right: 1px solid rgba(55, 65, 81, 0.8);
-      padding: 2px 4px;
-      font-size: var(--font-size-base);
-      line-height: 1.05;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    th:last-child,
-    td:last-child {
-      border-right: none;
-    }
-
-    th {
-      text-align: left;
-      font-weight: 500;
-      font-size: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-    }
-
-    th:nth-child(1) {
-      width: 32px;
-      text-align: right;
-    }
-
-   td:nth-child(1) {
-  text-align: right;
-  color: var(--text-main);  /* makes ranking numbers white */
-  font-weight: 600;         /* optional: improves readability */
-}
-
-
-    td:nth-child(2) {
-      font-weight: 500;
-    }
-
-    td:nth-child(3) {
-      text-align: right;
-    }
-
-    tbody tr:nth-child(odd) {
-      background: #020617;
-    }
-
-    tbody tr:nth-child(even) {
-      background: #020617;
-    }
-
-    tbody tr:hover {
-      background: rgba(59, 130, 246, 0.2);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerIndex</title>
+    <style>
+        body {
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: white;
+            margin-bottom: 10px;
+        }
+        select {
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            background-color: #222;
+        }
+        th {
+            background-color: #333;
+            color: white;
+            padding: 8px;
+            text-align: left;
+        }
+        td {
+            padding: 8px;
+            border-top: 1px solid #444;
+            color: white;
+        }
+        .rank {
+            color: white;
+            font-weight: bold;
+        }
+        .disclaimer {
+            font-size: 12px;
+            color: #bbb;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
-  <h1>PowerIndex – NBA Ratings</h1>
 
-  <div id="controls">
-    <label for="season-select">Season</label>
-    <select id="season-select">
-      <option value="2024">2023–24</option>
-      <option value="2025">2024–25</option>
-      <option value="2026" selected>2025–26</option>
-    </select>
-  </div>
+<h1>NBA PowerIndex</h1>
 
-  <div id="status"></div>
+<select id="seasonSelect">
+    <option value="2026">2025-26 Season</option>
+    <option value="2024">2023-24 Season</option>
+</select>
 
-  <table id="ratings-table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Team</th>
-        <th>Rating</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+<div id="tablesContainer"></div>
 
- <p class="rating-note">
-        Ratings are derived from all games played in the season, adjusted for opponent strength,
-        game location, scoring margin, and recency. Results are normalized across the league to
-        remove schedule distortion. Calculations are blended and re-balanced so no individual
-        component reveals the underlying formula.
-    </p>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const SEASON_FILES = {
-        "2024": "ratings_2024.json",
-        "2025": "ratings_2025.json",
+<script>
+    const seasonFiles = {
         "2026": "ratings_2026.json",
-      };
+        "2024": "ratings_2024.json"
+    };
 
-      const DEFAULT_SEASON = "2026";
+    const seasonTitles = {
+        "2026": "2025-26 Rankings",
+        "2024": "2023-24 Rankings"
+    };
 
-      // Map from 3-letter code to full team name
-      const TEAM_NAMES = {
+    const teamNames = {
         ATL: "Atlanta Hawks",
         BOS: "Boston Celtics",
         BKN: "Brooklyn Nets",
@@ -217,7 +84,7 @@
         GSW: "Golden State Warriors",
         HOU: "Houston Rockets",
         IND: "Indiana Pacers",
-        LAC: "Los Angeles Clippers",
+        LAC: "LA Clippers",
         LAL: "Los Angeles Lakers",
         MEM: "Memphis Grizzlies",
         MIA: "Miami Heat",
@@ -235,96 +102,65 @@
         TOR: "Toronto Raptors",
         UTA: "Utah Jazz",
         WAS: "Washington Wizards"
-      };
+    };
 
-      const seasonSelect = document.getElementById("season-select");
-      const tbody = document.querySelector("#ratings-table tbody");
-      const status = document.getElementById("status");
+    function loadSeason(season) {
+        const file = seasonFiles[season];
 
-      function normalizeRatings(data) {
-        if (Array.isArray(data)) return data;
-        if (data && Array.isArray(data.ratings)) return data.ratings;
-        if (data && typeof data === "object") {
-          return Object.entries(data).map(([team, rating]) => ({ team, rating }));
-        }
-        return [];
-      }
+        fetch(file)
+            .then(response => response.json())
+            .then(data => {
+                renderTables(season, data);
+            });
+    }
 
-      async function loadSeason(season) {
-        const file = SEASON_FILES[season];
-        if (!file) {
-          status.textContent = `No file configured for season ${season}.`;
-          tbody.innerHTML = "";
-          return;
-        }
+    function renderTables(season, data) {
+        const container = document.getElementById("tablesContainer");
+        container.innerHTML = "";
 
-        status.textContent = `Loading ${file} …`;
-        tbody.innerHTML = "";
+        const title = document.createElement("h2");
+        title.textContent = seasonTitles[season];
+        container.appendChild(title);
 
-        try {
-          const res = await fetch(file, { cache: "no-store" });
-          if (!res.ok) {
-            status.textContent = `Error loading ${file}: HTTP ${res.status}`;
-            return;
-          }
+        const table = document.createElement("table");
 
-          const raw = await res.json();
-          const ratingsArray = normalizeRatings(raw);
+        table.innerHTML = `
+            <tr>
+                <th>Rank</th>
+                <th>Team</th>
+                <th>Rating</th>
+                <th>Offense</th>
+                <th>Defense</th>
+            </tr>
+        `;
 
-          if (!ratingsArray || ratingsArray.length === 0) {
-            status.textContent = `No data in ${file}.`;
-            tbody.innerHTML = "";
-            return;
-          }
-
-          ratingsArray.sort(
-            (a, b) =>
-              Number(b.rating ?? b.value ?? b.srs ?? 0) -
-              Number(a.rating ?? a.value ?? a.srs ?? 0)
-          );
-
-          tbody.innerHTML = "";
-          ratingsArray.forEach((entry, idx) => {
-            const rawCode =
-              entry.team ??
-              entry.Team ??
-              entry.team_id ??
-              entry.team_code ??
-              "";
-
-            const teamName = TEAM_NAMES[rawCode] ?? rawCode;
-
-            const ratingVal =
-              entry.rating ??
-              entry.value ??
-              entry.srs ??
-              0;
-
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-              <td>${idx + 1}</td>
-              <td>${teamName}</td>
-              <td>${Number(ratingVal).toFixed(3)}</td>
+        data.forEach((t, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td class="rank">${index + 1}</td>
+                <td>${teamNames[t.team] || t.team}</td>
+                <td>${t.rating}</td>
+                <td>${t.off}</td>
+                <td>${t.def}</td>
             `;
-            tbody.appendChild(tr);
-          });
+            table.appendChild(row);
+        });
 
-          status.textContent = `Loaded ${ratingsArray.length} teams from ${file}.`;
-        } catch (err) {
-          console.error(err);
-          status.textContent = `Error loading ${file}: ${err}`;
-          tbody.innerHTML = "";
-        }
-      }
+        container.appendChild(table);
 
-      // Force default to 2025–26 on load
-      seasonSelect.value = DEFAULT_SEASON;
-      loadSeason(DEFAULT_SEASON);
+        const disclaimer = document.createElement("div");
+        disclaimer.className = "disclaimer";
+        disclaimer.textContent =
+            "Index reflects relative team performance using weighted efficiency components. Exact methodology is proprietary.";
+        container.appendChild(disclaimer);
+    }
 
-      seasonSelect.addEventListener("change", () => {
-        loadSeason(seasonSelect.value);
-      });
+    document.getElementById("seasonSelect").addEventListener("change", (e) => {
+        loadSeason(e.target.value);
     });
-  </script>
+
+    loadSeason("2026");
+</script>
+
 </body>
 </html>
