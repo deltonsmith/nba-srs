@@ -162,7 +162,7 @@
     <select id="season-select">
       <option value="2024">2023–24</option>
       <option value="2025">2024–25</option>
-      <option value="2026">2025–26</option>
+      <option value="2026" selected>2025–26</option>
     </select>
   </div>
 
@@ -186,6 +186,8 @@
         "2025": "ratings_2025.json",
         "2026": "ratings_2026.json",
       };
+
+      const DEFAULT_SEASON = "2026";
 
       // Map from 3-letter code to full team name
       const TEAM_NAMES = {
@@ -301,11 +303,13 @@
         }
       }
 
+      // Force default to 2025–26 on load
+      seasonSelect.value = DEFAULT_SEASON;
+      loadSeason(DEFAULT_SEASON);
+
       seasonSelect.addEventListener("change", () => {
         loadSeason(seasonSelect.value);
       });
-
-      loadSeason(seasonSelect.value);
     });
   </script>
 </body>
