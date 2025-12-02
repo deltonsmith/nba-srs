@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PowerIndex – NBA Ratings</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+    #controls {
+      margin-bottom: 1rem;
+    }
+    select {
+      padding: 4px 8px;
+      font-size: 14px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 900px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      text-align: left;
+    }
+    th {
+      background: #f4f4f4;
+    }
+    tbody tr:nth-child(even) {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h1>PowerIndex – NBA Ratings</h1>
+  <div id="controls">
+    <label for="season-select">Season: </label>
+    <select id="season-select">
+      <option value="2024">2023–24</option>
+      <option value="2025">2024–25</option>
+    </select>
+  </div>
+
+  <table id="ratings-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Team</th>
+        <th>Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- rows injected by JS -->
+    </tbody>
+  </table>
+
+  <script>
+    // Map season -> JSON file
+    const SEASON_FILES = {
+      "2024": "ratings_2024.json",
+      "2025": "ratings_2025.json"
+    };
+
+    const seasonSelect = document.getElementById("season-select");
+    const tbody = document.querySelector("#ratings-table tbody");
+
+    async function loadSeason(season) {
+      const file = SEASON_FILES[season];
+      if (!file) return;
+
+      tbody.innerHTML = "<tr><td colspan='3'>Loading…</td></tr>";
+
+      try {
+        const res = await fetch(file);
+        if (!res.ok) {
+          tbody.innerHTML = `<tr><td colspan="3">Error loading ${file}</td></tr>`;
+          return;
+        }
+        const data = await res.json();
+
+        // data is either an array [{team, rating}, …]
+        // or an object { season, ratings: [...] }
+        const ratingsArray = Array.isArray(data)
+          ? data
+          : (data.ratings || []);
+
+        tbody.innerHTML = "";
+        ratingsArray
+          .sort((a, b) => b.rating - a.rating)
+          .forEach((entry, idx) => {
+            const tr = document.createElement("tr");
+            const rankTd = document.createElement("td");
+            const teamTd = document.createElement("td");
+            const ratingTd = document.createElement("td");
+
+            rankTd.textContent = idx + 1;
+            teamTd.textContent = entry.team;
+            ratingTd.textContent = Number(entry.rating).toFixed(3);
+
+            tr.appendChild(rankTd);
+            tr.appendChild(teamTd);
+            tr.appendChild(ratingTd);
+            tbody.appendChild(tr);
+          });
+
+        if (ratingsArray.length === 0) {
+          tbody.innerHTML = "<tr><td colspan='3'>No data.</td></tr>";
+        }
+      } catch (err) {
+        console.error(err);
+        tbody.innerHTML = "<tr><td colspan='3'>Error loading data.</td></tr>";
+      }
+    }
+
+    seasonSelect.addEventListener("change", () => {
+      loadSeason(seasonSelect.value);
+    });
+
+    // initial load
+    loadSeason(seasonSelect.value);
+  </script>
+</body>
+</html>
