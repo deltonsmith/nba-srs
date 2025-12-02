@@ -14,60 +14,64 @@
 
   <style>
     :root {
-      --bg: #0b0f17;
-      --bg-elevated: #11151f;
-      --border-subtle: rgba(148, 163, 184, 0.6);
+      --bg: #050816;
+      --border-subtle: rgba(148, 163, 184, 0.55);
       --text-main: #e5e7eb;
       --text-muted: #6b7280;
       --accent: #3b82f6;
-      --danger: #ef4444;
-      --success: #22c55e;
 
       --font-main: "JetBrains Mono", monospace;
-      --font-size-base: 11px;
-      --font-size-small: 10px;
+      --font-size-base: 10px;
+      --font-size-small: 9px;
+      --font-size-header: 14px;
     }
 
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
       font-family: var(--font-main);
       font-size: var(--font-size-base);
-      margin: 16px;
       background: var(--bg);
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
+      padding: 10px 12px;
     }
 
     h1 {
-      margin: 0 0 4px 0;
-      font-size: 16px;
+      font-size: var(--font-size-header);
       font-weight: 600;
+      margin-bottom: 4px;
     }
 
     #controls {
-      margin: 6px 0 6px 0;
+      margin: 4px 0 4px 0;
       font-size: var(--font-size-small);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     label {
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-muted);
-      font-size: 9px;
-      margin-right: 4px;
+      font-size: 8px;
     }
 
     select {
-      padding: 3px 6px;
+      padding: 2px 4px;
       font-size: var(--font-size-base);
       font-family: var(--font-main);
       border: 1px solid var(--border-subtle);
       background: #020617;
       color: var(--text-main);
       outline: none;
+      height: 20px;
+      line-height: 16px;
     }
 
     select:focus {
@@ -75,7 +79,7 @@
     }
 
     #status {
-      margin: 4px 0 8px 0;
+      margin: 2px 0 6px 0;
       font-size: var(--font-size-small);
       color: var(--text-muted);
     }
@@ -83,7 +87,7 @@
     table {
       border-collapse: collapse;
       width: 100%;
-      max-width: 520px;
+      max-width: 460px;
       border: 1px solid var(--border-subtle);
       background: #020617;
       table-layout: fixed;
@@ -97,9 +101,9 @@
     td {
       border-bottom: 1px solid rgba(55, 65, 81, 0.9);
       border-right: 1px solid rgba(55, 65, 81, 0.8);
-      padding: 3px 6px;
+      padding: 2px 4px;
       font-size: var(--font-size-base);
-      line-height: 1.1;
+      line-height: 1.05;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -113,14 +117,14 @@
     th {
       text-align: left;
       font-weight: 500;
-      font-size: 9px;
+      font-size: 8px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-muted);
     }
 
     th:nth-child(1) {
-      width: 40px;
+      width: 32px;
       text-align: right;
     }
 
@@ -155,12 +159,11 @@
 
   <div id="controls">
     <label for="season-select">Season</label>
-   <select id="season-select">
-  <option value="2024">2023–24</option>
-  <option value="2025">2024–25</option>
-  <option value="2026" selected>2025–26</option>
-</select>
-
+    <select id="season-select">
+      <option value="2024">2023–24</option>
+      <option value="2025">2024–25</option>
+      <option value="2026">2025–26</option>
+    </select>
   </div>
 
   <div id="status"></div>
@@ -184,29 +187,50 @@
         "2026": "ratings_2026.json",
       };
 
+      // Map from 3-letter code to full team name
+      const TEAM_NAMES = {
+        ATL: "Atlanta Hawks",
+        BOS: "Boston Celtics",
+        BKN: "Brooklyn Nets",
+        CHA: "Charlotte Hornets",
+        CHI: "Chicago Bulls",
+        CLE: "Cleveland Cavaliers",
+        DAL: "Dallas Mavericks",
+        DEN: "Denver Nuggets",
+        DET: "Detroit Pistons",
+        GSW: "Golden State Warriors",
+        HOU: "Houston Rockets",
+        IND: "Indiana Pacers",
+        LAC: "Los Angeles Clippers",
+        LAL: "Los Angeles Lakers",
+        MEM: "Memphis Grizzlies",
+        MIA: "Miami Heat",
+        MIL: "Milwaukee Bucks",
+        MIN: "Minnesota Timberwolves",
+        NOP: "New Orleans Pelicans",
+        NYK: "New York Knicks",
+        OKC: "Oklahoma City Thunder",
+        ORL: "Orlando Magic",
+        PHI: "Philadelphia 76ers",
+        PHX: "Phoenix Suns",
+        POR: "Portland Trail Blazers",
+        SAC: "Sacramento Kings",
+        SAS: "San Antonio Spurs",
+        TOR: "Toronto Raptors",
+        UTA: "Utah Jazz",
+        WAS: "Washington Wizards"
+      };
+
       const seasonSelect = document.getElementById("season-select");
       const tbody = document.querySelector("#ratings-table tbody");
       const status = document.getElementById("status");
 
       function normalizeRatings(data) {
-        // 1) Already an array: [{team, rating}, ...]
-        if (Array.isArray(data)) {
-          return data;
-        }
-
-        // 2) Wrapped: { season, ratings: [...] }
-        if (data && Array.isArray(data.ratings)) {
-          return data.ratings;
-        }
-
-        // 3) Plain object map: { "BOS": 10.6, "OKC": 9.0, ... }
+        if (Array.isArray(data)) return data;
+        if (data && Array.isArray(data.ratings)) return data.ratings;
         if (data && typeof data === "object") {
-          return Object.entries(data).map(([team, rating]) => ({
-            team,
-            rating,
-          }));
+          return Object.entries(data).map(([team, rating]) => ({ team, rating }));
         }
-
         return [];
       }
 
@@ -245,12 +269,14 @@
 
           tbody.innerHTML = "";
           ratingsArray.forEach((entry, idx) => {
-            const team =
+            const rawCode =
               entry.team ??
               entry.Team ??
               entry.team_id ??
               entry.team_code ??
               "";
+
+            const teamName = TEAM_NAMES[rawCode] ?? rawCode;
 
             const ratingVal =
               entry.rating ??
@@ -261,7 +287,7 @@
             const tr = document.createElement("tr");
             tr.innerHTML = `
               <td>${idx + 1}</td>
-              <td>${team}</td>
+              <td>${teamName}</td>
               <td>${Number(ratingVal).toFixed(3)}</td>
             `;
             tbody.appendChild(tr);
