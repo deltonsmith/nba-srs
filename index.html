@@ -26,11 +26,12 @@
       --font-size-header: 14px;
     }
 
-.rating-note {
-    font-size: 0.75rem;
-    color: #cccccc;
-    margin-top: 8px;
-}
+    .rating-note {
+      font-size: 0.75rem;
+      color: #cccccc;
+      margin-top: 8px;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -133,19 +134,27 @@
       text-align: right;
     }
 
-   td:nth-child(1) {
-  text-align: right;
-  color: var(--text-main);  /* makes ranking numbers white */
-  font-weight: 600;         /* optional: improves readability */
-}
+    /* Ranking numbers */
+    td:nth-child(1) {
+      text-align: right;
+      color: var(--text-main);
+      font-weight: 600;
+    }
 
-
+    /* Team name column */
     td:nth-child(2) {
       font-weight: 500;
     }
 
+    /* Rating column — RIGHT ALIGN + NARROW WIDTH */
+    th:nth-child(3) {
+      text-align: right;
+      width: 55px;
+    }
+
     td:nth-child(3) {
       text-align: right;
+      width: 55px;
     }
 
     tbody tr:nth-child(odd) {
@@ -180,20 +189,18 @@
       <tr>
         <th>#</th>
         <th>Team</th>
-        th:nth-child(3) {
-  text-align: right;
-  width: 55px;
+        <th>Rating</th>
       </tr>
     </thead>
     <tbody></tbody>
   </table>
 
- <p class="rating-note">
-        Ratings are derived from all games played in the season, adjusted for opponent strength,
-        game location, scoring margin, and recency. Results are normalized across the league to
-        remove schedule distortion. Calculations are blended and re-balanced so no individual
-        component reveals the underlying formula.
-    </p>
+  <p class="rating-note">
+    Ratings are derived from all games played in the season, adjusted for opponent strength,
+    game location, scoring margin, and recency. Results are normalized across the league to
+    remove schedule distortion. Calculations are blended and re-balanced so no individual
+    component reveals the underlying formula.
+  </p>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -310,9 +317,7 @@
             tbody.appendChild(tr);
           });
 
-          // REMOVED THE LINE THAT PRINTED:
-          // "Loaded 30 teams from ratings_2026.json."
-          status.textContent = ""; 
+          status.textContent = "";
         } catch (err) {
           console.error(err);
           status.textContent = `Error loading ${file}: ${err}`;
@@ -327,7 +332,6 @@
         loadSeason(seasonSelect.value);
       });
     });
-</script>
-
+  </script>
 </body>
 </html>
