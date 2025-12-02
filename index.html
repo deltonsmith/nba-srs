@@ -26,6 +26,11 @@
       --font-size-header: 14px;
     }
 
+.rating-note {
+    font-size: 0.75rem;
+    color: #cccccc;
+    margin-top: 8px;
+}
     * {
       box-sizing: border-box;
       margin: 0;
@@ -180,6 +185,13 @@
     </thead>
     <tbody></tbody>
   </table>
+
+ <p class="rating-note">
+        Ratings are derived from all games played in the season, adjusted for opponent strength,
+        game location, scoring margin, and recency. Results are normalized across the league to
+        remove schedule distortion. Calculations are blended and re-balanced so no individual
+        component reveals the underlying formula.
+    </p>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
