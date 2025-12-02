@@ -3,41 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <title>PowerIndex – NBA Ratings</title>
+
+  <!-- Compact, data-focused font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
+    :root {
+      --bg: #0b0f17;
+      --bg-elevated: #11151f;
+      --border-subtle: rgba(148, 163, 184, 0.6);
+      --text-main: #e5e7eb;
+      --text-muted: #6b7280;
+      --accent: #3b82f6;
+      --danger: #ef4444;
+      --success: #22c55e;
+
+      --font-main: "JetBrains Mono", monospace;
+      --font-size-base: 11px;
+      --font-size-small: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 20px;
+      font-family: var(--font-main);
+      font-size: var(--font-size-base);
+      margin: 16px;
+      background: var(--bg);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
     }
+
     h1 {
-      margin-bottom: 0.5rem;
+      margin: 0 0 4px 0;
+      font-size: 16px;
+      font-weight: 600;
     }
+
     #controls {
-      margin-bottom: 0.5rem;
+      margin: 6px 0 6px 0;
+      font-size: var(--font-size-small);
     }
+
+    label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-size: 9px;
+      margin-right: 4px;
+    }
+
     select {
-      padding: 4px 8px;
-      font-size: 14px;
+      padding: 3px 6px;
+      font-size: var(--font-size-base);
+      font-family: var(--font-main);
+      border: 1px solid var(--border-subtle);
+      background: #020617;
+      color: var(--text-main);
+      outline: none;
     }
+
+    select:focus {
+      border-color: var(--accent);
+    }
+
     #status {
-      margin-bottom: 0.75rem;
-      font-size: 14px;
-      color: #555;
+      margin: 4px 0 8px 0;
+      font-size: var(--font-size-small);
+      color: var(--text-muted);
     }
+
     table {
       border-collapse: collapse;
       width: 100%;
-      max-width: 900px;
+      max-width: 520px;
+      border: 1px solid var(--border-subtle);
+      background: #020617;
+      table-layout: fixed;
     }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 6px 8px;
-      text-align: left;
+
+    thead {
+      background: #020617;
     }
+
+    th,
+    td {
+      border-bottom: 1px solid rgba(55, 65, 81, 0.9);
+      border-right: 1px solid rgba(55, 65, 81, 0.8);
+      padding: 3px 6px;
+      font-size: var(--font-size-base);
+      line-height: 1.1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: none;
+    }
+
     th {
-      background: #f4f4f4;
+      text-align: left;
+      font-weight: 500;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
     }
+
+    th:nth-child(1) {
+      width: 40px;
+      text-align: right;
+    }
+
+    td:nth-child(1) {
+      text-align: right;
+      color: var(--text-muted);
+    }
+
+    td:nth-child(2) {
+      font-weight: 500;
+    }
+
+    td:nth-child(3) {
+      text-align: right;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: #020617;
+    }
+
     tbody tr:nth-child(even) {
-      background: #fafafa;
+      background: #020617;
+    }
+
+    tbody tr:hover {
+      background: rgba(59, 130, 246, 0.2);
     }
   </style>
 </head>
@@ -45,7 +154,7 @@
   <h1>PowerIndex – NBA Ratings</h1>
 
   <div id="controls">
-    <label for="season-select">Season: </label>
+    <label for="season-select">Season</label>
     <select id="season-select">
       <option value="2024">2023–24</option>
       <option value="2025">2024–25</option>
@@ -128,8 +237,9 @@
           }
 
           ratingsArray.sort(
-            (a, b) => Number(b.rating ?? b.value ?? b.srs ?? 0) -
-                     Number(a.rating ?? a.value ?? a.srs ?? 0)
+            (a, b) =>
+              Number(b.rating ?? b.value ?? b.srs ?? 0) -
+              Number(a.rating ?? a.value ?? a.srs ?? 0)
           );
 
           tbody.innerHTML = "";
