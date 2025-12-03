@@ -291,6 +291,16 @@
               Number(a.rating ?? a.value ?? a.srs ?? 0)
           );
 
+// Display "as of" date using the JSON file's last-modified timestamp
+const lastMod = res.headers.get("Last-Modified");
+if (lastMod) {
+  const d = new Date(lastMod);
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  const yyyy = d.getFullYear();
+  status.textContent = `As of ${mm}/${dd}/${yyyy}`;
+}
+
           tbody.innerHTML = "";
           ratingsArray.forEach((entry, idx) => {
             const rawCode =
