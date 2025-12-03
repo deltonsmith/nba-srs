@@ -3,10 +3,15 @@
 # Lineup-adjusted SRS ratings for multiple NBA seasons.
 # - Uses games(season), appearances, players, player_values(v_p).
 # - Outputs ratings_<SEASON_INT>.json in the project root.
+# - Also writes a dated CSV snapshot to data/csv/ratings_<SEASON_INT>_YYYYMMDD.csv.
 
 import sqlite3
 import json
 from collections import defaultdict
+
+from datetime import datetime
+from pathlib import Path
+import csv
 
 # ------------ CONFIGURATION ------------
 
@@ -14,7 +19,7 @@ DB_PATH = "nba_ratings.db"
 
 # Seasons are labeled by the year they END:
 # 2023-24 -> 2024, 2024-25 -> 2025, 2025-26 -> 2026, etc.
-SEASONS = [2024, 2025]     # run ratings for each of these season ints
+SEASONS = [2026]     # run ratings for each of these season ints
 
 HCA = 2.5                  # home-court advantage in points
 MAX_ITERS = 100            # SRS iteration count
@@ -208,6 +213,38 @@ def save_ratings_json(ratings, path):
         json.dump(data, f, indent=2)
 
 
+def write_ratings_csv(ratings_dict, season_int):
+    """
+    Write a dated CSV snapshot of ratings for a season.
+
+    ratings_dict: dict[team] -> rating
+    season_int:   e.g. 2026
+    """
+    today = datetime.today().date()
+    date_str = today.strftime("%Y%m%d")
+
+    out_dir = Path("data") / "csv"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    out_path = out_dir / f"ratings_{season_int}_{date_str}.csv"
+
+    # Sort teams best to worst
+    sorted_items = sorted(ratings_dict.items(), key=lambda x: x[1], reverse=True)
+
+    with open(out_path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["date", "season", "rank", "team", "rating"])
+        for rank, (team, rating) in enumerate(sorted_items, start=1):
+            w.writerow([
+                today.isoformat(),
+                season_int,
+                rank,
+                team,
+                float(rating),
+            ])
+    print(f"Saved CSV to {out_path}")
+
+
 # ------------ PER-SEASON RUNNER ------------
 
 def run_season(season_int):
@@ -229,9 +266,13 @@ def run_season(season_int):
     for team, r in sorted(ratings.items(), key=lambda x: x[1], reverse=True):
         print(f"{team}: {r:.3f}")
 
-    out_path = f"ratings_{season_int}.json"
+    out_path = Path("data") / f"ratings_{season_int}.json"
     save_ratings_json(ratings, out_path)
     print(f"Saved JSON to {out_path}")
+
+    # New: also save CSV snapshot
+    write_ratings_csv(ratings, season_int)
+
     print("-" * 40)
 
 
