@@ -2,9 +2,9 @@
 #
 # Lineup-adjusted SRS ratings for multiple NBA seasons.
 # - Uses games(season), appearances, players, player_values(v_p).
-# - Outputs ratings_<SEASON_INT>.json in data/.
+# - Outputs ratings_<SEASON_INT>.json into data/.
 # - Also writes a dated CSV snapshot to data/csv/ratings_<SEASON_INT>_YYYYMMDD.csv.
-# - JSON now includes last_week_rating, pulled from the previous run.
+# - Includes last_week_rating based on a weekly snapshot file.
 
 import sqlite3
 import json
@@ -13,7 +13,6 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 import csv
-import shutil
 
 # ------------ CONFIGURATION ------------
 
@@ -21,10 +20,10 @@ DB_PATH = "nba_ratings.db"
 
 # Seasons are labeled by the year they END:
 # 2023-24 -> 2024, 2024-25 -> 2025, 2025-26 -> 2026, etc.
-SEASONS = [2026]     # run ratings for each of these season ints
+SEASONS = [2026]
 
-HCA = 2.5                  # home-court advantage in points
-MAX_ITERS = 100            # SRS iteration count
+HCA = 2.5          # home-court advantage in points
+MAX_ITERS = 100    # SRS iteration count
 
 
 # ------------ DATA LOADING ------------
@@ -211,7 +210,7 @@ def save_ratings_json(ratings, last_week_ratings, path):
     Save ratings to JSON with rank and last_week_rating.
 
     ratings: dict[team] -> current rating
-    last_week_ratings: dict[team] -> last week's rating (or empty dict)
+    last_week_ratings: dict[team] -> rating from weekly snapshot
     path: output JSON path
     """
     # Sort teams best to worst by current rating
@@ -220,7 +219,6 @@ def save_ratings_json(ratings, last_week_ratings, path):
     data = []
     for rank, (team, rating) in enumerate(sorted_items, start=1):
         lw_val = last_week_ratings.get(team)
-        # Keep None if we have no prior value; front-end can render blank
         entry = {
             "team": team,
             "rating": float(rating),
@@ -281,54 +279,60 @@ def run_season(season_int):
 
     conn.close()
 
-    # Paths for current and previous ratings JSON
+    # Paths for daily ratings and the weekly snapshot
     data_dir = Path("data")
     data_dir.mkdir(parents=True, exist_ok=True)
 
     current_json_path = data_dir / f"ratings_{season_int}.json"
-    prev_json_path = data_dir / f"ratings_{season_int}_prev.json"
+    weekly_json_path = data_dir / f"ratings_{season_int}_weekly.json"
 
-    # Load last week's ratings from the archived file, if present
+    # Load last week's ratings from weekly snapshot, if present
     last_week_ratings = {}
-
-    if current_json_path.exists():
-        # Archive current ratings as "previous" before overwriting
+    if weekly_json_path.exists():
         try:
-            shutil.copyfile(current_json_path, prev_json_path)
-            print(f"Copied {current_json_path} to {prev_json_path} for LW reference.")
-        except Exception as e:
-            print(f"Warning: could not copy previous ratings file: {e}")
-
-        # Now read from prev_json_path to build last_week_ratings
-        try:
-            with open(prev_json_path, "r", encoding="utf-8") as f:
-                prev_data = json.load(f)
-
-            # Expect list of dicts with at least "team" and "rating"
-            for entry in prev_data:
+            with open(weekly_json_path, "r", encoding="utf-8") as f:
+                weekly_data = json.load(f)
+            for entry in weekly_data:
                 team_id = entry.get("team")
                 rating_val = entry.get("rating")
                 if team_id is not None and rating_val is not None:
                     last_week_ratings[team_id] = float(rating_val)
-
-            print(f"Loaded last-week ratings for {len(last_week_ratings)} teams.")
+            print(f"Loaded weekly snapshot for {len(last_week_ratings)} teams from {weekly_json_path}.")
         except Exception as e:
-            print(f"Warning: could not load last-week ratings from {prev_json_path}: {e}")
+            print(f"Warning: could not load weekly snapshot from {weekly_json_path}: {e}")
             last_week_ratings = {}
     else:
-        print("No existing ratings file found; LW column will be blank this run.")
+        print("No weekly snapshot file found; LW column will be blank this run.")
 
+    # Compute current ratings from games
     ratings = iterate_ratings(records_by_team)
     print(f"Final ratings for season {season_int}:")
     for team, r in sorted(ratings.items(), key=lambda x: x[1], reverse=True):
         print(f"{team}: {r:.3f}")
 
-    # Save JSON with LW field included
+    # Save daily JSON with LW field pulled from weekly snapshot
     save_ratings_json(ratings, last_week_ratings, current_json_path)
-    print(f"Saved JSON to {current_json_path}")
+    print(f"Saved daily JSON to {current_json_path}")
 
-    # Also save CSV snapshot
+    # Save dated CSV snapshot
     write_ratings_csv(ratings, season_int)
+
+    # If today is Monday (UTC), refresh the weekly snapshot file
+    today_utc = datetime.utcnow().date()
+    if today_utc.weekday() == 0:  # Monday = 0
+        snapshot = []
+        sorted_items = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
+        for rank, (team, rating) in enumerate(sorted_items, start=1):
+            snapshot.append({
+                "team": team,
+                "rating": float(rating),
+                "rank": rank,
+            })
+        with open(weekly_json_path, "w", encoding="utf-8") as f:
+            json.dump(snapshot, f, indent=2)
+        print(f"Updated weekly snapshot {weekly_json_path} for LW reference.")
+    else:
+        print("Not Monday UTC; weekly snapshot left unchanged.")
 
     print("-" * 40)
 
@@ -343,4 +347,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
