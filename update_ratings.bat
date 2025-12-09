@@ -1,25 +1,49 @@
-@echo off
-cd /d C:\nba-srs
+name: Update PowerIndex ratings
 
-rem activate your venv
-call .venv\Scripts\activate.bat
+on:
+  schedule:
+    # Daily at 09:00 UTC (change if you want a different time)
+    - cron: "0 9 * * *"
+  workflow_dispatch:   # allows manual run from the Actions tab
 
-rem 1) pull games + boxscores for live season
-python ingest_games.py
-python ingest_boxscores.py
+permissions:
+  contents: write      # needed so the workflow can push commits
 
-rem 2) refresh advanced stats + player values for 2025-26
-python pull_bbr_advanced.py
-python ingest_player_values.py 2026
+jobs:
+  update-ratings:
+    runs-on: ubuntu-latest
 
-rem 3) recompute ratings JSON
-python compute_ratings.py
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-rem 4) commit + push if anything changed
-git add ratings_*.json data\player_values_2026.csv nba_ratings.db
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-git diff --cached --quiet
-if %errorlevel%==0 goto :EOF
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
 
-git commit -m "Auto update 2025-26 ratings"
-git push
+      - name: Ingest latest games and compute ratings
+        run: |
+          python ingest_games.py
+          python compute_ratings.py
+
+      - name: Commit and push updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git status
+          git add data/*.json data/csv/*.csv || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Automated PowerIndex ratings update"
+          git push
