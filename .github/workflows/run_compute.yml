@@ -35,3 +35,14 @@ jobs:
       # 4) Now compute team ratings using that DB
       - name: Run compute_ratings.py
         run: python compute_ratings.py
+ run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add data/ratings_2026.json
+        git add data/ratings_2026_weekly.json || true
+        git add data/csv/*.csv || true
+        git commit -m "Auto-update ratings" || echo "No changes to commit"
+
+    - name: Push changes
+      run: |
+        git push
