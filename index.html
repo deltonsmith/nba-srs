@@ -190,6 +190,7 @@
         <th>#</th>
         <th>Team</th>
         <th>Rating</th>
+        <th>LW</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -287,19 +288,19 @@
 
           ratingsArray.sort(
             (a, b) =>
-              Number(b.rating ?? b.value ?? b.srs ?? 0) -
+              Number(b.rating ?? b.value ?? b.srs ?? 0) - 
               Number(a.rating ?? a.value ?? a.srs ?? 0)
           );
 
-// Display "as of" date using the JSON file's last-modified timestamp
-const lastMod = res.headers.get("Last-Modified");
-if (lastMod) {
-  const d = new Date(lastMod);
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  const yyyy = d.getFullYear();
-  status.textContent = `As of ${mm}/${dd}/${yyyy}`;
-}
+          // Display "as of" date using the JSON file's last-modified timestamp
+          const lastMod = res.headers.get("Last-Modified");
+          if (lastMod) {
+            const d = new Date(lastMod);
+            const mm = String(d.getMonth() + 1).padStart(2, "0");
+            const dd = String(d.getDate()).padStart(2, "0");
+            const yyyy = d.getFullYear();
+            status.textContent = `As of ${mm}/${dd}/${yyyy}`;
+          }
 
           tbody.innerHTML = "";
           ratingsArray.forEach((entry, idx) => {
@@ -323,11 +324,11 @@ if (lastMod) {
               <td>${idx + 1}</td>
               <td>${teamName}</td>
               <td>${Number(ratingVal).toFixed(3)}</td>
+              <td></td>
             `;
             tbody.appendChild(tr);
           });
 
-          
         } catch (err) {
           console.error(err);
           status.textContent = `Error loading ${file}: ${err}`;
