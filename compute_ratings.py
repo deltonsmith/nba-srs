@@ -198,9 +198,12 @@ def iterate_ratings(records_by_team):
         ratings = new_ratings
 
     # Normalize so league average = 0
-    mean_rating = sum(ratings.values()) / len(ratings)
-    ratings = {t: r - mean_rating for t, r in ratings.items()}
+    if ratings:
+        mean_rating = sum(ratings.values()) / len(ratings)
+        ratings = {t: r - mean_rating for t, r in ratings.items()}
+
     return ratings
+
 
 
 # ------------ OUTPUT ------------
