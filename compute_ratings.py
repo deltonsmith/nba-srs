@@ -16,7 +16,8 @@ import csv
 
 # ------------ CONFIGURATION ------------
 
-DB_PATH = "nba_ratings.db"
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = BASE_DIR / "data" / "nba_ratings.db"
 
 # Seasons are labeled by the year they END:
 # 2023-24 -> 2024, 2024-25 -> 2025, 2025-26 -> 2026, etc.
@@ -241,7 +242,7 @@ def write_ratings_csv(ratings_dict, season_int):
     today = datetime.today().date()
     date_str = today.strftime("%Y%m%d")
 
-    out_dir = Path("data") / "csv"
+    out_dir = BASE_DIR / "data" / "csv"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     out_path = out_dir / f"ratings_{season_int}_{date_str}.csv"
@@ -280,7 +281,7 @@ def run_season(season_int):
     conn.close()
 
     # Paths for daily ratings and the weekly snapshot
-    data_dir = Path("data")
+    data_dir = BASE_DIR / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
 
     current_json_path = data_dir / f"ratings_{season_int}.json"
