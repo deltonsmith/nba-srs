@@ -2,11 +2,14 @@
 import sqlite3
 from datetime import datetime
 from time import sleep
+from pathlib import Path
 
 import pandas as pd
 from nba_api.stats.endpoints import leaguegamefinder
 
-DB_PATH = "nba_ratings.db"
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+DB_PATH = DATA_DIR / "nba_ratings.db"
 
 
 def get_games_for_season(
@@ -130,6 +133,7 @@ def upsert_games(games_df: pd.DataFrame):
         print("No games to upsert.")
         return
 
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
