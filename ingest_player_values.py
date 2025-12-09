@@ -27,7 +27,7 @@ SEASON_TO_CSV = {
     2026: DATA_DIR / "player_values_2026.csv",
 }
 
-DEFAULT_SEASON = 2024
+DEFAULT_SEASON = 2026
 
 
 def get_season_from_argv() -> int:
