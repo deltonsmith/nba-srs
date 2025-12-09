@@ -4,7 +4,7 @@ from time import sleep
 
 from nba_api.stats.endpoints import boxscoretraditionalv3
 
-DB_PATH = "nba_ratings.db"
+DB_PATH = "data/nba_ratings.db"
 
 
 def get_all_game_ids(season_int: int):
