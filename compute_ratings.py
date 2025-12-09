@@ -2,8 +2,9 @@
 #
 # Lineup-adjusted SRS ratings for multiple NBA seasons.
 # - Uses games(season), appearances, players, player_values(v_p).
-# - Outputs ratings_<SEASON_INT>.json in the project root.
+# - Outputs ratings_<SEASON_INT>.json in data/.
 # - Also writes a dated CSV snapshot to data/csv/ratings_<SEASON_INT>_YYYYMMDD.csv.
+# - JSON now includes last_week_rating, pulled from the previous run.
 
 import sqlite3
 import json
@@ -12,6 +13,7 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 import csv
+import shutil
 
 # ------------ CONFIGURATION ------------
 
@@ -204,11 +206,29 @@ def iterate_ratings(records_by_team):
 
 # ------------ OUTPUT ------------
 
-def save_ratings_json(ratings, path):
-    data = [
-        {"team": team, "rating": float(rating)}
-        for team, rating in sorted(ratings.items(), key=lambda x: x[1], reverse=True)
-    ]
+def save_ratings_json(ratings, last_week_ratings, path):
+    """
+    Save ratings to JSON with rank and last_week_rating.
+
+    ratings: dict[team] -> current rating
+    last_week_ratings: dict[team] -> last week's rating (or empty dict)
+    path: output JSON path
+    """
+    # Sort teams best to worst by current rating
+    sorted_items = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
+
+    data = []
+    for rank, (team, rating) in enumerate(sorted_items, start=1):
+        lw_val = last_week_ratings.get(team)
+        # Keep None if we have no prior value; front-end can render blank
+        entry = {
+            "team": team,
+            "rating": float(rating),
+            "rank": rank,
+            "last_week_rating": float(lw_val) if lw_val is not None else None,
+        }
+        data.append(entry)
+
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
 
@@ -261,16 +281,53 @@ def run_season(season_int):
 
     conn.close()
 
+    # Paths for current and previous ratings JSON
+    data_dir = Path("data")
+    data_dir.mkdir(parents=True, exist_ok=True)
+
+    current_json_path = data_dir / f"ratings_{season_int}.json"
+    prev_json_path = data_dir / f"ratings_{season_int}_prev.json"
+
+    # Load last week's ratings from the archived file, if present
+    last_week_ratings = {}
+
+    if current_json_path.exists():
+        # Archive current ratings as "previous" before overwriting
+        try:
+            shutil.copyfile(current_json_path, prev_json_path)
+            print(f"Copied {current_json_path} to {prev_json_path} for LW reference.")
+        except Exception as e:
+            print(f"Warning: could not copy previous ratings file: {e}")
+
+        # Now read from prev_json_path to build last_week_ratings
+        try:
+            with open(prev_json_path, "r", encoding="utf-8") as f:
+                prev_data = json.load(f)
+
+            # Expect list of dicts with at least "team" and "rating"
+            for entry in prev_data:
+                team_id = entry.get("team")
+                rating_val = entry.get("rating")
+                if team_id is not None and rating_val is not None:
+                    last_week_ratings[team_id] = float(rating_val)
+
+            print(f"Loaded last-week ratings for {len(last_week_ratings)} teams.")
+        except Exception as e:
+            print(f"Warning: could not load last-week ratings from {prev_json_path}: {e}")
+            last_week_ratings = {}
+    else:
+        print("No existing ratings file found; LW column will be blank this run.")
+
     ratings = iterate_ratings(records_by_team)
     print(f"Final ratings for season {season_int}:")
     for team, r in sorted(ratings.items(), key=lambda x: x[1], reverse=True):
         print(f"{team}: {r:.3f}")
 
-    out_path = Path("data") / f"ratings_{season_int}.json"
-    save_ratings_json(ratings, out_path)
-    print(f"Saved JSON to {out_path}")
+    # Save JSON with LW field included
+    save_ratings_json(ratings, last_week_ratings, current_json_path)
+    print(f"Saved JSON to {current_json_path}")
 
-    # New: also save CSV snapshot
+    # Also save CSV snapshot
     write_ratings_csv(ratings, season_int)
 
     print("-" * 40)
@@ -286,3 +343,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
