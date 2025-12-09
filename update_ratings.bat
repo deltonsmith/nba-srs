@@ -2,9 +2,9 @@ name: Update PowerIndex ratings
 
 on:
   schedule:
-    # Daily at 09:00 UTC (change if you want a different time)
-    - cron: "0 9 * * *"
-  workflow_dispatch:   # allows manual run from the Actions tab
+    # Every Monday at 09:00 UTC
+    - cron: "0 9 * * 1"
+  workflow_dispatch:   # still allows manual run if you really want
 
 permissions:
   contents: write      # needed so the workflow can push commits
