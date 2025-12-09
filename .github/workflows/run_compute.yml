@@ -3,8 +3,10 @@ name: Run PowerIndex Ratings
 on:
   workflow_dispatch:
   schedule:
-    # adjust cron as needed; this is 09:00 UTC daily
     - cron: '0 9 * * *'
+
+permissions:
+  contents: write
 
 jobs:
   run-compute:
