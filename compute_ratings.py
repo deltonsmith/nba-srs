@@ -9,7 +9,6 @@
 import sqlite3
 import json
 from collections import defaultdict
-
 from datetime import datetime
 from pathlib import Path
 import csv
@@ -17,7 +16,8 @@ import csv
 # ------------ CONFIGURATION ------------
 
 BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "data" / "nba_ratings.db"
+DATA_DIR = BASE_DIR / "data"
+DB_PATH = DATA_DIR / "nba_ratings.db"
 
 # Seasons are labeled by the year they END:
 # 2023-24 -> 2024, 2024-25 -> 2025, 2025-26 -> 2026, etc.
@@ -71,7 +71,6 @@ def compute_team_full_values(conn, player_values, season_int, core_size=8):
 
     full_values = {}
     for team_id, plist in by_team.items():
-        # sort by minutes desc, take core_size
         plist.sort(key=lambda x: x[1], reverse=True)
         core = plist[:core_size]
         full_values[team_id] = sum(v for _, _, v in core)
@@ -242,7 +241,7 @@ def write_ratings_csv(ratings_dict, season_int):
     today = datetime.today().date()
     date_str = today.strftime("%Y%m%d")
 
-    out_dir = BASE_DIR / "data" / "csv"
+    out_dir = DATA_DIR / "csv"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     out_path = out_dir / f"ratings_{season_int}_{date_str}.csv"
@@ -254,13 +253,15 @@ def write_ratings_csv(ratings_dict, season_int):
         w = csv.writer(f)
         w.writerow(["date", "season", "rank", "team", "rating"])
         for rank, (team, rating) in enumerate(sorted_items, start=1):
-            w.writerow([
-                today.isoformat(),
-                season_int,
-                rank,
-                team,
-                float(rating),
-            ])
+            w.writerow(
+                [
+                    today.isoformat(),
+                    season_int,
+                    rank,
+                    team,
+                    float(rating),
+                ]
+            )
     print(f"Saved CSV to {out_path}")
 
 
@@ -281,11 +282,10 @@ def run_season(season_int):
     conn.close()
 
     # Paths for daily ratings and the weekly snapshot
-    data_dir = BASE_DIR / "data"
-    data_dir.mkdir(parents=True, exist_ok=True)
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    current_json_path = data_dir / f"ratings_{season_int}.json"
-    weekly_json_path = data_dir / f"ratings_{season_int}_weekly.json"
+    current_json_path = DATA_DIR / f"ratings_{season_int}.json"
+    weekly_json_path = DATA_DIR / f"ratings_{season_int}_weekly.json"
 
     # Load last week's ratings from weekly snapshot, if present
     last_week_ratings = {}
@@ -298,7 +298,9 @@ def run_season(season_int):
                 rating_val = entry.get("rating")
                 if team_id is not None and rating_val is not None:
                     last_week_ratings[team_id] = float(rating_val)
-            print(f"Loaded weekly snapshot for {len(last_week_ratings)} teams from {weekly_json_path}.")
+            print(
+                f"Loaded weekly snapshot for {len(last_week_ratings)} teams from {weekly_json_path}."
+            )
         except Exception as e:
             print(f"Warning: could not load weekly snapshot from {weekly_json_path}: {e}")
             last_week_ratings = {}
@@ -324,11 +326,13 @@ def run_season(season_int):
         snapshot = []
         sorted_items = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
         for rank, (team, rating) in enumerate(sorted_items, start=1):
-            snapshot.append({
-                "team": team,
-                "rating": float(rating),
-                "rank": rank,
-            })
+            snapshot.append(
+                {
+                    "team": team,
+                    "rating": float(rating),
+                    "rank": rank,
+                }
+            )
         with open(weekly_json_path, "w", encoding="utf-8") as f:
             json.dump(snapshot, f, indent=2)
         print(f"Updated weekly snapshot {weekly_json_path} for LW reference.")
