@@ -2,7 +2,7 @@
 #
 # Load player_values_YYYY.csv into nba_ratings.db for a given season.
 #
-# Usage examples (run from repo root C:\nba-srs):
+# Usage examples (run from repo root):
 #   python ingest_player_values.py 2024
 #   python ingest_player_values.py 2025
 #   python ingest_player_values.py 2026
@@ -13,8 +13,10 @@ from pathlib import Path
 
 import pandas as pd
 
-DB_PATH = "nba_ratings.db"
-DATA_DIR = Path("data")
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+DB_PATH = DATA_DIR / "nba_ratings.db"
+
 METRIC_NAME = "EPM"  # label for the metric you're using
 
 # Season is the year the season ENDS:
@@ -60,6 +62,7 @@ def main():
     if missing:
         raise SystemExit(f"CSV missing columns: {missing}")
 
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
