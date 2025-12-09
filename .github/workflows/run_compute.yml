@@ -6,6 +6,7 @@ on:
 jobs:
   compute:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repo
@@ -19,5 +20,18 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # 1) Create / reset the SQLite DB schema
+      - name: Initialize database schema
+        run: python db_init.py
+
+      # 2) Load player ratings (v_p etc.) into the DB
+      - name: Ingest player ratings
+        run: python ingest_player_values.py
+
+      # 3) Load games for the live season into the DB
+      - name: Ingest games
+        run: python ingest_games.py
+
+      # 4) Now compute team ratings using that DB
       - name: Run compute_ratings.py
         run: python compute_ratings.py
