@@ -17,7 +17,7 @@ import csv
 # ------------ CONFIGURATION ------------
 
 BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "powerindex.db"
+DB_PATH = BASE_DIR / "data" / "nba_ratings.db"
 
 # Seasons are labeled by the year they END:
 # 2023-24 -> 2024, 2024-25 -> 2025, 2025-26 -> 2026, etc.
