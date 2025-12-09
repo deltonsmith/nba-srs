@@ -2,12 +2,12 @@ name: Update PowerIndex ratings
 
 on:
   schedule:
-    # Every Monday at 09:00 UTC
-    - cron: "0 9 * * 1"
-  workflow_dispatch:   # still allows manual run if you really want
+    # Daily at 09:00 UTC (3:00 AM CST)
+    - cron: "0 9 * * *"
+  workflow_dispatch:
 
 permissions:
-  contents: write      # needed so the workflow can push commits
+  contents: write
 
 jobs:
   update-ratings:
@@ -30,9 +30,8 @@ jobs:
             pip install -r requirements.txt
           fi
 
-      - name: Ingest latest games and compute ratings
+      - name: Compute ratings (no ingest on GitHub)
         run: |
-          python ingest_games.py
           python compute_ratings.py
 
       - name: Commit and push updated data
