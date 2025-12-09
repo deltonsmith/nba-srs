@@ -148,12 +148,15 @@
     }
 
     /* Rating column — RIGHT ALIGN + NARROW WIDTH */
-    th:nth-child(3) {
+    th:nth-child(3),
+    td:nth-child(3) {
       text-align: right;
       width: 55px;
     }
 
-    td:nth-child(3) {
+    /* LW column — match Rating column width + alignment */
+    th:nth-child(4),
+    td:nth-child(4) {
       text-align: right;
       width: 55px;
     }
@@ -289,7 +292,7 @@
 
           ratingsArray.sort(
             (a, b) =>
-              Number(b.rating ?? b.value ?? b.srs ?? 0) - 
+              Number(b.rating ?? b.value ?? b.srs ?? 0) -
               Number(a.rating ?? a.value ?? a.srs ?? 0)
           );
 
