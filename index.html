@@ -154,9 +154,16 @@
       width: 55px;
     }
 
-    /* LW column — match Rating column width + alignment */
+    /* Yest column — right aligned, match rating width */
     th:nth-child(4),
     td:nth-child(4) {
+      text-align: right;
+      width: 55px;
+    }
+
+    /* LW column — right aligned, match rating width */
+    th:nth-child(5),
+    td:nth-child(5) {
       text-align: right;
       width: 55px;
     }
@@ -194,6 +201,7 @@
         <th>#</th>
         <th>Team</th>
         <th>Rating</th>
+        <th>Yest</th>
         <th>LW</th>
       </tr>
     </thead>
@@ -323,12 +331,31 @@
               entry.srs ??
               0;
 
+            const rankVal = entry.rank ?? (idx + 1);
+
+            const yestRank =
+              entry.yest_rank ??
+              entry.yest ??
+              null;
+
+            const lwRank =
+              entry.last_week_rank ??
+              entry.lw_rank ??
+              null;
+
+            const yestDisplay =
+              yestRank !== null && yestRank !== undefined ? yestRank : "";
+
+            const lwDisplay =
+              lwRank !== null && lwRank !== undefined ? lwRank : "";
+
             const tr = document.createElement("tr");
             tr.innerHTML = `
-              <td>${idx + 1}</td>
+              <td>${rankVal}</td>
               <td>${teamName}</td>
               <td>${Number(ratingVal).toFixed(3)}</td>
-              <td></td>
+              <td>${yestDisplay}</td>
+              <td>${lwDisplay}</td>
             `;
             tbody.appendChild(tr);
           });
