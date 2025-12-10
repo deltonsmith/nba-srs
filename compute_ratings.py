@@ -4,7 +4,8 @@
 # - Uses games(season), appearances, players, player_values(v_p).
 # - Outputs ratings_<SEASON_INT>.json into data/.
 # - Also writes a dated CSV snapshot to data/csv/ratings_<SEASON_INT>_YYYYMMDD.csv.
-# - Includes last_week_rating based on a weekly snapshot file.
+# - Includes last_week_rank based on a weekly snapshot file.
+# - Includes yest_rank based on the prior daily ratings file.
 
 import sqlite3
 import json
@@ -147,7 +148,7 @@ def compute_game_records(conn, player_values, team_full_values, season_int):
         records_by_team[home_team].append(
             {
                 "opp": away_team,
-                "M_adj": M_adj_home,
+            "M_adj": M_adj_home,
                 "home_flag": 1,
             }
         )
@@ -205,15 +206,50 @@ def iterate_ratings(records_by_team):
     return ratings
 
 
+# ------------ OUTPUT HELPERS ------------
 
-# ------------ OUTPUT ------------
-
-def save_ratings_json(ratings, last_week_ratings, path):
+def load_yesterday_ranks(daily_json_path: Path):
     """
-    Save ratings to JSON with rank and last_week_rating.
+    Load yesterday's ranks from the existing daily ratings file, if present.
+
+    Returns dict: team_id -> rank (int)
+    """
+    if not daily_json_path.exists():
+        print("No prior daily ratings file found; Yest column will be blank this run.")
+        return {}
+
+    try:
+        with daily_json_path.open("r", encoding="utf-8") as f:
+            prev_data = json.load(f)
+    except Exception as e:
+        print(f"Warning: could not load yesterday's ranks from {daily_json_path}: {e}")
+        return {}
+
+    mapping = {}
+    if isinstance(prev_data, list):
+        for entry in prev_data:
+            team_id = entry.get("team")
+            prev_rank = entry.get("rank")
+            if team_id is not None and prev_rank is not None:
+                try:
+                    mapping[team_id] = int(prev_rank)
+                except (TypeError, ValueError):
+                    continue
+
+    print(f"Loaded yesterday's ranks for {len(mapping)} teams from {daily_json_path}.")
+    return mapping
+
+
+def save_ratings_json(ratings, last_week_ranks, yesterday_ranks, path):
+    """
+    Save ratings to JSON with:
+      - current rank
+      - yest_rank (yesterday's rank)
+      - last_week_rank (rank as of latest weekly snapshot)
 
     ratings: dict[team] -> current rating
-    last_week_ratings: dict[team] -> rating from weekly snapshot
+    last_week_ranks: dict[team] -> rank from weekly snapshot
+    yesterday_ranks: dict[team] -> rank from prior daily file
     path: output JSON path
     """
     # Sort teams best to worst by current rating
@@ -221,12 +257,15 @@ def save_ratings_json(ratings, last_week_ratings, path):
 
     data = []
     for rank, (team, rating) in enumerate(sorted_items, start=1):
-        lw_val = last_week_ratings.get(team)
+        lw_rank = last_week_ranks.get(team)
+        yest_rank = yesterday_ranks.get(team)
+
         entry = {
             "team": team,
             "rating": float(rating),
             "rank": rank,
-            "last_week_rating": float(lw_val) if lw_val is not None else None,
+            "yest_rank": int(yest_rank) if yest_rank is not None else None,
+            "last_week_rank": int(lw_rank) if lw_rank is not None else None,
         }
         data.append(entry)
 
@@ -290,23 +329,29 @@ def run_season(season_int):
     current_json_path = DATA_DIR / f"ratings_{season_int}.json"
     weekly_json_path = DATA_DIR / f"ratings_{season_int}_weekly.json"
 
-    # Load last week's ratings from weekly snapshot, if present
-    last_week_ratings = {}
+    # Load yesterday's ranks from prior daily file (for Yest column)
+    yesterday_ranks = load_yesterday_ranks(current_json_path)
+
+    # Load last week's ranks from weekly snapshot, if present (for LW column)
+    last_week_ranks = {}
     if weekly_json_path.exists():
         try:
             with open(weekly_json_path, "r", encoding="utf-8") as f:
                 weekly_data = json.load(f)
             for entry in weekly_data:
                 team_id = entry.get("team")
-                rating_val = entry.get("rating")
-                if team_id is not None and rating_val is not None:
-                    last_week_ratings[team_id] = float(rating_val)
+                rank_val = entry.get("rank")
+                if team_id is not None and rank_val is not None:
+                    try:
+                        last_week_ranks[team_id] = int(rank_val)
+                    except (TypeError, ValueError):
+                        continue
             print(
-                f"Loaded weekly snapshot for {len(last_week_ratings)} teams from {weekly_json_path}."
+                f"Loaded weekly snapshot for {len(last_week_ranks)} teams from {weekly_json_path}."
             )
         except Exception as e:
             print(f"Warning: could not load weekly snapshot from {weekly_json_path}: {e}")
-            last_week_ratings = {}
+            last_week_ranks = {}
     else:
         print("No weekly snapshot file found; LW column will be blank this run.")
 
@@ -316,8 +361,8 @@ def run_season(season_int):
     for team, r in sorted(ratings.items(), key=lambda x: x[1], reverse=True):
         print(f"{team}: {r:.3f}")
 
-    # Save daily JSON with LW field pulled from weekly snapshot
-    save_ratings_json(ratings, last_week_ratings, current_json_path)
+    # Save daily JSON with Yest and LW rank fields
+    save_ratings_json(ratings, last_week_ranks, yesterday_ranks, current_json_path)
     print(f"Saved daily JSON to {current_json_path}")
 
     # Save dated CSV snapshot
