@@ -1,23 +1,25 @@
-name: PowerIndex – Build and Deploy
+name: PowerIndex – Compute and Deploy
 
 on:
-  # Manual trigger
+  # manual trigger
   workflow_dispatch:
 
-  # Auto-run on changes to master that matter for the site
+  # daily at 3:00am CST (09:00 UTC)
+  schedule:
+    - cron: '0 9 * * *'
+
+  # optional: re-run when you push to master
   push:
     branches: [ master ]
     paths:
       - "index.html"
       - "data/**"
+      - "compute_ratings.py"
+      - "ingest_games.py"
       - ".github/workflows/powerindex-deploy.yml"
 
-  # Daily run at 3:00am CST (09:00 UTC)
-  schedule:
-    - cron: "0 9 * * *"
-
 permissions:
-  contents: read
+  contents: write        # needed for git commit/push
   pages: write
   id-token: write
 
@@ -28,9 +30,12 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -49,12 +54,30 @@ jobs:
             python ingest_games.py
           fi
 
-      - name: Compute ratings
+      - name: Compute ratings (includes LW/Yesterday logic)
         run: |
           if [ -f compute_ratings.py ]; then
             python compute_ratings.py
           fi
 
+      # PRESERVES YOUR LW/WEEKLY SNAPSHOT + CSV HISTORY
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add data/ratings_2026.json
+          git add data/ratings_2026_weekly.json || true
+          git add data/csv/*.csv || true
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-update ratings"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
+      # Deploy artifact for GitHub Pages
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
