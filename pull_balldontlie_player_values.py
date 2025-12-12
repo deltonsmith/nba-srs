@@ -62,6 +62,9 @@ def parse_minutes_to_float(value) -> float:
 
 
 def fetch_stats_for_season(season_int: int, postseason: bool) -> List[Dict]:
+    if not API_KEY:
+        raise SystemExit("Missing BALldontLIE_API_KEY; set it for Balldontlie access.")
+
     stats: List[Dict] = []
     page = 1
     while True:
@@ -71,6 +74,8 @@ def fetch_stats_for_season(season_int: int, postseason: bool) -> List[Dict]:
             "page": page,
             "postseason": str(postseason).lower(),
         }
+        if API_KEY:
+            params["api_key"] = API_KEY
         resp = SESSION.get(f"{BALLDONTLIE_BASE}/stats", params=params, timeout=30)
         resp.raise_for_status()
         payload = resp.json()

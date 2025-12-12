@@ -89,10 +89,15 @@ def fetch_stats_for_game(game_id: str) -> List[Dict]:
     """
     Fetch player stats for a single game from Balldontlie.
     """
+    if not API_KEY:
+        raise SystemExit("Missing BALldontLIE_API_KEY; set it for Balldontlie access.")
+
     stats: List[Dict] = []
     page = 1
     while True:
         params = {"game_ids[]": game_id, "per_page": 100, "page": page}
+        if API_KEY:
+            params["api_key"] = API_KEY
         resp = SESSION.get(f"{BALLDONTLIE_BASE}/stats", params=params, timeout=30)
         resp.raise_for_status()
         payload = resp.json()

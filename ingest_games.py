@@ -25,6 +25,9 @@ def fetch_balldontlie_games(
     Yield all games for a given season from the Balldontlie API.
     Set postseason to True/False to force that filter, or None for both.
     """
+    if not API_KEY:
+        raise SystemExit("Missing BALldontLIE_API_KEY; set it for Balldontlie access.")
+
     page = 1
     while True:
         params = {
@@ -32,6 +35,8 @@ def fetch_balldontlie_games(
             "per_page": 100,
             "page": page,
         }
+        if API_KEY:
+            params["api_key"] = API_KEY  # some hosts require key in query
         if postseason is not None:
             params["postseason"] = str(postseason).lower()
 
