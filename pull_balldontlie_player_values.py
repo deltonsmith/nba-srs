@@ -21,6 +21,8 @@ SESSION = requests.Session()
 if API_KEY:
     SESSION.headers.update({"Authorization": f"Bearer {API_KEY}"})
 
+API_SEASON = SEASON_INT - 1  # Balldontlie seasons[] uses the start year (e.g., 2025 for 2025-26)
+
 
 def parse_minutes_to_float(value) -> float:
     """Convert MM:SS or PT##M##S strings into float minutes."""
@@ -69,7 +71,7 @@ def fetch_stats_for_season(season_int: int, postseason: bool) -> List[Dict]:
     page = 1
     while True:
         params = {
-            "seasons[]": season_int,
+            "seasons[]": API_SEASON,
             "per_page": 100,
             "page": page,
             "postseason": str(postseason).lower(),
@@ -159,6 +161,9 @@ def build_csv_rows(totals: Dict[Tuple[int, str], Dict]) -> List[Dict]:
 def main():
     totals = aggregate_player_values(SEASON_INT)
     rows = build_csv_rows(totals)
+
+    if not rows:
+        raise SystemExit("No player rows produced from Balldontlie stats; aborting to avoid stale ratings.")
 
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     with OUT_CSV.open("w", newline="", encoding="utf-8") as f:

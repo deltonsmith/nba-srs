@@ -28,10 +28,12 @@ def fetch_balldontlie_games(
     if not API_KEY:
         raise SystemExit("Missing BALldontLIE_API_KEY; set it for Balldontlie access.")
 
+    api_season = season_int - 1  # Balldontlie seasons[] expects start year (e.g., 2025 for 2025-26)
+
     page = 1
     while True:
         params = {
-            "seasons[]": season_int,
+            "seasons[]": api_season,
             "per_page": 100,
             "page": page,
         }
@@ -141,12 +143,11 @@ def upsert_games(games: List[Dict]):
 def main():
     # live season
     season_int = 2026
-    print(f"Fetching Balldontlie games for season {season_int} ...")
+    print(f"Fetching Balldontlie games for season {season_int} (API season {season_int - 1}) ...")
 
     games = build_games_table(season_int)
     if not games:
-        print("No games fetched; nothing to write.")
-        return
+        raise SystemExit("No games fetched; aborting to avoid stale ratings.")
 
     print(f"Prepared {len(games)} games (regular season + playoffs). Writing to DB...")
     upsert_games(games)
