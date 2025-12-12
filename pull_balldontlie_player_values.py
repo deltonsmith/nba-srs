@@ -25,7 +25,9 @@ API_SEASON = SEASON_INT - 1  # Balldontlie seasons[] uses the start year (e.g., 
 
 
 def parse_minutes_to_float(value) -> float:
-    """Convert MM:SS or PT##M##S strings into float minutes."""
+    """Convert MM:SS or PT##M##S or numeric minutes into float minutes."""
+    if isinstance(value, (int, float)):
+        return float(value)
     if not isinstance(value, str):
         return 0.0
 
@@ -138,12 +140,12 @@ def build_csv_rows(totals: Dict[Tuple[int, str], Dict]) -> List[Dict]:
     for (player_id, team_abbr), agg in totals.items():
         minutes = agg["minutes"]
         games = agg["games"]
-        if minutes <= 0 or games <= 0:
+        if games <= 0:
             continue
 
-        min_per_game = minutes / games
-        # plus/minus per 48
-        metric_raw = (agg["plus_minus"] / minutes) * 48.0
+        min_per_game = minutes / games if minutes > 0 else 0.0
+        # plus/minus per 48; if no minutes, metric_raw = 0 to avoid div-by-zero
+        metric_raw = (agg["plus_minus"] / minutes) * 48.0 if minutes > 0 else 0.0
 
         rows.append(
             {
