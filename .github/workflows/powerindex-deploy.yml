@@ -30,6 +30,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BALLDONTLIE_API_KEY: ${{ secrets.BALLDONTLIE_API_KEY }}
 
     steps:
       - name: Checkout repo
@@ -52,6 +54,24 @@ jobs:
         run: |
           if [ -f ingest_games.py ]; then
             python ingest_games.py
+          fi
+
+      - name: Ingest boxscores
+        run: |
+          if [ -f ingest_boxscores.py ]; then
+            python ingest_boxscores.py
+          fi
+
+      - name: Build player values from Balldontlie
+        run: |
+          if [ -f pull_balldontlie_player_values.py ]; then
+            python pull_balldontlie_player_values.py
+          fi
+
+      - name: Load player values into DB
+        run: |
+          if [ -f ingest_player_values.py ]; then
+            python ingest_player_values.py 2026
           fi
 
       - name: Compute ratings (includes LW/Yesterday logic)
