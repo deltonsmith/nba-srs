@@ -86,9 +86,11 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-          git add data/ratings_2026.json
+          git add data/ratings_2026.json || true
           git add data/ratings_2026_weekly.json || true
           git add data/csv/*.csv || true
+          git add data/player_values_2026.csv || true
+          git add data/nba_ratings.db || true
 
           if ! git diff --cached --quiet; then
             git commit -m "Auto-update ratings"
