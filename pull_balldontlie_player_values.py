@@ -69,8 +69,6 @@ def fetch_stats_for_season(season_int: int, postseason: bool) -> List[Dict]:
 
     stats: List[Dict] = []
     page = 1
-    start_date = f"{API_SEASON}-10-01"
-    end_date = f"{API_SEASON + 1}-07-01"
 
     while True:
         params = {
@@ -78,8 +76,6 @@ def fetch_stats_for_season(season_int: int, postseason: bool) -> List[Dict]:
             "per_page": 100,
             "page": page,
             "postseason": str(postseason).lower(),
-            "start_date": start_date,
-            "end_date": end_date,
         }
         if API_KEY:
             params["api_key"] = API_KEY
@@ -88,16 +84,15 @@ def fetch_stats_for_season(season_int: int, postseason: bool) -> List[Dict]:
         payload = resp.json()
 
         data = payload.get("data", [])
-        meta = payload.get("meta") or {}
-
         if not data:
             break
 
         stats.extend(data)
-        total_pages = int(meta.get("total_pages", page))
-        if page >= total_pages:
+        if len(data) < params["per_page"]:
             break
         page += 1
+        if page > 500:
+            break  # safety guard
     return stats
 
 
