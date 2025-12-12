@@ -11,6 +11,8 @@ permissions:
 jobs:
   update-ratings:
     runs-on: ubuntu-latest
+    env:
+      BALLDONTLIE_API_KEY: ${{ secrets.BALLDONTLIE_API_KEY }}
 
     steps:
       - name: Checkout repository
@@ -30,7 +32,7 @@ jobs:
         run: |
           python ingest_games.py
           python ingest_boxscores.py
-          python pull_bbr_advanced.py
+          python pull_balldontlie_player_values.py
           python ingest_player_values.py 2026
           python compute_ratings.py
 

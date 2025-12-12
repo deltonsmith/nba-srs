@@ -1,135 +1,108 @@
 # ingest_games.py
+import os
 import sqlite3
 from datetime import datetime
-from time import sleep
 from pathlib import Path
+from typing import Dict, Iterable, List, Optional
 
-import pandas as pd
-from nba_api.stats.endpoints import leaguegamefinder
+import requests
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 DB_PATH = DATA_DIR / "nba_ratings.db"
 
+BALLDONTLIE_BASE = "https://api.balldontlie.io/v1"
+API_KEY = os.environ.get("BALLDONTLIE_API_KEY")
+SESSION = requests.Session()
+if API_KEY:
+    SESSION.headers.update({"Authorization": f"Bearer {API_KEY}"})
 
-def get_games_for_season(
-    season_str: str,
-    season_type: str,
-    season_int: int,
-    max_retries: int = 3,
-) -> pd.DataFrame:
+
+def fetch_balldontlie_games(
+    season_int: int, postseason: Optional[bool] = None
+) -> Iterable[Dict]:
     """
-    Pull games for a given season + season type using nba_api.
-
-    season_str examples: "2023-24", "2024-25", "2025-26"
-    season_type: "Regular Season" or "Playoffs"
+    Yield all games for a given season from the Balldontlie API.
+    Set postseason to True/False to force that filter, or None for both.
     """
-    print(f"Fetching {season_type} games for {season_str} (season_int={season_int})")
+    page = 1
+    while True:
+        params = {
+            "seasons[]": season_int,
+            "per_page": 100,
+            "page": page,
+        }
+        if postseason is not None:
+            params["postseason"] = str(postseason).lower()
 
-    for attempt in range(1, max_retries + 1):
-        try:
-            gamefinder = leaguegamefinder.LeagueGameFinder(
-                season_nullable=season_str,
-                season_type_nullable=season_type,
-            )
-            df = gamefinder.get_data_frames()[0]
+        resp = SESSION.get(f"{BALLDONTLIE_BASE}/games", params=params, timeout=30)
+        resp.raise_for_status()
+        payload = resp.json()
 
-            # Only keep needed columns
-            df = df[
-                [
-                    "GAME_ID",
-                    "GAME_DATE",
-                    "TEAM_ID",
-                    "TEAM_ABBREVIATION",
-                    "MATCHUP",
-                    "PTS",
-                ]
-            ]
-            df["SEASON_TYPE"] = season_type
-            print(
-                f"{season_type}: got {len(df)} rows on attempt {attempt} "
-                f"for {season_str}."
-            )
-            return df
-        except Exception as e:
-            print(
-                f"ERROR fetching {season_type} for {season_str}, "
-                f"attempt {attempt}/{max_retries}: {e}"
-            )
-            if attempt == max_retries:
-                print(
-                    f"Giving up on {season_type} for {season_str}; "
-                    "returning empty DataFrame."
-                )
-                return pd.DataFrame()
-            sleep(5)
+        data = payload.get("data", [])
+        meta = payload.get("meta") or {}
+        if not data:
+            break
+
+        for g in data:
+            yield g
+
+        total_pages = int(meta.get("total_pages", page))
+        if page >= total_pages:
+            break
+        page += 1
 
 
-def build_games_table(df: pd.DataFrame, season_int: int) -> pd.DataFrame:
+def normalize_game_row(game: Dict, season_int: int) -> Optional[Dict]:
+    """Convert a Balldontlie game payload into the schema our DB expects."""
+    home = game.get("home_team") or {}
+    away = game.get("visitor_team") or {}
+
+    home_abbr = home.get("abbreviation")
+    away_abbr = away.get("abbreviation")
+
+    home_pts = game.get("home_team_score")
+    away_pts = game.get("visitor_team_score")
+
+    status = (game.get("status") or "").lower()
+
+    # Skip games without scores or not marked final
+    if home_pts is None or away_pts is None:
+        return None
+    if isinstance(status, str) and "final" not in status and (home_pts == 0 or away_pts == 0):
+        return None
+
+    date_raw = game.get("date")
+    date = date_raw[:10] if isinstance(date_raw, str) else datetime.utcnow().date().isoformat()
+
+    return {
+        "game_id": int(game["id"]),
+        "season": int(season_int),
+        "date": date,
+        "home_team_id": home_abbr,
+        "away_team_id": away_abbr,
+        "home_pts": int(home_pts),
+        "away_pts": int(away_pts),
+    }
+
+
+def build_games_table(season_int: int) -> List[Dict]:
     """
-    Convert the team-game rows into one row per game with
-    home/away, scores.
+    Pull regular season and playoff games from Balldontlie and shape them for the DB.
     """
-    if df.empty:
-        return pd.DataFrame()
+    rows: List[Dict] = []
 
-    df["GAME_DATE"] = pd.to_datetime(df["GAME_DATE"])
+    for postseason_flag in (False, True):
+        for game in fetch_balldontlie_games(season_int, postseason=postseason_flag):
+            parsed = normalize_game_row(game, season_int)
+            if parsed:
+                rows.append(parsed)
 
-    games = []
-
-    for game_id, g in df.groupby("GAME_ID"):
-        if len(g) != 2:
-            continue
-
-        row1, row2 = g.iloc[0], g.iloc[1]
-        season_type = row1["SEASON_TYPE"]
-
-        def parse_side(r):
-            matchup = r["MATCHUP"]
-            team = r["TEAM_ABBREVIATION"]
-            if "vs." in matchup:
-                return "HOME", team, r["PTS"]
-            elif "@" in matchup:
-                return "AWAY", team, r["PTS"]
-            else:
-                return "NEUTRAL", team, r["PTS"]
-
-        side1, team1, pts1 = parse_side(row1)
-        side2, team2, pts2 = parse_side(row2)
-
-        if side1 == "HOME" and side2 == "AWAY":
-            home_team = team1
-            away_team = team2
-            home_pts = int(pts1)
-            away_pts = int(pts2)
-        elif side1 == "AWAY" and side2 == "HOME":
-            home_team = team2
-            away_team = team1
-            home_pts = int(pts2)
-            away_pts = int(pts1)
-        else:
-            continue
-
-        game_date = row1["GAME_DATE"].strftime("%Y-%m-%d")
-
-        games.append(
-            {
-                "game_id": game_id,
-                "season": season_int,
-                "date": game_date,
-                "home_team_id": home_team,
-                "away_team_id": away_team,
-                "home_pts": home_pts,
-                "away_pts": away_pts,
-                # season_type not stored in DB yet
-            }
-        )
-
-    return pd.DataFrame(games)
+    return rows
 
 
-def upsert_games(games_df: pd.DataFrame):
-    if games_df.empty:
+def upsert_games(games: List[Dict]):
+    if not games:
         print("No games to upsert.")
         return
 
@@ -137,7 +110,7 @@ def upsert_games(games_df: pd.DataFrame):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
-    for _, r in games_df.iterrows():
+    for r in games:
         cur.execute(
             """
             INSERT OR REPLACE INTO games
@@ -157,28 +130,21 @@ def upsert_games(games_df: pd.DataFrame):
 
     conn.commit()
     conn.close()
-    print(f"Upserted {len(games_df)} rows into games.")
+    print(f"Upserted {len(games)} rows into games.")
 
 
 def main():
     # live season
-    season_str = "2025-26"
     season_int = 2026
+    print(f"Fetching Balldontlie games for season {season_int} ...")
 
-    df_reg = get_games_for_season(season_str, "Regular Season", season_int)
-    df_po = get_games_for_season(season_str, "Playoffs", season_int)
-
-    if df_reg.empty and df_po.empty:
+    games = build_games_table(season_int)
+    if not games:
         print("No games fetched; nothing to write.")
         return
 
-    df_all = pd.concat([df_reg, df_po], ignore_index=True)
-    games_df = build_games_table(df_all, season_int)
-    print(
-        f"Prepared {len(games_df)} games (regular season + playoffs). "
-        "Writing to DB..."
-    )
-    upsert_games(games_df)
+    print(f"Prepared {len(games)} games (regular season + playoffs). Writing to DB...")
+    upsert_games(games)
     print("Done.")
 
 

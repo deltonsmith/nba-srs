@@ -1,10 +1,17 @@
 # ingest_boxscores.py
+import os
 import sqlite3
 from time import sleep
+from typing import Dict, List
 
-from nba_api.stats.endpoints import boxscoretraditionalv3
+import requests
 
 DB_PATH = "data/nba_ratings.db"
+BALLDONTLIE_BASE = "https://api.balldontlie.io/v1"
+API_KEY = os.environ.get("BALLDONTLIE_API_KEY")
+SESSION = requests.Session()
+if API_KEY:
+    SESSION.headers.update({"Authorization": f"Bearer {API_KEY}"})
 
 
 def get_all_game_ids(season_int: int):
@@ -78,48 +85,58 @@ def parse_minutes_to_float(value) -> float:
     return 0.0
 
 
+def fetch_stats_for_game(game_id: str) -> List[Dict]:
+    """
+    Fetch player stats for a single game from Balldontlie.
+    """
+    stats: List[Dict] = []
+    page = 1
+    while True:
+        params = {"game_ids[]": game_id, "per_page": 100, "page": page}
+        resp = SESSION.get(f"{BALLDONTLIE_BASE}/stats", params=params, timeout=30)
+        resp.raise_for_status()
+        payload = resp.json()
+
+        data = payload.get("data", [])
+        meta = payload.get("meta") or {}
+
+        if not data:
+            break
+
+        stats.extend(data)
+        total_pages = int(meta.get("total_pages", page))
+        if page >= total_pages:
+            break
+        page += 1
+        sleep(1)  # polite throttle across pages
+
+    return stats
+
+
 def save_appearances(game_id: str, season_int: int):
-    """Pull one game's box score and write player appearances."""
+    """Pull one game's stats and write player appearances."""
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
-    # Use V3 – V2 is deprecated for 2025-26+
-    bs = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=game_id, timeout=30)
-    df = bs.get_data_frames()[0]  # "PlayerStats" table
+    api_game_id = game_id.lstrip("0") or game_id
+    stats_rows = fetch_stats_for_game(api_game_id)
 
-    # Map columns for both V2-style and V3-style schemas
-    if "PLAYER_NAME" in df.columns:
-        # Legacy schema
-        player_col = "PLAYER_NAME"
-        team_col = "TEAM_ABBREVIATION"
-        minutes_col = "MIN"
-    elif (
-        "firstName" in df.columns
-        and "familyName" in df.columns
-        and "teamTricode" in df.columns
-        and "minutes" in df.columns
-    ):
-        # Current V3 schema
-        df["PLAYER_NAME_COMBINED"] = (
-            df["firstName"].astype(str).str.strip()
-            + " "
-            + df["familyName"].astype(str).str.strip()
-        )
-        player_col = "PLAYER_NAME_COMBINED"
-        team_col = "teamTricode"
-        minutes_col = "minutes"
-    else:
-        print(
-            f"Unsupported boxscore schema for game {game_id}; "
-            f"columns: {list(df.columns)}"
-        )
+    if not stats_rows:
+        print(f"    no stats returned for {game_id}")
         conn.close()
         return
 
-    for _, row in df.iterrows():
-        player_name = row[player_col]
-        team = row[team_col]
-        minutes_val = parse_minutes_to_float(row[minutes_col])
+    for row in stats_rows:
+        player = row.get("player") or {}
+        team = row.get("team") or {}
+
+        player_name = f"{player.get('first_name', '').strip()} {player.get('last_name', '').strip()}".strip()
+        team_abbr = team.get("abbreviation")
+
+        if not player_name or not team_abbr:
+            continue
+
+        minutes_val = parse_minutes_to_float(row.get("min"))
 
         # Find or create player
         cur.execute(
@@ -127,7 +144,7 @@ def save_appearances(game_id: str, season_int: int):
             SELECT player_id FROM players
             WHERE name = ? AND team_id = ? AND season = ?
             """,
-            (player_name, team, season_int),
+            (player_name, team_abbr, season_int),
         )
         row_found = cur.fetchone()
 
@@ -139,7 +156,7 @@ def save_appearances(game_id: str, season_int: int):
                 INSERT INTO players (name, team_id, season)
                 VALUES (?, ?, ?)
                 """,
-                (player_name, team, season_int),
+                (player_name, team_abbr, season_int),
             )
             player_id = cur.lastrowid
 
@@ -150,7 +167,7 @@ def save_appearances(game_id: str, season_int: int):
                 (game_id, team_id, player_id, minutes)
             VALUES (?, ?, ?, ?)
             """,
-            (game_id, team, player_id, minutes_val),
+            (game_id, team_abbr, player_id, minutes_val),
         )
 
     conn.commit()
@@ -174,7 +191,7 @@ def main():
             save_appearances(gid, SEASON_INT)
         except Exception as e:
             print(f"    ERROR on {gid}: {e}")
-        sleep(2)  # throttle requests
+        sleep(1)  # throttle requests
 
     print("Done.")
 
