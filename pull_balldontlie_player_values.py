@@ -69,12 +69,17 @@ def fetch_stats_for_season(season_int: int, postseason: bool) -> List[Dict]:
 
     stats: List[Dict] = []
     page = 1
+    start_date = f"{API_SEASON}-10-01"
+    end_date = f"{API_SEASON + 1}-07-01"
+
     while True:
         params = {
             "seasons[]": API_SEASON,
             "per_page": 100,
             "page": page,
             "postseason": str(postseason).lower(),
+            "start_date": start_date,
+            "end_date": end_date,
         }
         if API_KEY:
             params["api_key"] = API_KEY
