@@ -1,7 +1,9 @@
 # ingest_games.py
 import json
 import os
+import random
 import sqlite3
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Callable, Dict, Iterable, List, Optional
@@ -43,6 +45,51 @@ def save_ingest_state(endpoint: str, season: int, postseason: bool, next_cursor:
     STATE_PATH.write_text(json.dumps(payload, indent=2))
 
 
+def request_with_retries(
+    url: str,
+    headers: Optional[Dict] = None,
+    params: Optional[Dict] = None,
+    max_retry_429: int = 8,
+    max_retry_5xx: int = 5,
+):
+    attempt_429 = 0
+    attempt_5xx = 0
+    while True:
+        resp = SESSION.get(url, headers=headers, params=params, timeout=30)
+        status = resp.status_code
+
+        if status in (401, 403):
+            raise SystemExit(f"Balldontlie authentication failed (status {status}); check API key and access.")
+
+        if status == 429:
+            attempt_429 += 1
+            if attempt_429 > max_retry_429:
+                resp.raise_for_status()
+            retry_after = resp.headers.get("Retry-After")
+            if retry_after:
+                try:
+                    delay = float(retry_after)
+                except ValueError:
+                    delay = None
+            else:
+                delay = None
+            if delay is None:
+                delay = min(2**attempt_429, 60) + random.uniform(0, 0.5)
+            time.sleep(delay)
+            continue
+
+        if 500 <= status < 600:
+            attempt_5xx += 1
+            if attempt_5xx > max_retry_5xx:
+                resp.raise_for_status()
+            delay = min(2**attempt_5xx, 60) + random.uniform(0, 0.5)
+            time.sleep(delay)
+            continue
+
+        resp.raise_for_status()
+        return resp
+
+
 def fetch_balldontlie_games(
     season_int: int,
     postseason: Optional[bool] = None,
@@ -73,8 +120,7 @@ def fetch_balldontlie_games(
         if postseason is not None:
             params["postseason"] = str(postseason).lower()
 
-        resp = SESSION.get(f"{BALLDONTLIE_BASE}/games", params=params, timeout=30)
-        resp.raise_for_status()
+        resp = request_with_retries(f"{BALLDONTLIE_BASE}/games", params=params)
         payload = resp.json()
 
         data = payload.get("data", [])
