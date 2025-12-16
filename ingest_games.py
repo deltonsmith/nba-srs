@@ -1,5 +1,6 @@
 # ingest_games.py
 import json
+import argparse
 import os
 import random
 import shutil
@@ -296,12 +297,26 @@ def upsert_games(games: List[Dict]):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Ingest NBA games from Balldontlie.")
+    parser.add_argument("--resume", action=argparse.BooleanOptionalAction, default=True, help="Resume from checkpoint (default: true)")
+    parser.add_argument("--reset", action="store_true", help="Delete ingest checkpoint before running")
+    args = parser.parse_args()
+
+    if args.reset and STATE_PATH.exists():
+        STATE_PATH.unlink()
+        print("Checkpoint reset: deleted data/ingest_state.json")
+
     # live season
     season_int = 2026
     print(f"Fetching Balldontlie games for season {season_int} (API season {season_int - 1}) ...")
 
     try:
-        games = build_games_table(season_int)
+        if args.resume:
+            games = build_games_table(season_int)
+        else:
+            if STATE_PATH.exists():
+                STATE_PATH.unlink()
+            games = build_games_table(season_int)
     except requests.HTTPError as exc:
         if exc.response is not None and exc.response.status_code == 429:
             raise SystemExit("Balldontlie rate limit reached even after retries; dataset not updated.")
