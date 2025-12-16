@@ -1,33 +1,13 @@
-  # compute_ratings.py
-  #
-  # Lineup-adjusted SRS ratings for multiple NBA seasons.
-  # - Uses games(season), appearances, players, player_values(v_p).
-  # - Outputs ratings_<SEASON_INT>.json into data/.
-  # - Also writes a dated CSV snapshot to data/csv/ratings_<SEASON_INT>_YYYYMMDD.csv.
-  # - Includes last_week_rank based on a weekly snapshot file.
-  # - Includes yest_rank based on the prior daily ratings file.
+# compute_ratings.py
 
 import os
 import json
 import sqlite3
+import csv
 
-  from collections import defaultdict
-  from datetime import datetime, timedelta
-  from pathlib import Path
-  import csv
-
-  # ------------ CONFIGURATION ------------
-
-  BASE_DIR = Path(__file__).resolve().parent
-  DATA_DIR = BASE_DIR / "data"
-  DB_PATH = DATA_DIR / "nba_ratings.db"
-
-  # Seasons are labeled by the year they END:
-  # 2023-24 -> 2024, 2024-25 -> 2025, 2025-26 -> 2026, etc.
-  SEASONS = [2026]
-
-  HCA = 2.5          # home-court advantage in points
-  MAX_ITERS = 100    # SRS iteration count
+from collections import defaultdict
+from datetime import datetime, timedelta
+from pathlib import Path
 
 
   # ------------ DATA LOADING ------------
