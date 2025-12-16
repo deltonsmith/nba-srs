@@ -48,16 +48,31 @@ def fetch_balldontlie_games(
 
         data = payload.get("data", [])
         meta = payload.get("meta") or {}
+
         if not data:
             break
 
         for g in data:
             yield g
 
-        total_pages = int(meta.get("total_pages", page))
-        if page >= total_pages:
-            break
-        page += 1
+        # Robust pagination: use next_page if present, else keep paging while full.
+        per_page = int(meta.get("per_page", params["per_page"]))
+        next_page = meta.get("next_page")
+        total_pages = meta.get("total_pages")
+
+        if next_page:
+            page = int(next_page)
+            continue
+
+        if total_pages and page < int(total_pages):
+            page += 1
+            continue
+
+        if len(data) == per_page:
+            page += 1
+            continue
+
+        break
 
 
 def normalize_game_row(game: Dict, season_int: int) -> Optional[Dict]:
@@ -148,6 +163,10 @@ def main():
     games = build_games_table(season_int)
     if not games:
         raise SystemExit("No games fetched; aborting to avoid stale ratings.")
+
+    dates = sorted({g["date"] for g in games})
+    if dates:
+        print(f"Fetched games span {dates[0]} through {dates[-1]}.")
 
     print(f"Prepared {len(games)} games (regular season + playoffs). Writing to DB...")
     upsert_games(games)
