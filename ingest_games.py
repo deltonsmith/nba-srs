@@ -3,7 +3,6 @@ import json
 import argparse
 import os
 import random
-import shutil
 import sqlite3
 import time
 from datetime import datetime
@@ -84,7 +83,7 @@ def request_with_retries(
             if elapsed < BASE_DELAY_SECONDS:
                 time.sleep(BASE_DELAY_SECONDS - elapsed)
 
-        resp = SESSION.get(url, headers=headers, params=params, timeout=30)
+        resp = SESSION.get(url, headers=headers, params=params, timeout=(10, 30))
         LAST_REQUEST_TS = time.time()
         status = resp.status_code
 
