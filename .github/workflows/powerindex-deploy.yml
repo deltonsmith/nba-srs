@@ -73,6 +73,13 @@ jobs:
           if [ -f ingest_player_values.py ]; then
             python ingest_player_values.py 2026
           fi
+          
+      - name: Debug compute_ratings header
+        run: |
+          echo "=== HEAD compute_ratings.py (nl) ==="
+          nl -ba compute_ratings.py | sed -n '1,40p'
+          echo "=== SHOW INVISIBLE CHARS (cat -A) ==="
+          sed -n '1,25p' compute_ratings.py | cat -A
 
       - name: Compute ratings (includes LW/Yesterday logic)
         run: |
