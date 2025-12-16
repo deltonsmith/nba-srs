@@ -1,15 +1,17 @@
 # ingest_games.py
+import json
 import os
 import sqlite3
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
+from typing import Callable, Dict, Iterable, List, Optional
 
 import requests
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 DB_PATH = DATA_DIR / "nba_ratings.db"
+STATE_PATH = DATA_DIR / "ingest_state.json"
 
 BALLDONTLIE_BASE = "https://api.balldontlie.io/v1"
 # Fallback API key provided by user; prefer environment variable in production.
@@ -20,8 +22,32 @@ if API_KEY:
     SESSION.headers.update({"Authorization": f"Bearer {API_KEY}"})
 
 
+def load_ingest_state() -> Optional[Dict]:
+    if not STATE_PATH.exists():
+        return None
+    try:
+        return json.loads(STATE_PATH.read_text())
+    except Exception:
+        return None
+
+
+def save_ingest_state(endpoint: str, season: int, postseason: bool, next_cursor: Optional[int]):
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "endpoint": endpoint,
+        "season": int(season),
+        "postseason": bool(postseason),
+        "next_cursor": next_cursor,
+        "updated_at": datetime.utcnow().isoformat(),
+    }
+    STATE_PATH.write_text(json.dumps(payload, indent=2))
+
+
 def fetch_balldontlie_games(
-    season_int: int, postseason: Optional[bool] = None
+    season_int: int,
+    postseason: Optional[bool] = None,
+    start_cursor: Optional[int] = None,
+    save_checkpoint: Optional[Callable[[Optional[int]], None]] = None,
 ) -> Iterable[Dict]:
     """
     Yield all games for a given season from the Balldontlie API.
@@ -32,13 +58,16 @@ def fetch_balldontlie_games(
 
     api_season = season_int - 1  # Balldontlie seasons[] expects start year (e.g., 2025 for 2025-26)
 
-    page = 1
+    cursor = start_cursor
     while True:
         params = {
             "seasons[]": api_season,
             "per_page": 100,
-            "page": page,
         }
+        if cursor is not None:
+            params["cursor"] = cursor
+        else:
+            params["page"] = 1
         if API_KEY:
             params["api_key"] = API_KEY  # some hosts require key in query
         if postseason is not None:
@@ -61,17 +90,25 @@ def fetch_balldontlie_games(
         per_page = int(meta.get("per_page", params["per_page"]))
         next_page = meta.get("next_page")
         total_pages = meta.get("total_pages")
+        next_cursor = meta.get("next_cursor")
 
-        if next_page:
-            page = int(next_page)
+        if save_checkpoint:
+            save_checkpoint(next_cursor)
+
+        if next_cursor is not None:
+            cursor = int(next_cursor)
             continue
 
-        if total_pages and page < int(total_pages):
-            page += 1
+        if next_page:
+            cursor = int(next_page)
+            continue
+
+        if total_pages and (cursor or 1) < int(total_pages):
+            cursor = (cursor or 1) + 1
             continue
 
         if len(data) == per_page:
-            page += 1
+            cursor = (cursor or 1) + 1
             continue
 
         break
@@ -115,12 +152,38 @@ def build_games_table(season_int: int) -> List[Dict]:
     Pull regular season and playoff games from Balldontlie and shape them for the DB.
     """
     rows: List[Dict] = []
+    state = load_ingest_state()
+    resume_postseason: Optional[bool] = None
+    resume_cursor: Optional[int] = None
+    if state and state.get("endpoint") == "games" and state.get("season") == season_int:
+        resume_postseason = bool(state.get("postseason"))
+        resume_cursor = state.get("next_cursor")
 
     for postseason_flag in (False, True):
-        for game in fetch_balldontlie_games(season_int, postseason=postseason_flag):
+        if resume_postseason is True and postseason_flag is False:
+            continue
+
+        start_cursor = resume_cursor if resume_postseason is not None and postseason_flag == resume_postseason else None
+        save_ingest_state("games", season_int, postseason_flag, start_cursor)
+
+        def checkpoint(next_cursor: Optional[int]):
+            save_ingest_state("games", season_int, postseason_flag, next_cursor)
+
+        for game in fetch_balldontlie_games(
+            season_int, postseason=postseason_flag, start_cursor=start_cursor, save_checkpoint=checkpoint
+        ):
             parsed = normalize_game_row(game, season_int)
             if parsed:
                 rows.append(parsed)
+
+        if resume_postseason is not None and postseason_flag == resume_postseason:
+            resume_postseason = None
+            resume_cursor = None
+
+        if postseason_flag is False:
+            save_ingest_state("games", season_int, True, None)
+
+    save_ingest_state("games", season_int, True, None)
 
     return rows
 
