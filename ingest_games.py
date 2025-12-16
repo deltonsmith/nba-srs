@@ -24,6 +24,11 @@ if API_KEY:
     SESSION.headers.update({"Authorization": f"Bearer {API_KEY}"})
 BASE_DELAY_SECONDS = float(os.environ.get("BALDONTLIE_BASE_DELAY") or 0.35)
 LAST_REQUEST_TS: float = 0.0
+try:
+    _per_page_env = int(os.environ.get("BALDONTLIE_PER_PAGE", "100"))
+except ValueError:
+    _per_page_env = 100
+PER_PAGE = max(1, min(100, _per_page_env))
 
 
 def load_ingest_state() -> Optional[Dict]:
@@ -118,7 +123,7 @@ def fetch_balldontlie_games(
     while True:
         params = {
             "seasons[]": api_season,
-            "per_page": 100,
+            "per_page": PER_PAGE,
         }
         if cursor is not None:
             params["cursor"] = cursor
