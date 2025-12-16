@@ -7,8 +7,10 @@
   # - Includes last_week_rank based on a weekly snapshot file.
   # - Includes yest_rank based on the prior daily ratings file.
 
-  import sqlite3
-  import json
+import os
+import json
+import sqlite3
+
   from collections import defaultdict
   from datetime import datetime, timedelta
   from pathlib import Path
