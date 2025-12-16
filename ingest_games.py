@@ -12,7 +12,9 @@ DATA_DIR = BASE_DIR / "data"
 DB_PATH = DATA_DIR / "nba_ratings.db"
 
 BALLDONTLIE_BASE = "https://api.balldontlie.io/v1"
-API_KEY = os.environ.get("BALLDONTLIE_API_KEY")
+# Fallback API key provided by user; prefer environment variable in production.
+HARDCODED_API_KEY = "8935ae6b-a84f-419b-a2f9-e7ebaf67a98f"
+API_KEY = os.environ.get("BALLDONTLIE_API_KEY") or HARDCODED_API_KEY
 SESSION = requests.Session()
 if API_KEY:
     SESSION.headers.update({"Authorization": f"Bearer {API_KEY}"})
