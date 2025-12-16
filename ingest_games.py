@@ -1,4 +1,8 @@
 # ingest_games.py
+# Usage notes:
+# - Set BALDONTLIE_API_KEY in your environment (falls back to HARDCODED_API_KEY).
+# - Checkpoints: --resume/--no-resume controls using data/ingest_state.json; --reset deletes it before running.
+# - If you hit 429 after retries, rerun later (state stays updated); adjust BALDONTLIE_BASE_DELAY or BALDONTLIE_PER_PAGE if needed.
 import json
 import argparse
 import os
