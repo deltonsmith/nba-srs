@@ -22,6 +22,8 @@ API_KEY = os.environ.get("BALLDONTLIE_API_KEY") or HARDCODED_API_KEY
 SESSION = requests.Session()
 if API_KEY:
     SESSION.headers.update({"Authorization": f"Bearer {API_KEY}"})
+BASE_DELAY_SECONDS = float(os.environ.get("BALDONTLIE_BASE_DELAY") or 0.35)
+LAST_REQUEST_TS: float = 0.0
 
 
 def load_ingest_state() -> Optional[Dict]:
@@ -55,7 +57,14 @@ def request_with_retries(
     attempt_429 = 0
     attempt_5xx = 0
     while True:
+        global LAST_REQUEST_TS
+        if LAST_REQUEST_TS:
+            elapsed = time.time() - LAST_REQUEST_TS
+            if elapsed < BASE_DELAY_SECONDS:
+                time.sleep(BASE_DELAY_SECONDS - elapsed)
+
         resp = SESSION.get(url, headers=headers, params=params, timeout=30)
+        LAST_REQUEST_TS = time.time()
         status = resp.status_code
 
         if status in (401, 403):
