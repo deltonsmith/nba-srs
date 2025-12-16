@@ -365,13 +365,29 @@ def run_season(season_int):
     weekly_json_path = DATA_DIR / f"ratings_{season_int}_weekly.json"
 
     today_utc = datetime.utcnow().date()
+    target_monday = today_utc - timedelta(days=today_utc.weekday() or 7)
 
     yesterday_ranks = load_prev_day_ranks_from_csv(season_int, today_utc)
     if not yesterday_ranks:
         yesterday_ranks = load_yesterday_ranks(current_json_path)
 
     last_week_ranks = load_last_week_ranks_from_csv(season_int, today_utc)
+
+    use_weekly_json = False
     if weekly_json_path.exists():
+        try:
+            weekly_mtime_date = datetime.utcfromtimestamp(weekly_json_path.stat().st_mtime).date()
+            if weekly_mtime_date <= target_monday:
+                use_weekly_json = True
+            else:
+                print(
+                    f"Weekly snapshot {weekly_json_path} is newer than target Monday; "
+                    "keeping CSV-derived LW ranks."
+                )
+        except Exception as e:
+            print(f"Warning: could not read weekly snapshot timestamp {weekly_json_path}: {e}")
+
+    if use_weekly_json:
         try:
             with open(weekly_json_path, "r", encoding="utf-8") as f:
                 weekly_data = json.load(f)
@@ -387,7 +403,7 @@ def run_season(season_int):
             print(f"Loaded weekly snapshot for {len(last_week_ranks)} teams from {weekly_json_path}.")
         except Exception as e:
             print(f"Warning: could not load weekly snapshot from {weekly_json_path}: {e}")
-    else:
+    elif not weekly_json_path.exists():
         if last_week_ranks:
             print("No weekly snapshot file found; using CSV fallback for LW.")
         else:
