@@ -2,6 +2,7 @@
 import json
 import os
 import random
+import shutil
 import sqlite3
 import time
 from datetime import datetime
@@ -14,6 +15,10 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 DB_PATH = DATA_DIR / "nba_ratings.db"
 STATE_PATH = DATA_DIR / "ingest_state.json"
+def games_json_path(season: int) -> Path:
+    return DATA_DIR / f"games_{season}.json"
+def temp_games_json_path(season: int) -> Path:
+    return DATA_DIR / f"games_{season}_tmp.json"
 
 BALLDONTLIE_BASE = "https://api.balldontlie.io/v1"
 # Fallback API key provided by user; prefer environment variable in production.
@@ -49,7 +54,17 @@ def save_ingest_state(endpoint: str, season: int, postseason: bool, next_cursor:
         "next_cursor": next_cursor,
         "updated_at": datetime.utcnow().isoformat(),
     }
-    STATE_PATH.write_text(json.dumps(payload, indent=2))
+    tmp_path = STATE_PATH.with_suffix(STATE_PATH.suffix + ".tmp")
+    tmp_path.write_text(json.dumps(payload, indent=2))
+    os.replace(tmp_path, STATE_PATH)
+
+
+def write_games_json_atomic(season: int, games: List[Dict]):
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    tmp_path = temp_games_json_path(season)
+    final_path = games_json_path(season)
+    tmp_path.write_text(json.dumps(games, indent=2))
+    os.replace(tmp_path, final_path)
 
 
 def request_with_retries(
@@ -285,7 +300,13 @@ def main():
     season_int = 2026
     print(f"Fetching Balldontlie games for season {season_int} (API season {season_int - 1}) ...")
 
-    games = build_games_table(season_int)
+    try:
+        games = build_games_table(season_int)
+    except requests.HTTPError as exc:
+        if exc.response is not None and exc.response.status_code == 429:
+            raise SystemExit("Balldontlie rate limit reached even after retries; dataset not updated.")
+        raise
+
     if not games:
         raise SystemExit("No games fetched; aborting to avoid stale ratings.")
 
@@ -293,7 +314,8 @@ def main():
     if dates:
         print(f"Fetched games span {dates[0]} through {dates[-1]}.")
 
-    print(f"Prepared {len(games)} games (regular season + playoffs). Writing to DB...")
+    print(f"Prepared {len(games)} games (regular season + playoffs). Writing atomically...")
+    write_games_json_atomic(season_int, games)
     upsert_games(games)
     print("Done.")
 
