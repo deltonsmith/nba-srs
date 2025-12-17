@@ -80,6 +80,10 @@ jobs:
             python compute_ratings.py
           fi
 
+      - name: Smoke check outputs
+        run: |
+          python scripts/smoke_check_outputs.py
+
       # PRESERVES YOUR LW/WEEKLY SNAPSHOT + CSV HISTORY
       - name: Commit updated data
         run: |
