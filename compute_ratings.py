@@ -9,6 +9,7 @@
 
 import csv
 import json
+import shutil
 import sqlite3
 from collections import defaultdict
 from datetime import datetime, timedelta
@@ -360,6 +361,8 @@ def run_season(season_int):
     conn.close()
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+    history_dir = DATA_DIR / "history"
+    history_dir.mkdir(parents=True, exist_ok=True)
 
     current_json_path = DATA_DIR / f"ratings_{season_int}.json"
     weekly_json_path = DATA_DIR / f"ratings_{season_int}_weekly.json"
@@ -416,6 +419,12 @@ def run_season(season_int):
 
     save_ratings_json(ratings, last_week_ranks, yesterday_ranks, current_json_path)
     print(f"Saved daily JSON to {current_json_path}")
+
+    canonical_path = DATA_DIR / "ratings_current.json"
+    history_path = history_dir / f"{today_utc.isoformat()}.json"
+    shutil.copyfile(current_json_path, canonical_path)
+    shutil.copyfile(current_json_path, history_path)
+    print(f"Updated canonical {canonical_path} and history snapshot {history_path}")
 
     write_ratings_csv(ratings, season_int)
 
