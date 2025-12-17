@@ -1,8 +1,9 @@
 import json
 import sys
 from collections import Counter
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
+import math
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / "data"
@@ -19,6 +20,9 @@ def main():
     if not CANONICAL_PATH.exists():
         fail(f"Missing {CANONICAL_PATH}")
 
+    if CANONICAL_PATH.stat().st_size == 0:
+        fail(f"{CANONICAL_PATH} is empty")
+
     try:
         payload = json.loads(CANONICAL_PATH.read_text(encoding="utf-8"))
     except Exception as e:
@@ -27,13 +31,17 @@ def main():
     if not isinstance(payload, dict):
         fail("Payload is not an object")
 
-    as_of = payload.get("as_of_utc") or payload.get("as_of")
+    as_of = payload.get("as_of_utc")
     if not as_of:
         fail("Missing as_of_utc")
     try:
-        datetime.fromisoformat(as_of.replace("Z", "+00:00"))
+        as_dt = datetime.strptime(as_of, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
     except Exception as e:
-        fail(f"as_of_utc not ISO8601: {e}")
+        fail(f"as_of_utc not ISO8601 Z (YYYY-MM-DDTHH:MM:SSZ): {e}")
+
+    now = datetime.now(timezone.utc)
+    if as_dt - now > timedelta(minutes=10):
+        fail(f"as_of_utc is in the future beyond allowed skew: {as_of} > {now.isoformat()}")
 
     ratings = payload.get("ratings")
     if not isinstance(ratings, list):
@@ -42,7 +50,23 @@ def main():
     if len(ratings) != TEAM_COUNT:
         fail(f"Expected {TEAM_COUNT} ratings entries, found {len(ratings)}")
 
-    teams = [r.get("team") for r in ratings]
+    teams = []
+    for r in ratings:
+        if not isinstance(r, dict):
+            fail("rating entry is not an object")
+        team_id = r.get("team")
+        if not team_id:
+            fail("rating entry missing team")
+        teams.append(team_id)
+        rating_val = r.get("rating")
+        if rating_val is None:
+            fail(f"team {team_id} missing rating")
+        if not isinstance(rating_val, (int, float)) or not math.isfinite(rating_val):
+            fail(f"team {team_id} has non-finite rating: {rating_val}")
+        # Frontend expects rank and rating at minimum; yest_rank/last_week_rank optional
+        if "rank" not in r:
+            fail(f"team {team_id} missing rank")
+
     dupes = [t for t, c in Counter(teams).items() if t and c > 1]
     if dupes:
         fail(f"Duplicate team entries: {dupes}")
