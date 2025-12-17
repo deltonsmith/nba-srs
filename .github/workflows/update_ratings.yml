@@ -21,6 +21,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ref: master
           fetch-depth: 0
 
       - name: Set up Python
@@ -61,4 +62,4 @@ jobs:
             exit 0
           fi
           git commit -m "Automated PowerIndex ratings update"
-          git push
+          git push origin HEAD:master

@@ -41,6 +41,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
+          ref: master
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
@@ -133,7 +134,7 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "Auto-update ratings"
             git pull --rebase --autostash origin master || exit 1
-            git push origin master
+            git push origin HEAD:master
           else
             echo "No changes to commit"
           fi
