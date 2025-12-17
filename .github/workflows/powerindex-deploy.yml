@@ -89,6 +89,20 @@ jobs:
         run: |
           python scripts/validate_ratings.py
 
+      - name: Show ratings summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("data/ratings_current.json")
+          payload = json.loads(path.read_text())
+          as_of = payload.get("as_of_utc") or "unknown"
+          ratings = payload.get("ratings") or []
+          print(f"as_of_utc: {as_of}")
+          print(f"teams: {len(ratings)}")
+          print(f"path: {path}")
+          PY
+
       # Validate before publishing/committing
       - name: Validate outputs
         run: |
