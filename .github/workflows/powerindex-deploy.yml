@@ -81,6 +81,10 @@ jobs:
             python compute_ratings.py
           fi
 
+      - name: Validate ratings
+        run: |
+          python scripts/validate_ratings.py
+
       # Validate before publishing/committing
       - name: Validate outputs
         run: |
