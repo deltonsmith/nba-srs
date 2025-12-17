@@ -236,9 +236,9 @@
         return [];
       }
 
-      function formatAsOf(asOfUtc) {
-        if (!asOfUtc) return "";
-        const d = new Date(asOfUtc);
+      function formatAsOf(as_of_utc) {
+        if (!as_of_utc) return "";
+        const d = new Date(as_of_utc);
         if (Number.isNaN(d.getTime())) return "";
         return `Last updated: ${d.toISOString()}`;
       }
@@ -271,7 +271,7 @@
               Number(a.rating ?? a.value ?? a.srs ?? 0)
           );
 
-          const asOfUtc = raw.as_of_utc || raw.as_of || null;
+          const asOfUtc = raw.as_of_utc || null;
           const asOfText = formatAsOf(asOfUtc);
           if (asOfText) lastUpdated.textContent = asOfText;
           status.textContent = "";
