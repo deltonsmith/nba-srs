@@ -96,6 +96,10 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
+          # Make sure we're up to date before staging local changes.
+          git fetch origin master
+          git pull --rebase --autostash origin master
+
           # Stage canonical, history, aliases, and supporting data
           git add data/ratings_current.json || true
           git add data/history/*.json || true
@@ -106,7 +110,7 @@ jobs:
 
           if ! git diff --cached --quiet; then
             git commit -m "Auto-update ratings"
-            git pull --rebase origin master || exit 1
+            git pull --rebase --autostash origin master || exit 1
             git push origin master
           else
             echo "No changes to commit"
