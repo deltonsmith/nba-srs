@@ -53,7 +53,7 @@ jobs:
       - name: Ingest games
         run: |
           if [ -f ingest_games.py ]; then
-            python ingest_games.py
+            python ingest_games.py --reset --no-resume
           fi
 
       - name: Ingest boxscores
