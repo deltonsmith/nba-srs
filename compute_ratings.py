@@ -382,7 +382,7 @@ def run_season(season_int):
     canonical_json_path = DATA_DIR / "ratings_current.json"
 
     as_of_dt = datetime.now(timezone.utc).replace(microsecond=0)
-    as_of_utc_str = as_of_dt.isoformat().replace("+00:00", "Z")
+    as_of_utc_str = as_of_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
     as_of_date = as_of_dt.date()
     run_date_utc = as_of_date.isoformat()
 
