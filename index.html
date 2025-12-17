@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PowerIndex – NBA Ratings</title>
+  <title>PowerIndex - NBA Ratings</title>
   
   <!-- Compact, data-focused font -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -69,22 +69,6 @@
       font-size: 8px;
     }
 
-    select {
-      padding: 2px 4px;
-      font-size: var(--font-size-base);
-      font-family: var(--font-main);
-      border: 1px solid var(--border-subtle);
-      background: #020617;
-      color: var(--text-main);
-      outline: none;
-      height: 20px;
-      line-height: 16px;
-    }
-
-    select:focus {
-      border-color: var(--accent);
-    }
-
     #status {
       margin: 2px 0 6px 0;
       font-size: var(--font-size-small);
@@ -147,21 +131,21 @@
       font-weight: 500;
     }
 
-    /* Rating column — RIGHT ALIGN + NARROW WIDTH */
+    /* Rating column – RIGHT ALIGN + NARROW WIDTH */
     th:nth-child(3),
     td:nth-child(3) {
       text-align: right;
       width: 55px;
     }
 
-    /* Yest column — right aligned, match rating width */
+    /* Yest column – right aligned, match rating width */
     th:nth-child(4),
     td:nth-child(4) {
       text-align: right;
       width: 55px;
     }
 
-    /* LW column — right aligned, match rating width */
+    /* LW column – right aligned, match rating width */
     th:nth-child(5),
     td:nth-child(5) {
       text-align: right;
@@ -184,15 +168,6 @@
 <body>
   <h1>PowerIndex – NBA Ratings</h1>
 
-  <div id="controls">
-    <label for="season-select">Season</label>
-    <select id="season-select">
-      <option value="2024">2023–24</option>
-      <option value="2025">2024–25</option>
-      <option value="2026" selected>2025–26</option>
-    </select>
-  </div>
-
   <div id="status"></div>
 
   <table id="ratings-table">
@@ -213,21 +188,10 @@
     game location, scoring margin, and recency. Results are normalized across the league to
     remove schedule distortion.
   </p>
-  <p class="rating-note">
-    Last updated: 2025-12-17
-  </p>
+  <p class="rating-note" id="last-updated"></p>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Keys MUST match the <option value="..."> attributes above
-      const SEASON_FILES = {
-        "2024": "data/ratings_2024.json",
-        "2025": "data/ratings_2025.json",
-        "2026": "data/ratings_2026.json"
-      };
-
-      const DEFAULT_SEASON = "2026";
-
       const TEAM_NAMES = {
         ATL: "Atlanta Hawks",
         BOS: "Boston Celtics",
@@ -261,29 +225,29 @@
         WAS: "Washington Wizards"
       };
 
-      const seasonSelect = document.getElementById("season-select");
       const tbody = document.querySelector("#ratings-table tbody");
       const status = document.getElementById("status");
+      const lastUpdated = document.getElementById("last-updated");
 
       function normalizeRatings(data) {
+        if (!data) return [];
+        if (Array.isArray(data.ratings)) return data.ratings;
         if (Array.isArray(data)) return data;
-        if (data && Array.isArray(data.ratings)) return data.ratings;
-        if (data && typeof data === "object") {
-          return Object.entries(data).map(([team, rating]) => ({ team, rating }));
-        }
         return [];
       }
 
-      async function loadSeason(season) {
-        const file = SEASON_FILES[season];
-        if (!file) {
-          status.textContent = `No file configured for season ${season}.`;
-          tbody.innerHTML = "";
-          return;
-        }
+      function formatAsOf(asOfUtc) {
+        if (!asOfUtc) return "";
+        const d = new Date(asOfUtc);
+        if (Number.isNaN(d.getTime())) return "";
+        return `Last updated: ${d.toISOString()}`;
+      }
 
+      async function loadRatings() {
+        const file = "data/ratings_current.json";
         status.textContent = `Loading ${file} …`;
         tbody.innerHTML = "";
+        lastUpdated.textContent = "";
 
         try {
           const res = await fetch(file, { cache: "no-store" });
@@ -307,15 +271,10 @@
               Number(a.rating ?? a.value ?? a.srs ?? 0)
           );
 
-          // Display "as of" date using the JSON file's last-modified timestamp
-          const lastMod = res.headers.get("Last-Modified");
-          if (lastMod) {
-            const d = new Date(lastMod);
-            const mm = String(d.getMonth() + 1).padStart(2, "0");
-            const dd = String(d.getDate()).padStart(2, "0");
-            const yyyy = d.getFullYear();
-            status.textContent = `As of ${mm}/${dd}/${yyyy}`;
-          }
+          const asOfUtc = raw.as_of_utc || raw.as_of || null;
+          const asOfText = formatAsOf(asOfUtc);
+          if (asOfText) lastUpdated.textContent = asOfText;
+          status.textContent = "";
 
           tbody.innerHTML = "";
           ratingsArray.forEach((entry, idx) => {
@@ -362,7 +321,6 @@
             `;
             tbody.appendChild(tr);
           });
-
         } catch (err) {
           console.error(err);
           status.textContent = `Error loading ${file}: ${err}`;
@@ -370,12 +328,7 @@
         }
       }
 
-      seasonSelect.value = DEFAULT_SEASON;
-      loadSeason(DEFAULT_SEASON);
-
-      seasonSelect.addEventListener("change", () => {
-        loadSeason(seasonSelect.value);
-      });
+      loadRatings();
     });
   </script>
 </body>
