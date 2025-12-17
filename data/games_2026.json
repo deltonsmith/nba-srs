@@ -3481,5 +3481,14 @@
     "away_team_id": "TOR",
     "home_pts": 96,
     "away_pts": 106
+  },
+  {
+    "game_id": 20377171,
+    "season": 2026,
+    "date": "2025-12-16",
+    "home_team_id": "NYK",
+    "away_team_id": "SAS",
+    "home_pts": 124,
+    "away_pts": 113
   }
 ]
