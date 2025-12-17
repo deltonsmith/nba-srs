@@ -237,13 +237,24 @@
       }
 
       function formatAsOf(as_of_utc) {
-        if (!as_of_utc) return null;
+        if (!as_of_utc) return { text: null, error: "missing as_of_utc" };
         const d = new Date(as_of_utc);
-        if (Number.isNaN(d.getTime())) return null;
+        if (Number.isNaN(d.getTime())) return { text: null, error: "invalid as_of_utc" };
+
+        const nowMs = Date.now();
+        const skewMs = d.getTime() - nowMs;
+        const maxFutureMs = 10 * 60 * 1000;
+        if (skewMs > maxFutureMs) {
+          return {
+            text: "Last updated: timestamp error",
+            error: `as_of_utc (${d.toISOString()}) is >10m in future vs now (${new Date(nowMs).toISOString()})`,
+          };
+        }
+
         const iso = d.toISOString(); // YYYY-MM-DDTHH:MM:SS.sssZ
         const datePart = iso.slice(0, 10);
         const timePart = iso.slice(11, 16); // HH:MM
-        return `Last updated: ${datePart} ${timePart} UTC`;
+        return { text: `Last updated: ${datePart} ${timePart} UTC`, error: null };
       }
 
       async function loadRatings() {
@@ -275,12 +286,15 @@
           );
 
           const asOfUtc = raw.as_of_utc || null;
-          const asOfText = formatAsOf(asOfUtc);
+          const { text: asOfText, error: asOfError } = formatAsOf(asOfUtc);
           if (asOfText) {
             lastUpdated.textContent = asOfText;
           } else {
             lastUpdated.textContent = "Last updated: unavailable";
             console.error("Invalid or missing as_of_utc in ratings payload");
+          }
+          if (asOfError) {
+            console.error(asOfError);
           }
           status.textContent = "";
 
