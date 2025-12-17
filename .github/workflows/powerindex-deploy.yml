@@ -80,6 +80,10 @@ jobs:
             python compute_ratings.py
           fi
 
+      - name: Validate outputs
+        run: |
+          python scripts/validate_outputs.py
+
       - name: Smoke check outputs
         run: |
           python scripts/smoke_check_outputs.py
