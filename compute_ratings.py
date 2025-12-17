@@ -307,7 +307,7 @@ def load_last_week_ranks_from_csv(season_int: int, today):
     return ranks
 
 
-def build_ratings_payload(ratings, last_week_ranks, yesterday_ranks, season_int, as_of_utc):
+def build_ratings_payload(ratings, last_week_ranks, yesterday_ranks, season_int, as_of_utc, run_date_utc):
     """Build ratings payload with metadata and ranks."""
     sorted_items = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
 
@@ -327,6 +327,7 @@ def build_ratings_payload(ratings, last_week_ranks, yesterday_ranks, season_int,
 
     return {
         "as_of_utc": as_of_utc,
+        "run_date_utc": run_date_utc,
         "season": int(season_int),
         "source": "balldontlie",
         "ratings": rows,
@@ -383,6 +384,7 @@ def run_season(season_int):
     as_of_dt = datetime.now(timezone.utc).replace(microsecond=0)
     as_of_utc_str = as_of_dt.isoformat().replace("+00:00", "Z")
     as_of_date = as_of_dt.date()
+    run_date_utc = as_of_date.isoformat()
 
     yesterday_ranks = load_prev_day_ranks_from_csv(season_int, as_of_date)
     if not yesterday_ranks:
@@ -395,18 +397,20 @@ def run_season(season_int):
     for team, r in sorted(ratings.items(), key=lambda x: x[1], reverse=True):
         print(f"{team}: {r:.3f}")
 
-    payload = build_ratings_payload(ratings, last_week_ranks, yesterday_ranks, season_int, as_of_utc_str)
+    payload = build_ratings_payload(
+        ratings,
+        last_week_ranks,
+        yesterday_ranks,
+        season_int,
+        as_of_utc_str,
+        run_date_utc,
+    )
 
     write_ratings_json(payload, canonical_json_path)
-    history_path = history_dir / f"{as_of_date.isoformat()}.json"
+    history_path = history_dir / f"{run_date_utc}.json"
     write_ratings_json(payload, history_path)
     print(f"Saved canonical JSON to {canonical_json_path}")
     print(f"Saved history snapshot to {history_path}")
-
-    # Optional season alias copy (no symlinks).
-    alias_path = DATA_DIR / f"ratings_{season_int}.json"
-    shutil.copyfile(canonical_json_path, alias_path)
-    print(f"Copied canonical to season alias {alias_path}")
 
     write_ratings_csv(ratings, season_int)
 
