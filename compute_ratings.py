@@ -403,6 +403,11 @@ def run_season(season_int):
     print(f"Saved canonical JSON to {canonical_json_path}")
     print(f"Saved history snapshot to {history_path}")
 
+    # Optional season alias copy (no symlinks).
+    alias_path = DATA_DIR / f"ratings_{season_int}.json"
+    shutil.copyfile(canonical_json_path, alias_path)
+    print(f"Copied canonical to season alias {alias_path}")
+
     write_ratings_csv(ratings, season_int)
 
     print("-" * 40)
