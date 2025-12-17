@@ -44,6 +44,7 @@ jobs:
         with:
           python-version: "3.12"
 
+      # Ingest / compute
       - name: Install dependencies
         run: |
           if [ -f requirements.txt ]; then
@@ -80,6 +81,7 @@ jobs:
             python compute_ratings.py
           fi
 
+      # Validate before publishing/committing
       - name: Validate outputs
         run: |
           python scripts/validate_outputs.py
@@ -88,7 +90,7 @@ jobs:
         run: |
           python scripts/smoke_check_outputs.py
 
-      # PRESERVES YOUR LW/WEEKLY SNAPSHOT + CSV HISTORY
+      # Commit updates on master (Pages branch)
       - name: Commit updated data
         run: |
           git config user.name "github-actions"
@@ -104,7 +106,7 @@ jobs:
 
           if ! git diff --cached --quiet; then
             git commit -m "Auto-update ratings"
-            git push
+            git push origin master
           else
             echo "No changes to commit"
           fi
