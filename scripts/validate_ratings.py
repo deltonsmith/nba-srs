@@ -41,7 +41,7 @@ def main():
 
     now = datetime.now(timezone.utc)
     if as_dt - now > timedelta(minutes=10):
-        fail(f"as_of_utc is in the future beyond allowed skew: {as_of} > {now.isoformat()}")
+        fail(f"as_of_utc is in the future beyond allowed skew: as_of_utc={as_of}, now={now.isoformat()}")
 
     ratings = payload.get("ratings")
     if not isinstance(ratings, list):
