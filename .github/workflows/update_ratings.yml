@@ -38,6 +38,10 @@ jobs:
         run: |
           python compute_ratings.py
 
+      - name: Validate ratings
+        run: |
+          python scripts/validate_ratings.py
+
       - name: Validate outputs
         run: |
           python scripts/validate_outputs.py

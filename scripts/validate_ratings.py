@@ -4,6 +4,7 @@ from collections import Counter
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 import math
+import re
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / "data"
@@ -34,6 +35,9 @@ def main():
     as_of = payload.get("as_of_utc")
     if not as_of:
         fail("Missing as_of_utc")
+    pattern = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+    if not pattern.match(as_of):
+        fail(f"as_of_utc not matching pattern YYYY-MM-DDTHH:MM:SSZ: {as_of}")
     try:
         as_dt = datetime.strptime(as_of, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
     except Exception as e:
