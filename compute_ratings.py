@@ -2,7 +2,7 @@
 #
 # Lineup-adjusted SRS ratings for multiple NBA seasons.
 # - Uses games(season), appearances, players, player_values(v_p).
-# - Outputs ratings_<SEASON_INT>.json into data/.
+# - Outputs canonical ratings_current.json into data/ and dated snapshots into data/history/YYYY-MM-DD.json.
 # - Also writes a dated CSV snapshot to data/csv/ratings_<SEASON_INT>_YYYYMMDD.csv.
 # - Includes last_week_rank based on a weekly snapshot file or CSV fallback.
 # - Includes yest_rank based on the prior daily ratings file or CSV fallback.
@@ -12,7 +12,7 @@ import json
 import shutil
 import sqlite3
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 # ------------ CONFIGURATION ------------
@@ -197,9 +197,9 @@ def iterate_ratings(records_by_team):
 # ------------ OUTPUT HELPERS ------------
 
 def load_yesterday_ranks(daily_json_path: Path):
-    """Load yesterday's ranks from the existing daily ratings file, if present."""
+    """Load yesterday's ranks from the existing ratings file, if present."""
     if not daily_json_path.exists():
-        print("No prior daily ratings file found; Yest column will be blank this run.")
+        print("No prior ratings file found; Yest column will be blank this run.")
         return {}
 
     try:
@@ -210,15 +210,20 @@ def load_yesterday_ranks(daily_json_path: Path):
         return {}
 
     mapping = {}
+    entries = []
     if isinstance(prev_data, list):
-        for entry in prev_data:
-            team_id = entry.get("team")
-            prev_rank = entry.get("rank")
-            if team_id is not None and prev_rank is not None:
-                try:
-                    mapping[team_id] = int(prev_rank)
-                except (TypeError, ValueError):
-                    continue
+        entries = prev_data
+    elif isinstance(prev_data, dict):
+        entries = prev_data.get("ratings") or []
+
+    for entry in entries:
+        team_id = entry.get("team")
+        prev_rank = entry.get("rank")
+        if team_id is not None and prev_rank is not None:
+            try:
+                mapping[team_id] = int(prev_rank)
+            except (TypeError, ValueError):
+                continue
 
     print(f"Loaded yesterday's ranks for {len(mapping)} teams from {daily_json_path}.")
     return mapping
@@ -302,15 +307,15 @@ def load_last_week_ranks_from_csv(season_int: int, today):
     return ranks
 
 
-def save_ratings_json(ratings, last_week_ranks, yesterday_ranks, path):
-    """Save ratings to JSON with rank, yest_rank, last_week_rank."""
+def build_ratings_payload(ratings, last_week_ranks, yesterday_ranks, season_int, as_of_utc):
+    """Build ratings payload with metadata and ranks."""
     sorted_items = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
 
-    data = []
+    rows = []
     for rank, (team, rating) in enumerate(sorted_items, start=1):
         lw_rank = last_week_ranks.get(team)
         yest_rank = yesterday_ranks.get(team)
-        data.append(
+        rows.append(
             {
                 "team": team,
                 "rating": float(rating),
@@ -320,8 +325,17 @@ def save_ratings_json(ratings, last_week_ranks, yesterday_ranks, path):
             }
         )
 
+    return {
+        "as_of_utc": as_of_utc,
+        "season": int(season_int),
+        "source": "balldontlie",
+        "ratings": rows,
+    }
+
+
+def write_ratings_json(payload, path):
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
+        json.dump(payload, f, indent=2)
 
 
 def write_ratings_csv(ratings_dict, season_int):
@@ -364,86 +378,32 @@ def run_season(season_int):
     history_dir = DATA_DIR / "history"
     history_dir.mkdir(parents=True, exist_ok=True)
 
-    current_json_path = DATA_DIR / f"ratings_{season_int}.json"
-    weekly_json_path = DATA_DIR / f"ratings_{season_int}_weekly.json"
+    canonical_json_path = DATA_DIR / "ratings_current.json"
 
-    today_utc = datetime.utcnow().date()
-    target_monday = today_utc - timedelta(days=today_utc.weekday() or 7)
+    as_of_dt = datetime.now(timezone.utc).replace(microsecond=0)
+    as_of_utc_str = as_of_dt.isoformat().replace("+00:00", "Z")
+    as_of_date = as_of_dt.date()
 
-    yesterday_ranks = load_prev_day_ranks_from_csv(season_int, today_utc)
+    yesterday_ranks = load_prev_day_ranks_from_csv(season_int, as_of_date)
     if not yesterday_ranks:
-        yesterday_ranks = load_yesterday_ranks(current_json_path)
+        yesterday_ranks = load_yesterday_ranks(canonical_json_path)
 
-    last_week_ranks = load_last_week_ranks_from_csv(season_int, today_utc)
-
-    use_weekly_json = False
-    if weekly_json_path.exists():
-        try:
-            weekly_mtime_date = datetime.utcfromtimestamp(weekly_json_path.stat().st_mtime).date()
-            if weekly_mtime_date <= target_monday:
-                use_weekly_json = True
-            else:
-                print(
-                    f"Weekly snapshot {weekly_json_path} is newer than target Monday; "
-                    "keeping CSV-derived LW ranks."
-                )
-        except Exception as e:
-            print(f"Warning: could not read weekly snapshot timestamp {weekly_json_path}: {e}")
-
-    if use_weekly_json:
-        try:
-            with open(weekly_json_path, "r", encoding="utf-8") as f:
-                weekly_data = json.load(f)
-            last_week_ranks = {}
-            for entry in weekly_data:
-                team_id = entry.get("team")
-                rank_val = entry.get("rank")
-                if team_id is not None and rank_val is not None:
-                    try:
-                        last_week_ranks[team_id] = int(rank_val)
-                    except (TypeError, ValueError):
-                        continue
-            print(f"Loaded weekly snapshot for {len(last_week_ranks)} teams from {weekly_json_path}.")
-        except Exception as e:
-            print(f"Warning: could not load weekly snapshot from {weekly_json_path}: {e}")
-    elif not weekly_json_path.exists():
-        if last_week_ranks:
-            print("No weekly snapshot file found; using CSV fallback for LW.")
-        else:
-            print("No weekly snapshot file found and no CSV fallback; LW column will be blank this run.")
+    last_week_ranks = load_last_week_ranks_from_csv(season_int, as_of_date)
 
     ratings = iterate_ratings(records_by_team)
     print(f"Final ratings for season {season_int}:")
     for team, r in sorted(ratings.items(), key=lambda x: x[1], reverse=True):
         print(f"{team}: {r:.3f}")
 
-    save_ratings_json(ratings, last_week_ranks, yesterday_ranks, current_json_path)
-    print(f"Saved daily JSON to {current_json_path}")
+    payload = build_ratings_payload(ratings, last_week_ranks, yesterday_ranks, season_int, as_of_utc_str)
 
-    canonical_path = DATA_DIR / "ratings_current.json"
-    history_path = history_dir / f"{today_utc.isoformat()}.json"
-    shutil.copyfile(current_json_path, canonical_path)
-    shutil.copyfile(current_json_path, history_path)
-    print(f"Updated canonical {canonical_path} and history snapshot {history_path}")
+    write_ratings_json(payload, canonical_json_path)
+    history_path = history_dir / f"{as_of_date.isoformat()}.json"
+    write_ratings_json(payload, history_path)
+    print(f"Saved canonical JSON to {canonical_json_path}")
+    print(f"Saved history snapshot to {history_path}")
 
     write_ratings_csv(ratings, season_int)
-
-    if today_utc.weekday() == 0:  # Monday = 0
-        snapshot = []
-        sorted_items = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
-        for rank, (team, rating) in enumerate(sorted_items, start=1):
-            snapshot.append(
-                {
-                    "team": team,
-                    "rating": float(rating),
-                    "rank": rank,
-                }
-            )
-        with open(weekly_json_path, "w", encoding="utf-8") as f:
-            json.dump(snapshot, f, indent=2)
-        print(f"Updated weekly snapshot {weekly_json_path} for LW reference.")
-    else:
-        print("Not Monday UTC; weekly snapshot left unchanged.")
 
     print("-" * 40)
 
