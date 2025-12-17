@@ -267,6 +267,7 @@
           const res = await fetch(file, { cache: "no-store" });
           if (!res.ok) {
             status.textContent = `Error loading ${file}: HTTP ${res.status}`;
+            lastUpdated.textContent = "Last updated: unavailable";
             return;
           }
 
@@ -276,6 +277,7 @@
           if (!ratingsArray || ratingsArray.length === 0) {
             status.textContent = `No data in ${file}.`;
             tbody.innerHTML = "";
+            lastUpdated.textContent = "Last updated: unavailable";
             return;
           }
 
@@ -346,6 +348,7 @@
         } catch (err) {
           console.error(err);
           status.textContent = `Error loading ${file}: ${err}`;
+          lastUpdated.textContent = "Last updated: unavailable";
           tbody.innerHTML = "";
         }
       }
