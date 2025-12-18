@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PowerIndex - Methodology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #050816;
+      --border-subtle: rgba(148, 163, 184, 0.55);
+      --text-main: #e5e7eb;
+      --text-muted: #6b7280;
+      --accent: #3b82f6;
+
+      --font-main: "JetBrains Mono", monospace;
+      --font-size-base: 10px;
+      --font-size-small: 9px;
+      --font-size-header: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      font-size: var(--font-size-base);
+      background: var(--bg);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      padding: 12px 14px;
+      max-width: 720px;
+      line-height: 1.35;
+    }
+
+    h1 {
+      font-size: var(--font-size-header);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-size: 12px;
+      font-weight: 600;
+      margin: 12px 0 4px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    p {
+      margin: 6px 0 10px 0;
+      color: var(--text-main);
+    }
+
+    ul {
+      margin: 4px 0 10px 16px;
+      padding: 0;
+      color: var(--text-main);
+    }
+
+    li {
+      margin: 3px 0;
+    }
+
+    .note {
+      color: var(--text-muted);
+      font-size: var(--font-size-small);
+      margin-top: 8px;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: var(--font-size-base);
+    }
+
+    nav a {
+      color: var(--text-main);
+      text-decoration: none;
+      padding: 4px 6px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      background: #0b1024;
+    }
+
+    nav a:hover {
+      border-color: var(--accent);
+      color: var(--text-main);
+    }
+
+    nav .active {
+      border-color: var(--accent);
+      color: var(--text-main);
+      background: rgba(59, 130, 246, 0.15);
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="./index.html">Rankings</a>
+    <a href="./methodology.html" class="active">Methodology</a>
+    <a href="./accuracy.html">Accuracy</a>
+    <a href="./about.html">About</a>
+  </nav>
+
+  <h1>PowerIndex Methodology</h1>
+  <p class="note" style="margin-top: 2px; margin-bottom: 12px;">Updated daily during the NBA season.</p>
+
+  <h2>Inputs</h2>
+  <ul>
+    <li>Games, scores, and dates from the Balldontlie API.</li>
+    <li>Player appearances and minutes from Balldontlie box scores.</li>
+    <li>Per-player values (v_p) derived from historical performance.</li>
+  </ul>
+
+  <h2>Data Inputs</h2>
+  <ul>
+    <li>Game outcomes (win/loss).</li>
+    <li>Margin of victory or defeat.</li>
+    <li>Recency weighting (recent games matter more).</li>
+    <li>Strength-of-opponent effect (beating strong teams counts more).</li>
+  </ul>
+
+  <h2>What PowerIndex Is</h2>
+  <ul>
+    <li>A daily-updated team-strength rating system.</li>
+    <li>Grounded in game results and how teams perform against opponents.</li>
+    <li>Comparable across all teams at a point in time (higher is better).</li>
+    <li>Built for consistency so trends are easy to track over the season.</li>
+  </ul>
+
+  <h2>What PowerIndex Is Not</h2>
+  <ul>
+    <li>Not a prediction guarantee.</li>
+    <li>Not betting advice.</li>
+    <li>Not an official NBA statistic.</li>
+    <li>Not a replacement for injury or news context.</li>
+  </ul>
+
+  <h2>Process</h2>
+  <ul>
+    <li>Compute lineup-adjusted margins per game using player values.</li>
+    <li>Iterate an SRS-style model to solve team ratings (mean-zero normalized).</li>
+    <li>Apply recency and opponent adjustments implicitly via game margins and home/away flags.</li>
+  </ul>
+
+  <h2>Update Frequency</h2>
+  <ul>
+    <li>Runs automatically on a schedule.</li>
+    <li>Typically updates after games are complete.</li>
+    <li>Timestamps are shown on the Rankings page as Last updated.</li>
+  </ul>
+
+  <h2>Outputs</h2>
+  <ul>
+    <li>Current rating for each team (higher is better, centered around 0).</li>
+    <li>Yesterday and last-week ranks when prior snapshots exist.</li>
+    <li>Daily JSON at <code>data/ratings_current.json</code> plus dated history snapshots.</li>
+  </ul>
+
+  <h2>Output Definitions</h2>
+  <ul>
+    <li><strong>Rating</strong>: Current team strength (higher is better).</li>
+    <li><strong>&Delta; (yesterday)</strong>: Change vs. prior day rating when available.</li>
+    <li><strong>LW (last week)</strong>: Rating from one week ago when available.</li>
+    <li><strong>Tier</strong>: Grouping based on rating relative to the field.</li>
+  </ul>
+
+  <h2>Disclaimer</h2>
+  <p>
+    This site is for informational and entertainment purposes only; no guarantees are provided,
+    and nothing here is financial or betting advice.
+  </p>
+
+  <p class="note">
+    Ratings are for informational use only. No betting or wagering guidance is provided.
+  </p>
+</body>
+</html>

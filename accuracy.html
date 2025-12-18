@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PowerIndex - Accuracy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #050816;
+      --border-subtle: rgba(148, 163, 184, 0.55);
+      --text-main: #e5e7eb;
+      --text-muted: #6b7280;
+      --accent: #3b82f6;
+
+      --font-main: "JetBrains Mono", monospace;
+      --font-size-base: 10px;
+      --font-size-small: 9px;
+      --font-size-header: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      font-size: var(--font-size-base);
+      background: var(--bg);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      padding: 12px 14px;
+      max-width: 720px;
+      line-height: 1.35;
+    }
+
+    h1 {
+      font-size: var(--font-size-header);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-size: 12px;
+      font-weight: 600;
+      margin: 12px 0 4px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    p {
+      margin: 6px 0 10px 0;
+      color: var(--text-main);
+    }
+
+    ul {
+      margin: 4px 0 10px 16px;
+      padding: 0;
+      color: var(--text-main);
+    }
+
+    li {
+      margin: 3px 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: var(--font-size-base);
+    }
+
+    nav a {
+      color: var(--text-main);
+      text-decoration: none;
+      padding: 4px 6px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      background: #0b1024;
+    }
+
+    nav a:hover {
+      border-color: var(--accent);
+      color: var(--text-main);
+    }
+
+    nav .active {
+      border-color: var(--accent);
+      color: var(--text-main);
+      background: rgba(59, 130, 246, 0.15);
+    }
+
+    .note {
+      color: var(--text-muted);
+      font-size: var(--font-size-small);
+      margin-top: 8px;
+    }
+
+    .card {
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 10px;
+      background: #0b1024;
+      margin-bottom: 10px;
+    }
+
+    .label {
+      color: var(--text-muted);
+      font-size: var(--font-size-small);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .metric {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .grid .item {
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 8px;
+      background: #0b1024;
+    }
+
+    .grid .item .label {
+      font-size: var(--font-size-small);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    th, td {
+      border: 1px solid var(--border-subtle);
+      padding: 6px 8px;
+      text-align: left;
+      font-size: var(--font-size-base);
+    }
+
+    th {
+      background: #0b1024;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="./index.html">Rankings</a>
+    <a href="./methodology.html">Methodology</a>
+    <a href="./accuracy.html" class="active">Accuracy</a>
+    <a href="./about.html">About</a>
+  </nav>
+
+  <h1>PowerIndex Track Record</h1>
+  <p class="note" style="margin-top: 2px; margin-bottom: 12px;">
+    Public accuracy summary (non-betting).
+  </p>
+
+  <h2>Overview</h2>
+  <p>
+    This page will summarize recent alignment between PowerIndex ratings and on-court outcomes.
+    It is meant as a quick reference, not a predictive guarantee.
+  </p>
+
+  <h2>Core metric</h2>
+  <p>
+    Higher-rated team win rate: the share of games where the team with the higher pre-game PowerIndex rating
+    wins, using the most recent rating snapshot available at game time.
+  </p>
+  <p class="note">Directional only; not a guarantee of future results.</p>
+
+  <h2>Snapshot</h2>
+  <div class="grid">
+    <div class="item">
+      <div class="label">Season to date higher-rated win rate</div>
+      <div class="metric">__%</div>
+    </div>
+    <div class="item">
+      <div class="label">Last 30 days higher-rated win rate</div>
+      <div class="metric">__%</div>
+    </div>
+    <div class="item">
+      <div class="label">Last 7 days higher-rated win rate</div>
+      <div class="metric">__%</div>
+    </div>
+    <div class="item">
+      <div class="label">Sample size</div>
+      <div class="metric">__ games</div>
+    </div>
+  </div>
+
+  <h2>Season-by-season summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Season</th>
+        <th>Higher-rated win %</th>
+        <th>Games counted</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2023</td>
+        <td>__</td>
+        <td>__</td>
+        <td>TBD</td>
+      </tr>
+      <tr>
+        <td>2024</td>
+        <td>__</td>
+        <td>__</td>
+        <td>TBD</td>
+      </tr>
+      <tr>
+        <td>2025</td>
+        <td>__</td>
+        <td>__</td>
+        <td>TBD</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>What this page measures</h2>
+  <ul>
+    <li>We compare the higher-rated team versus the lower-rated team at game time, using the latest snapshot available.</li>
+    <li>We track how often the higher-rated team wins.</li>
+    <li>We summarize how accuracy changes over time as new games arrive.</li>
+    <li>We highlight whether larger rating gaps tend to align with outcomes more consistently.</li>
+  </ul>
+
+  <h2>Interpretation</h2>
+  <ul>
+    <li>Injuries and rotations are not modeled directly; recent games partly reflect who was available.</li>
+    <li>Back-to-backs and travel are not explicitly modeled unless their impact is already embedded in results.</li>
+    <li>Early season volatility can make short-term accuracy less stable.</li>
+    <li>Model updates can shift ratings after new games are ingested.</li>
+  </ul>
+
+  <h2>What We Track</h2>
+  <ul>
+    <li>How often the higher-rated team wins (by date range).</li>
+    <li>Average rating edge in games played.</li>
+    <li>Distribution of results when ratings differ by tier.</li>
+    <li>Longer-term stability (week-over-week rating movement).</li>
+  </ul>
+
+  <h2>Planned Metrics</h2>
+  <div class="card">
+    <div class="label">Higher-rated win rate</div>
+    <div class="metric">Coming soon</div>
+  </div>
+  <div class="card">
+    <div class="label">Average rating gap per game</div>
+    <div class="metric">Coming soon</div>
+  </div>
+  <div class="card">
+    <div class="label">Tier-vs-tier outcomes</div>
+    <div class="metric">Coming soon</div>
+  </div>
+  <div class="card">
+    <div class="label">Week-over-week drift</div>
+    <div class="metric">Coming soon</div>
+  </div>
+
+  <h2>Disclaimer</h2>
+  <p>
+    Informational only; no guarantees are provided. This is not financial or betting advice, and it should not be relied on as the sole input for any decisions.
+  </p>
+
+  <p class="note">
+    Data is updated alongside the daily rankings once metrics are wired in.
+  </p>
+</body>
+</html>
