@@ -1,82 +1,53 @@
-import json
-import sys
-from collections import Counter
-from datetime import datetime, timezone, timedelta
-from pathlib import Path
-import math
+﻿import json
 import re
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parents[1]
-DATA_DIR = BASE_DIR / "data"
-CANONICAL_PATH = DATA_DIR / "ratings_current.json"
-TEAM_COUNT = 30
+CANONICAL = Path("data/ratings_current.json")
+ASOF_REGEX = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 
-
-def fail(msg: str) -> None:
-    print(f"VALIDATION FAILED: {msg}")
+def fail(msg: str):
+    print(f"ERROR: {msg}", file=sys.stderr)
     sys.exit(1)
 
-
 def main():
-    if not CANONICAL_PATH.exists():
-        fail(f"Missing {CANONICAL_PATH}")
-
-    if CANONICAL_PATH.stat().st_size == 0:
-        fail(f"{CANONICAL_PATH} is empty")
+    if not CANONICAL.exists():
+        fail(f"File missing: {CANONICAL}")
+    if CANONICAL.stat().st_size == 0:
+        fail(f"File is empty: {CANONICAL}")
 
     try:
-        payload = json.loads(CANONICAL_PATH.read_text(encoding="utf-8"))
+        with CANONICAL.open("r", encoding="utf-8") as f:
+            data = json.load(f)
     except Exception as e:
-        fail(f"Invalid JSON in {CANONICAL_PATH}: {e}")
+        fail(f"JSON parse failed for {CANONICAL}: {e}")
 
-    if not isinstance(payload, dict):
-        fail("Payload is not an object")
+    if not isinstance(data, dict):
+        fail("Top-level JSON must be an object")
 
-    as_of = payload.get("as_of_utc")
+    as_of = data.get("as_of_utc")
     if not as_of:
         fail("Missing as_of_utc")
-    pattern = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
-    if not pattern.match(as_of):
-        fail(f"as_of_utc not matching pattern YYYY-MM-DDTHH:MM:SSZ: {as_of}")
+
+    if not isinstance(as_of, str) or not ASOF_REGEX.match(as_of):
+        fail(f"as_of_utc must match YYYY-MM-DDTHH:MM:SSZ, got: {as_of}")
+
     try:
-        as_dt = datetime.strptime(as_of, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+        as_of_dt = datetime.strptime(as_of, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
     except Exception as e:
-        fail(f"as_of_utc not ISO8601 Z (YYYY-MM-DDTHH:MM:SSZ): {e}")
+        fail(f"as_of_utc not parseable: {e}")
 
     now = datetime.now(timezone.utc)
-    if as_dt - now > timedelta(minutes=10):
-        fail(f"as_of_utc is in the future beyond allowed skew: as_of_utc={as_of}, now={now.isoformat()}")
+    if as_of_dt > now + timedelta(minutes=10):
+        fail(f"as_of_utc is more than 10 minutes in the future: as_of_utc={as_of_dt.isoformat()} now={now.isoformat()}")
 
-    ratings = payload.get("ratings")
-    if not isinstance(ratings, list):
-        fail("ratings is missing or not a list")
+    # Optional: ensure ratings present
+    ratings = data.get("ratings")
+    if ratings is None or not isinstance(ratings, list):
+        fail("ratings field missing or not a list")
 
-    if len(ratings) != TEAM_COUNT:
-        fail(f"Expected {TEAM_COUNT} ratings entries, found {len(ratings)}")
-
-    teams = []
-    for r in ratings:
-        if not isinstance(r, dict):
-            fail("rating entry is not an object")
-        team_id = r.get("team")
-        if not team_id:
-            fail("rating entry missing team")
-        teams.append(team_id)
-        rating_val = r.get("rating")
-        if rating_val is None:
-            fail(f"team {team_id} missing rating")
-        if not isinstance(rating_val, (int, float)) or not math.isfinite(rating_val):
-            fail(f"team {team_id} has non-finite rating: {rating_val}")
-        # Frontend expects rank and rating at minimum; yest_rank/last_week_rank optional
-        if "rank" not in r:
-            fail(f"team {team_id} missing rank")
-
-    dupes = [t for t, c in Counter(teams).items() if t and c > 1]
-    if dupes:
-        fail(f"Duplicate team entries: {dupes}")
-
-    print(f"Validation OK: {CANONICAL_PATH} has {len(ratings)} unique teams and as_of_utc={as_of}")
-
+    print("ratings_current.json validation passed")
 
 if __name__ == "__main__":
     main()

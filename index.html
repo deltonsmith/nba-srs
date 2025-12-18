@@ -224,9 +224,18 @@
         if (!as_of_utc) return { text: "Last updated: unavailable", error: "missing as_of_utc" };
         const d = new Date(as_of_utc);
         if (Number.isNaN(d.getTime())) return { text: "Last updated: unavailable", error: "invalid as_of_utc" };
-        const iso = d.toISOString();
-        const datePart = iso.slice(0, 10);
-        const timePart = iso.slice(11, 16);
+
+        const now = Date.now();
+        const asOfMs = d.getTime();
+        const futureLimit = now + 10 * 60 * 1000;
+        if (asOfMs > futureLimit) {
+          console.error("as_of_utc is too far in the future", { as_of_utc, now: new Date(now).toISOString() });
+          return { text: "Last updated: timestamp error", error: "future_as_of" };
+        }
+
+        const pad = (n) => String(n).padStart(2, "0");
+        const datePart = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
+        const timePart = `${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`;
         return { text: `Last updated: ${datePart} ${timePart} UTC`, error: null };
       }
 
