@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!-- trigger deploy -->
 <html lang="en">
 <head>
@@ -54,21 +54,6 @@
       margin-bottom: 4px;
     }
 
-    #controls {
-      margin: 4px 0 4px 0;
-      font-size: var(--font-size-small);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    label {
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      font-size: 8px;
-    }
-
     #status {
       margin: 2px 0 6px 0;
       font-size: var(--font-size-small);
@@ -78,14 +63,10 @@
     table {
       border-collapse: collapse;
       width: 100%;
-      max-width: 460px;
+      max-width: 520px;
       border: 1px solid var(--border-subtle);
       background: #020617;
       table-layout: fixed;
-    }
-
-    thead {
-      background: #020617;
     }
 
     th,
@@ -114,59 +95,22 @@
       color: var(--text-muted);
     }
 
-    th:nth-child(1) {
-      width: 32px;
+    th:nth-child(1) { width: 32px; text-align: right; }
+    td:nth-child(1) { text-align: right; font-weight: 600; color: var(--text-main); }
+
+    th:nth-child(3), td:nth-child(3),
+    th:nth-child(4), td:nth-child(4),
+    th:nth-child(5), td:nth-child(5),
+    th:nth-child(6), td:nth-child(6) {
       text-align: right;
+      width: 60px;
     }
 
-    /* Ranking numbers */
-    td:nth-child(1) {
-      text-align: right;
-      color: var(--text-main);
-      font-weight: 600;
-    }
-
-    /* Team name column */
-    td:nth-child(2) {
-      font-weight: 500;
-    }
-
-    /* Rating column ΓÇô RIGHT ALIGN + NARROW WIDTH */
-    th:nth-child(3),
-    td:nth-child(3) {
-      text-align: right;
-      width: 55px;
-    }
-
-    /* Yest column ΓÇô right aligned, match rating width */
-    th:nth-child(4),
-    td:nth-child(4) {
-      text-align: right;
-      width: 55px;
-    }
-
-    /* LW column ΓÇô right aligned, match rating width */
-    th:nth-child(5),
-    td:nth-child(5) {
-      text-align: right;
-      width: 55px;
-    }
-
-    tbody tr:nth-child(odd) {
-      background: #020617;
-    }
-
-    tbody tr:nth-child(even) {
-      background: #020617;
-    }
-
-    tbody tr:hover {
-      background: rgba(59, 130, 246, 0.2);
-    }
+    tbody tr:hover { background: rgba(59, 130, 246, 0.2); }
   </style>
 </head>
 <body>
-  <h1>PowerIndex ΓÇô NBA Ratings</h1>
+  <h1>PowerIndex – NBA Ratings</h1>
 
   <div id="status"></div>
 
@@ -176,8 +120,11 @@
         <th>#</th>
         <th>Team</th>
         <th>Rating</th>
-        <th>Yest</th>
+        <th>Δ</th>
         <th>LW</th>
+        <th>Δ Rank</th>
+        <th>Yest</th>
+        <th>Tier</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -240,28 +187,37 @@
         if (!as_of_utc) return { text: "Last updated: unavailable", error: "missing as_of_utc" };
         const d = new Date(as_of_utc);
         if (Number.isNaN(d.getTime())) return { text: "Last updated: unavailable", error: "invalid as_of_utc" };
-
-        const iso = d.toISOString(); // YYYY-MM-DDTHH:MM:SS.sssZ
+        const iso = d.toISOString();
         const datePart = iso.slice(0, 10);
-        const timePart = iso.slice(11, 16); // HH:MM
+        const timePart = iso.slice(11, 16);
         return { text: `Last updated: ${datePart} ${timePart} UTC`, error: null };
       }
 
       async function loadRatings() {
         const file = "./data/ratings_current.json";
-        status.textContent = `Loading ${file} ΓÇª`;
+        status.textContent = `Loading ${file} …`;
         tbody.innerHTML = "";
         lastUpdated.textContent = "";
 
         try {
           const res = await fetch(file, { cache: "no-store" });
           if (!res.ok) {
-            status.textContent = `Error loading ${file}: HTTP ${res.status}`;
+            const msg = `Data load error: HTTP ${res.status}`;
+            status.textContent = msg;
             lastUpdated.textContent = "Last updated: unavailable";
             return;
           }
 
-          const raw = await res.json();
+          let raw;
+          try {
+            raw = await res.json();
+          } catch (e) {
+            const msg = `Data load error: Invalid JSON (${e})`;
+            status.textContent = msg;
+            lastUpdated.textContent = "Last updated: unavailable";
+            return;
+          }
+
           const ratingsArray = normalizeRatings(raw);
 
           if (!ratingsArray || ratingsArray.length === 0) {
@@ -277,6 +233,14 @@
               Number(a.rating ?? a.value ?? a.srs ?? 0)
           );
 
+          const vals = ratingsArray.map((r) => Number(r.rating ?? r.value ?? r.srs ?? 0));
+          const mean = vals.reduce((s, v) => s + v, 0) / vals.length;
+          const variance = vals.reduce((s, v) => s + (v - mean) ** 2, 0) / vals.length;
+          const std = Math.sqrt(variance);
+          const hi = mean + 0.75 * std;
+          const lo = mean - 0.75 * std;
+          const tierFor = (val) => (val >= hi ? "A" : val < lo ? "C" : "B");
+
           const asOfUtc = raw.as_of_utc || null;
           const { text: asOfText, error: asOfError } = formatAsOf(asOfUtc);
           lastUpdated.textContent = asOfText;
@@ -291,40 +255,64 @@
               entry.team_id ??
               entry.team_code ??
               "";
-
             const teamName = TEAM_NAMES[rawCode] ?? rawCode;
 
-            const ratingVal =
-              entry.rating ??
-              entry.value ??
-              entry.srs ??
-              0;
+            const ratingNum = Number(entry.rating ?? entry.value ?? entry.srs ?? 0);
+            const tier = tierFor(ratingNum);
 
-            const rankVal = entry.rank ?? (idx + 1);
+            const prevRatingRaw =
+              entry.yesterday_rating ??
+              entry.prev_rating ??
+              entry.previous_rating ??
+              null;
+            const prevRatingNum = Number(prevRatingRaw);
+            const delta =
+              prevRatingRaw !== null &&
+              Number.isFinite(prevRatingNum)
+                ? ratingNum - prevRatingNum
+                : null;
+            const deltaText =
+              delta === null ? "-" : `${delta >= 0 ? "+" : ""}${delta.toFixed(2)}`;
 
+            const lwRatingRaw =
+              entry.lw_rating ??
+              entry.last_week_rating ??
+              null;
+            const lwRatingNum = Number(lwRatingRaw);
+            const lwDisplay =
+              lwRatingRaw !== null &&
+              Number.isFinite(lwRatingNum)
+                ? lwRatingNum.toFixed(2)
+                : "-";
+
+            const rankVal = entry.rank ?? idx + 1;
             const yestRank =
+              entry.yesterday_rank ??
               entry.yest_rank ??
               entry.yest ??
               null;
-
-            const lwRank =
-              entry.last_week_rank ??
-              entry.lw_rank ??
-              null;
+            const rankDelta =
+              yestRank !== null && yestRank !== undefined
+                ? rankVal - Number(yestRank)
+                : null;
+            const rankDeltaText =
+              rankDelta === null
+                ? "-"
+                : `${rankDelta >= 0 ? "+" : ""}${rankDelta}`;
 
             const yestDisplay =
-              yestRank !== null && yestRank !== undefined ? yestRank : "";
-
-            const lwDisplay =
-              lwRank !== null && lwRank !== undefined ? lwRank : "";
+              yestRank !== null && yestRank !== undefined ? yestRank : "-";
 
             const tr = document.createElement("tr");
             tr.innerHTML = `
               <td>${rankVal}</td>
               <td>${teamName}</td>
-              <td>${Number(ratingVal).toFixed(3)}</td>
-              <td>${yestDisplay}</td>
+              <td>${ratingNum.toFixed(3)}</td>
+              <td>${deltaText}</td>
               <td>${lwDisplay}</td>
+              <td>${rankDeltaText}</td>
+              <td>${yestDisplay}</td>
+              <td>${tier}</td>
             `;
             tbody.appendChild(tr);
           });
@@ -341,5 +329,3 @@
   </script>
 </body>
 </html>
-
-
