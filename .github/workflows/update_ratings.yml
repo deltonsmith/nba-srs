@@ -24,6 +24,11 @@ jobs:
           ref: master
           fetch-depth: 0
 
+      - name: Sync with origin/master
+        run: |
+          git fetch origin master
+          git rebase origin/master
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
