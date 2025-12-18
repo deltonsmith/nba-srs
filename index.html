@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!-- trigger deploy -->
 <html lang="en">
 <head>
@@ -46,6 +46,7 @@
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
       padding: 10px 12px;
+      max-width: 720px;
     }
 
     h1 {
@@ -107,10 +108,44 @@
     }
 
     tbody tr:hover { background: rgba(59, 130, 246, 0.2); }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: var(--font-size-base);
+    }
+
+    nav a {
+      color: var(--text-main);
+      text-decoration: none;
+      padding: 4px 6px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      background: #0b1024;
+    }
+
+    nav a:hover {
+      border-color: var(--accent);
+      color: var(--text-main);
+    }
+
+    nav .active {
+      border-color: var(--accent);
+      color: var(--text-main);
+      background: rgba(59, 130, 246, 0.15);
+    }
   </style>
 </head>
 <body>
-  <h1>PowerIndex – NBA Ratings</h1>
+  <nav>
+    <a href="./index.html" class="active">Rankings</a>
+    <a href="./methodology.html">Methodology</a>
+    <a href="./accuracy.html">Accuracy</a>
+    <a href="./about.html">About</a>
+  </nav>
+
+  <h1>PowerIndex - NBA Ratings</h1>
 
   <div id="status"></div>
 
@@ -195,7 +230,7 @@
 
       async function loadRatings() {
         const file = "./data/ratings_current.json";
-        status.textContent = `Loading ${file} …`;
+        status.textContent = `Loading ${file}...`;
         tbody.innerHTML = "";
         lastUpdated.textContent = "";
 
