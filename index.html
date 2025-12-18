@@ -64,10 +64,10 @@
     table {
       border-collapse: collapse;
       width: 100%;
-      max-width: 520px;
+      max-width: 640px;
       border: 1px solid var(--border-subtle);
       background: #020617;
-      table-layout: fixed;
+      table-layout: auto;
     }
 
     th,
@@ -98,6 +98,8 @@
 
     th:nth-child(1) { width: 32px; text-align: right; }
     td:nth-child(1) { text-align: right; font-weight: 600; color: var(--text-main); }
+
+    th:nth-child(2), td:nth-child(2) { width: 180px; }
 
     th:nth-child(3), td:nth-child(3),
     th:nth-child(4), td:nth-child(4),
