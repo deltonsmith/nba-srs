@@ -1,0 +1,138 @@
+{
+  "asOfUtc": "2025-12-19T15:48:33Z",
+  "date": "2025-12-19",
+  "timezone": "America/Chicago",
+  "vendorRule": "draftkings",
+  "games": [
+    {
+      "gameId": 18447190,
+      "startTimeUtc": "2025-12-20T00:00:00.000Z",
+      "away": {
+        "id": "MIA",
+        "name": null,
+        "abbr": "MIA"
+      },
+      "home": {
+        "id": "BOS",
+        "name": null,
+        "abbr": "BOS"
+      },
+      "market": {
+        "spreadHome": null,
+        "total": null
+      },
+      "realLine": {
+        "spreadHome": null,
+        "total": null
+      },
+      "edge": {
+        "spread": null,
+        "total": null
+      }
+    },
+    {
+      "gameId": 18447191,
+      "startTimeUtc": "2025-12-20T00:00:00.000Z",
+      "away": {
+        "id": "PHI",
+        "name": null,
+        "abbr": "PHI"
+      },
+      "home": {
+        "id": "NYK",
+        "name": null,
+        "abbr": "NYK"
+      },
+      "market": {
+        "spreadHome": null,
+        "total": null
+      },
+      "realLine": {
+        "spreadHome": null,
+        "total": null
+      },
+      "edge": {
+        "spread": null,
+        "total": null
+      }
+    },
+    {
+      "gameId": 18447192,
+      "startTimeUtc": "2025-12-20T00:30:00.000Z",
+      "away": {
+        "id": "SAS",
+        "name": null,
+        "abbr": "SAS"
+      },
+      "home": {
+        "id": "ATL",
+        "name": null,
+        "abbr": "ATL"
+      },
+      "market": {
+        "spreadHome": null,
+        "total": null
+      },
+      "realLine": {
+        "spreadHome": null,
+        "total": null
+      },
+      "edge": {
+        "spread": null,
+        "total": null
+      }
+    },
+    {
+      "gameId": 18447193,
+      "startTimeUtc": "2025-12-20T00:30:00.000Z",
+      "away": {
+        "id": "CHI",
+        "name": null,
+        "abbr": "CHI"
+      },
+      "home": {
+        "id": "CLE",
+        "name": null,
+        "abbr": "CLE"
+      },
+      "market": {
+        "spreadHome": null,
+        "total": null
+      },
+      "realLine": {
+        "spreadHome": null,
+        "total": null
+      },
+      "edge": {
+        "spread": null,
+        "total": null
+      }
+    },
+    {
+      "gameId": 18447194,
+      "startTimeUtc": "2025-12-20T02:30:00.000Z",
+      "away": {
+        "id": "OKC",
+        "name": null,
+        "abbr": "OKC"
+      },
+      "home": {
+        "id": "MIN",
+        "name": null,
+        "abbr": "MIN"
+      },
+      "market": {
+        "spreadHome": null,
+        "total": null
+      },
+      "realLine": {
+        "spreadHome": null,
+        "total": null
+      },
+      "edge": {
+        "spread": null,
+        "total": null
+      }
+    }
+  ]
+}
