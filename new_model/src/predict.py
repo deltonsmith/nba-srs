@@ -55,6 +55,19 @@ def load_games_and_features(conn, target_date: str):
     )
     feats = pd.read_sql("SELECT * FROM team_game_features", conn)
 
+    # If no features yet, fall back to zeros so we still emit payload.
+    required_cols = {"game_id", "team_id"}
+    if feats.empty or not required_cols.issubset(set(feats.columns)):
+        df = games.copy()
+        feat_cols = []
+        for col in FEATURE_COLS:
+            h = f"{col}_home"
+            a = f"{col}_away"
+            df[h] = 0
+            df[a] = 0
+            feat_cols.extend([h, a])
+        return df, feat_cols
+
     # Home features
     home_feats = feats.merge(
         games[["game_id", "home_team_id"]],
