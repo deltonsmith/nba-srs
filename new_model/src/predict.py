@@ -109,6 +109,8 @@ def compute_baseline_lines(conn) -> (float, float):
         """,
         conn,
     )
+    # Ignore rows with zeros/placeholders
+    df = df[(df["home_score"] > 0) & (df["away_score"] > 0)]
     if df.empty:
         return 0.0, 220.0  # fallback defaults
     margins = df["home_score"] - df["away_score"]
@@ -133,8 +135,12 @@ def build_predictions(df: pd.DataFrame, feat_cols: List[str], m_margin, m_total,
         model_spread = float(pm) if pd.notna(pm) else None
         model_total = float(pt) if pd.notna(pt) else None
 
-        market_spread_val = float(market_spread) if pd.notna(market_spread) else None
-        market_total_val = float(market_total) if pd.notna(market_total) else None
+        # If market lines missing, fall back to baseline so table is populated.
+        fallback_spread = preds_margin[0] if preds_margin else 0.0
+        fallback_total = preds_total[0] if preds_total else 220.0
+
+        market_spread_val = float(market_spread) if pd.notna(market_spread) else float(fallback_spread)
+        market_total_val = float(market_total) if pd.notna(market_total) else float(fallback_total)
 
         edge_spread = None
         edge_total = None
