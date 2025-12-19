@@ -1,215 +1,215 @@
 {
-  "as_of_utc": "2025-12-19T14:24:48Z",
+  "as_of_utc": "2025-12-19T14:42:51Z",
   "run_date_utc": "2025-12-19",
   "season": 2026,
   "source": "balldontlie",
   "ratings": [
     {
       "team": "DEN",
-      "rating": 13.243793439499825,
+      "rating": 13.579992204202528,
       "rank": 1,
       "yest_rank": 1,
       "last_week_rank": 3
     },
     {
       "team": "OKC",
-      "rating": 12.160407269266685,
+      "rating": 12.265560348130846,
       "rank": 2,
       "yest_rank": 2,
       "last_week_rank": 1
     },
     {
       "team": "HOU",
-      "rating": 8.583686337027567,
+      "rating": 8.11378158671753,
       "rank": 3,
       "yest_rank": 3,
       "last_week_rank": 2
     },
     {
       "team": "NYK",
-      "rating": 7.038558009710998,
+      "rating": 6.747026117349237,
       "rank": 4,
       "yest_rank": 4,
       "last_week_rank": 5
     },
     {
       "team": "SAS",
-      "rating": 5.769361374971984,
+      "rating": 5.895280630283264,
       "rank": 5,
       "yest_rank": 5,
       "last_week_rank": 4
     },
     {
-      "team": "ORL",
-      "rating": 5.222853838161995,
-      "rank": 6,
-      "yest_rank": 6,
-      "last_week_rank": 8
-    },
-    {
       "team": "LAL",
-      "rating": 4.896709126873443,
-      "rank": 7,
+      "rating": 5.072750469890898,
+      "rank": 6,
       "yest_rank": 7,
       "last_week_rank": 9
     },
     {
+      "team": "ORL",
+      "rating": 4.875689256342378,
+      "rank": 7,
+      "yest_rank": 6,
+      "last_week_rank": 8
+    },
+    {
       "team": "CLE",
-      "rating": 4.733153195606899,
+      "rating": 4.68385694827478,
       "rank": 8,
       "yest_rank": 8,
       "last_week_rank": 6
     },
     {
       "team": "BOS",
-      "rating": 4.445637373947377,
+      "rating": 4.33672415394913,
       "rank": 9,
       "yest_rank": 9,
       "last_week_rank": 10
     },
     {
       "team": "MIN",
-      "rating": 3.3264659408719854,
+      "rating": 3.4331074647042192,
       "rank": 10,
       "yest_rank": 10,
       "last_week_rank": 11
     },
     {
       "team": "PHX",
-      "rating": 2.641239340475378,
+      "rating": 2.6862815999494463,
       "rank": 11,
       "yest_rank": 11,
       "last_week_rank": 14
     },
     {
       "team": "MIA",
-      "rating": 2.28100769700319,
+      "rating": 2.272371198120356,
       "rank": 12,
       "yest_rank": 12,
       "last_week_rank": 7
     },
     {
       "team": "TOR",
-      "rating": 2.221580493643997,
+      "rating": 2.268184588768476,
       "rank": 13,
       "yest_rank": 13,
       "last_week_rank": 12
     },
     {
       "team": "DET",
-      "rating": 2.028676864975925,
+      "rating": 1.7994161143198488,
       "rank": 14,
       "yest_rank": 14,
       "last_week_rank": 13
     },
     {
       "team": "GSW",
-      "rating": 1.1911683529172752,
+      "rating": 1.2690852752533708,
       "rank": 15,
       "yest_rank": 15,
       "last_week_rank": 15
     },
     {
       "team": "PHI",
-      "rating": -0.15414523944747738,
+      "rating": -0.2306798908302428,
       "rank": 16,
       "yest_rank": 16,
       "last_week_rank": 16
     },
     {
       "team": "POR",
-      "rating": -0.7662699933614702,
+      "rating": -0.8750557464814607,
       "rank": 17,
       "yest_rank": 17,
       "last_week_rank": 17
     },
     {
-      "team": "ATL",
-      "rating": -1.3384512687379524,
+      "team": "MEM",
+      "rating": -1.4072093874378842,
       "rank": 18,
-      "yest_rank": 18,
-      "last_week_rank": 20
+      "yest_rank": 20,
+      "last_week_rank": 21
     },
     {
       "team": "LAC",
-      "rating": -1.4494195012250817,
+      "rating": -1.464738204551416,
       "rank": 19,
       "yest_rank": 19,
       "last_week_rank": 19
     },
     {
-      "team": "MEM",
-      "rating": -1.472547453481402,
+      "team": "ATL",
+      "rating": -1.498537955267275,
       "rank": 20,
-      "yest_rank": 20,
-      "last_week_rank": 21
+      "yest_rank": 18,
+      "last_week_rank": 20
     },
     {
       "team": "MIL",
-      "rating": -2.7322835540068513,
+      "rating": -2.85889272932946,
       "rank": 21,
       "yest_rank": 21,
       "last_week_rank": 18
     },
     {
       "team": "DAL",
-      "rating": -5.711440331573035,
+      "rating": -5.563822432530141,
       "rank": 22,
       "yest_rank": 22,
       "last_week_rank": 24
     },
     {
-      "team": "CHA",
-      "rating": -5.985826670432708,
-      "rank": 23,
-      "yest_rank": 23,
-      "last_week_rank": 23
-    },
-    {
       "team": "NOP",
-      "rating": -6.108498761534145,
-      "rank": 24,
+      "rating": -5.627771866321349,
+      "rank": 23,
       "yest_rank": 24,
       "last_week_rank": 27
     },
     {
+      "team": "CHA",
+      "rating": -5.8315405499868715,
+      "rank": 24,
+      "yest_rank": 23,
+      "last_week_rank": 23
+    },
+    {
       "team": "CHI",
-      "rating": -6.539247028161105,
+      "rating": -6.555974377501337,
       "rank": 25,
       "yest_rank": 25,
       "last_week_rank": 22
     },
     {
-      "team": "BKN",
-      "rating": -7.477685160395318,
+      "team": "SAC",
+      "rating": -7.551815921406763,
       "rank": 26,
+      "yest_rank": 28,
+      "last_week_rank": 25
+    },
+    {
+      "team": "BKN",
+      "rating": -7.553339975083932,
+      "rank": 27,
       "yest_rank": 26,
       "last_week_rank": 29
     },
     {
       "team": "UTA",
-      "rating": -7.744386021151078,
-      "rank": 27,
+      "rating": -7.869341330305823,
+      "rank": 28,
       "yest_rank": 27,
       "last_week_rank": 26
     },
     {
-      "team": "SAC",
-      "rating": -7.770598851823002,
-      "rank": 28,
-      "yest_rank": 28,
-      "last_week_rank": 25
-    },
-    {
       "team": "IND",
-      "rating": -9.556193389500024,
+      "rating": -9.309340365237542,
       "rank": 29,
       "yest_rank": 29,
       "last_week_rank": 28
     },
     {
       "team": "WAS",
-      "rating": -14.977305430123868,
+      "rating": -15.101047223984809,
       "rank": 30,
       "yest_rank": 30,
       "last_week_rank": 30
