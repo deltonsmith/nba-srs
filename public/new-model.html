@@ -1,0 +1,143 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PowerIndex — New Model</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    h1 { margin: 0 0 8px 0; }
+    .meta { margin: 0 0 16px 0; color: #444; font-size: 14px; }
+    .error { margin: 12px 0; color: #a00; font-weight: 600; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; font-size: 14px; text-align: left; }
+    th { background: #f5f5f5; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .nowrap { white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <h1>PowerIndex — New Model</h1>
+  <p id="asof" class="meta">As of: —</p>
+  <div id="err" class="error" style="display:none;"></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="nowrap">Time (CT)</th>
+        <th>Away</th>
+        <th>Home</th>
+        <th class="num nowrap">Market Spread (Home)</th>
+        <th class="num nowrap">Market Total</th>
+        <th class="num nowrap">New Model Real Spread (Home)</th>
+        <th class="num nowrap">New Model Real Total</th>
+        <th class="num nowrap">Edge Spread</th>
+        <th class="num nowrap">Edge Total</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <script>
+    function fmt1(x) {
+      if (x === null || x === undefined || Number.isNaN(Number(x))) return "—";
+      return Number(x).toFixed(1);
+    }
+    function fmtTimeCT(isoUtc) {
+      if (!isoUtc) return "—";
+      const d = new Date(isoUtc);
+      return new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Chicago",
+        hour: "numeric",
+        minute: "2-digit"
+      }).format(d);
+    }
+    function fmtAsOf(isoUtc) {
+      if (!isoUtc) return "—";
+      const d = new Date(isoUtc);
+      return new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Chicago",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "numeric",
+        minute: "2-digit"
+      }).format(d);
+    }
+
+    async function main() {
+      const url = "./new_model/predictions_today.json?cachebust=" + Date.now();
+      const errEl = document.getElementById("err");
+      const asofEl = document.getElementById("asof");
+      const rowsEl = document.getElementById("rows");
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Fetch failed: " + res.status + " " + res.statusText);
+        const data = await res.json();
+
+        asofEl.textContent = "As of: " + fmtAsOf(data.asOfUtc);
+
+        const games = Array.isArray(data.games) ? data.games : [];
+        games.sort((a,b) => new Date(a.startTimeUtc) - new Date(b.startTimeUtc));
+
+        rowsEl.innerHTML = "";
+        for (const g of games) {
+          const tr = document.createElement("tr");
+
+          const t = document.createElement("td");
+          t.className = "nowrap";
+          t.textContent = fmtTimeCT(g.startTimeUtc);
+
+          const away = document.createElement("td");
+          away.textContent = (g.away && (g.away.abbr || g.away.name)) ? (g.away.abbr || g.away.name) : "—";
+
+          const home = document.createElement("td");
+          home.textContent = (g.home && (g.home.abbr || g.home.name)) ? (g.home.abbr || g.home.name) : "—";
+
+          const ms = document.createElement("td");
+          ms.className = "num";
+          ms.textContent = fmt1(g.market?.spreadHome);
+
+          const mt = document.createElement("td");
+          mt.className = "num";
+          mt.textContent = fmt1(g.market?.total);
+
+          const rs = document.createElement("td");
+          rs.className = "num";
+          rs.textContent = fmt1(g.realLine?.spreadHome);
+
+          const rt = document.createElement("td");
+          rt.className = "num";
+          rt.textContent = fmt1(g.realLine?.total);
+
+          const es = document.createElement("td");
+          es.className = "num";
+          es.textContent = fmt1(g.edge?.spread);
+
+          const et = document.createElement("td");
+          et.className = "num";
+          et.textContent = fmt1(g.edge?.total);
+
+          tr.appendChild(t);
+          tr.appendChild(away);
+          tr.appendChild(home);
+          tr.appendChild(ms);
+          tr.appendChild(mt);
+          tr.appendChild(rs);
+          tr.appendChild(rt);
+          tr.appendChild(es);
+          tr.appendChild(et);
+
+          rowsEl.appendChild(tr);
+        }
+      } catch (e) {
+        errEl.style.display = "block";
+        errEl.textContent = "Error loading predictions JSON at " + url + " — " + (e && e.message ? e.message : String(e));
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>

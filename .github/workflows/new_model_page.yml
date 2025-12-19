@@ -1,0 +1,53 @@
+name: New Model Page Publish
+
+on:
+  schedule:
+    - cron: "0 10 * * *"  # daily at 10:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-new-model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          if [ -f new_model/requirements.txt ]; then
+            pip install -r new_model/requirements.txt
+          fi
+
+      - name: Run new model pipeline for today
+        env:
+          BALLDONTLIE_API_KEY: ${{ secrets.BALLDONTLIE_API_KEY }}
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          python new_model/src/games_collector.py --date $TODAY
+          python new_model/src/odds_collector.py --date $TODAY --once
+          python new_model/src/market_line.py --date $TODAY --vendor-rule draftkings --minutes-before-tip 1
+          python new_model/src/features.py --date-range $TODAY:$TODAY
+          python new_model/src/predict.py --date $TODAY --vendor-rule draftkings
+          python new_model/src/publish_predictions.py --date $TODAY
+
+      - name: Commit published predictions
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add public/new_model/predictions_today.json || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Publish new model predictions"
+          git push origin HEAD:master
