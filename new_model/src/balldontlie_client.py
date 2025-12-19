@@ -8,7 +8,7 @@ from typing import Dict, Iterable, List, Optional
 import requests
 
 
-BASE_URL = "https://api.balldontlie.io/v2"
+BASE_URL = "https://api.balldontlie.io"
 API_KEY = os.environ.get("BALLDONTLIE_API_KEY")
 
 if not API_KEY:
