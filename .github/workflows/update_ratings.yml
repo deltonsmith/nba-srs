@@ -46,6 +46,7 @@ jobs:
 
       - name: Validate ratings
         run: |
+          set -euo pipefail
           python scripts/validate_ratings.py
 
       - name: Validate outputs
