@@ -99,10 +99,28 @@ def load_games_and_features(conn, target_date: str):
     return df, feat_cols
 
 
-def build_predictions(df: pd.DataFrame, feat_cols: List[str], m_margin, m_total, vendor_rule: str, target_date: str) -> Dict:
+def compute_baseline_lines(conn) -> (float, float):
+    """Compute simple baseline spread/total from historical scores."""
+    df = pd.read_sql(
+        """
+        SELECT home_score, away_score
+        FROM games
+        WHERE home_score IS NOT NULL AND away_score IS NOT NULL
+        """,
+        conn,
+    )
+    if df.empty:
+        return 0.0, 220.0  # fallback defaults
+    margins = df["home_score"] - df["away_score"]
+    totals = df["home_score"] + df["away_score"]
+    return float(margins.mean()), float(totals.mean())
+
+
+def build_predictions(df: pd.DataFrame, feat_cols: List[str], m_margin, m_total, vendor_rule: str, target_date: str, baseline: Optional[tuple]) -> Dict:
     if m_margin is None or m_total is None:
-        preds_margin = [None] * len(df)
-        preds_total = [None] * len(df)
+        base_margin, base_total = baseline if baseline else (0.0, 220.0)
+        preds_margin = [base_margin] * len(df)
+        preds_total = [base_total] * len(df)
     else:
         preds_margin = m_margin.predict(df[feat_cols])
         preds_total = m_total.predict(df[feat_cols])
@@ -174,7 +192,9 @@ def main():
     if df.empty:
         print(f"No games found for {args.date}; writing empty payload.")
 
-    payload = build_predictions(df, feat_cols, m_margin, m_total, args.vendor_rule, args.date)
+    baseline = compute_baseline_lines(conn)
+
+    payload = build_predictions(df, feat_cols, m_margin, m_total, args.vendor_rule, args.date, baseline)
     out_path = output_dir / f"predictions_{args.date}.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)

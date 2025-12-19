@@ -8,9 +8,10 @@ import argparse
 from datetime import datetime, timezone
 from typing import List, Mapping
 
-from balldontlie_client import fetch_odds_by_date
+from balldontlie_client import fetch_odds_by_date, fetch_odds_by_game_ids
 from config import DB_PATH
 from db import init_db, insert_odds_snapshot
+import sqlite3
 
 
 def normalize_odds(odds: List[Mapping]) -> List[Mapping]:
@@ -60,6 +61,18 @@ def normalize_odds(odds: List[Mapping]) -> List[Mapping]:
 
 def collect_odds_for_date(date_str: str):
     raw_odds = fetch_odds_by_date(date_str)
+
+    # Fallback: if no odds by date, try by game_ids for that date.
+    if not raw_odds:
+        with sqlite3.connect(DB_PATH) as conn:
+            game_ids = [
+                row[0]
+                for row in conn.execute("SELECT game_id FROM games WHERE date = ?", (date_str,))
+                .fetchall()
+            ]
+        if game_ids:
+            raw_odds = fetch_odds_by_game_ids(game_ids)
+
     rows = normalize_odds(raw_odds)
     init_db(DB_PATH)
 
