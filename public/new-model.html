@@ -1,9 +1,9 @@
-<!doctype html>
+ï»¿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PowerIndex — New Model</title>
+  <title>PowerIndex ï¿½ New Model</title>
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
     h1 { margin: 0 0 8px 0; }
@@ -17,8 +17,8 @@
   </style>
 </head>
 <body>
-  <h1>PowerIndex — New Model</h1>
-  <p id="asof" class="meta">As of: —</p>
+  <h1>PowerIndex ï¿½ New Model</h1>
+  <p id="asof" class="meta">As of: ï¿½</p>
   <div id="err" class="error" style="display:none;"></div>
 
   <table>
@@ -40,11 +40,11 @@
 
   <script>
     function fmt1(x) {
-      if (x === null || x === undefined || Number.isNaN(Number(x))) return "—";
+      if (x === null || x === undefined || Number.isNaN(Number(x))) return "ï¿½";
       return Number(x).toFixed(1);
     }
     function fmtTimeCT(isoUtc) {
-      if (!isoUtc) return "—";
+      if (!isoUtc) return "ï¿½";
       const d = new Date(isoUtc);
       return new Intl.DateTimeFormat("en-US", {
         timeZone: "America/Chicago",
@@ -53,7 +53,7 @@
       }).format(d);
     }
     function fmtAsOf(isoUtc) {
-      if (!isoUtc) return "—";
+      if (!isoUtc) return "ï¿½";
       const d = new Date(isoUtc);
       return new Intl.DateTimeFormat("en-US", {
         timeZone: "America/Chicago",
@@ -66,7 +66,7 @@
     }
 
     async function main() {
-      const url = "../public/new_model/predictions_today.json?cachebust=" + Date.now();
+      const url = "./new_model/predictions_today.json?cachebust=" + Date.now();
       const errEl = document.getElementById("err");
       const asofEl = document.getElementById("asof");
       const rowsEl = document.getElementById("rows");
@@ -90,10 +90,10 @@
           t.textContent = fmtTimeCT(g.startTimeUtc);
 
           const away = document.createElement("td");
-          away.textContent = (g.away && (g.away.abbr || g.away.name)) ? (g.away.abbr || g.away.name) : "—";
+          away.textContent = (g.away && (g.away.abbr || g.away.name)) ? (g.away.abbr || g.away.name) : "ï¿½";
 
           const home = document.createElement("td");
-          home.textContent = (g.home && (g.home.abbr || g.home.name)) ? (g.home.abbr || g.home.name) : "—";
+          home.textContent = (g.home && (g.home.abbr || g.home.name)) ? (g.home.abbr || g.home.name) : "ï¿½";
 
           const ms = document.createElement("td");
           ms.className = "num";
@@ -133,7 +133,7 @@
         }
       } catch (e) {
         errEl.style.display = "block";
-        errEl.textContent = "Error loading predictions JSON at " + url + " — " + (e && e.message ? e.message : String(e));
+        errEl.textContent = "Error loading predictions JSON at " + url + " ï¿½ " + (e && e.message ? e.message : String(e));
       }
     }
 
@@ -141,4 +141,5 @@
   </script>
 </body>
 </html>
+
 
