@@ -48,7 +48,8 @@ def fetch_games(date_str: str) -> List[Dict]:
 
 def fetch_odds_by_date(date_str: str) -> List[Dict]:
     """Fetch all odds for a given date (all vendors returned)."""
-    return list(_paginate("/nba/v2/odds", params={"dates": [date_str]}))
+    # API expects an array param; use dates[] to align with Balldontlie’s convention.
+    return list(_paginate("/nba/v2/odds", params={"dates[]": [date_str]}))
 
 
 def fetch_odds_by_game_ids(game_ids: List[int], chunk_size: int = 50) -> List[Dict]:
