@@ -1,0 +1,9 @@
+# Add your runtime dependencies here (example placeholders)
+requests
+python-dotenv
+sqlalchemy
+pandas
+numpy
+scikit-learn
+joblib
+# lightgbm  # optional; enable when available

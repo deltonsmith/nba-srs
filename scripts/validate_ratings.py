@@ -1,15 +1,17 @@
-﻿import json
+import json
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 CANONICAL = Path("data/ratings_current.json")
 ASOF_REGEX = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 
+
 def fail(msg: str):
     print(f"ERROR: {msg}", file=sys.stderr)
     sys.exit(1)
+
 
 def main():
     if not CANONICAL.exists():
@@ -42,12 +44,12 @@ def main():
     if as_of_dt > now + timedelta(minutes=10):
         fail(f"as_of_utc is more than 10 minutes in the future: as_of_utc={as_of_dt.isoformat()} now={now.isoformat()}")
 
-    # Optional: ensure ratings present
     ratings = data.get("ratings")
     if ratings is None or not isinstance(ratings, list):
         fail("ratings field missing or not a list")
 
     print("ratings_current.json validation passed")
+
 
 if __name__ == "__main__":
     main()
