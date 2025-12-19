@@ -31,9 +31,13 @@ FEATURE_COLS = [
 
 def load_models(base_dir: Path):
     models_dir = base_dir / "models"
-    m_margin = joblib.load(models_dir / "margin_model.joblib")
-    m_total = joblib.load(models_dir / "total_model.joblib")
-    return m_margin, m_total
+    try:
+        m_margin = joblib.load(models_dir / "margin_model.joblib")
+        m_total = joblib.load(models_dir / "total_model.joblib")
+        return m_margin, m_total
+    except FileNotFoundError:
+        print("Model artifacts missing; continuing with market-only output (no model lines/edges).")
+        return None, None
 
 
 def load_games_and_features(conn, target_date: str):
@@ -80,9 +84,13 @@ def load_games_and_features(conn, target_date: str):
     return df, feat_cols
 
 
-def build_predictions(df: pd.DataFrame, feat_cols: List[str], m_margin, m_total, vendor_rule: str) -> Dict:
-    preds_margin = m_margin.predict(df[feat_cols])
-    preds_total = m_total.predict(df[feat_cols])
+def build_predictions(df: pd.DataFrame, feat_cols: List[str], m_margin, m_total, vendor_rule: str, target_date: str) -> Dict:
+    if m_margin is None or m_total is None:
+        preds_margin = [None] * len(df)
+        preds_total = [None] * len(df)
+    else:
+        preds_margin = m_margin.predict(df[feat_cols])
+        preds_total = m_total.predict(df[feat_cols])
 
     games_out: List[Dict] = []
     for (_, row), pm, pt in zip(df.iterrows(), preds_margin, preds_total):
@@ -123,7 +131,7 @@ def build_predictions(df: pd.DataFrame, feat_cols: List[str], m_margin, m_total,
 
     return {
         "asOfUtc": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
-        "date": df["date"].iloc[0].strftime("%Y-%m-%d") if not df.empty else None,
+        "date": target_date,
         "timezone": "America/Chicago",
         "vendorRule": vendor_rule,
         "games": games_out,
@@ -149,10 +157,9 @@ def main():
         conn.close()
 
     if df.empty:
-        print(f"No games found for {args.date}")
-        return
+        print(f"No games found for {args.date}; writing empty payload.")
 
-    payload = build_predictions(df, feat_cols, m_margin, m_total, args.vendor_rule)
+    payload = build_predictions(df, feat_cols, m_margin, m_total, args.vendor_rule, args.date)
     out_path = output_dir / f"predictions_{args.date}.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
