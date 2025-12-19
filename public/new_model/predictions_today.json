@@ -1,5 +1,5 @@
 {
-  "asOfUtc": "2025-12-19T16:53:01Z",
+  "asOfUtc": "2025-12-19T17:00:11Z",
   "date": "2025-12-19",
   "timezone": "America/Chicago",
   "vendorRule": "draftkings",
@@ -18,16 +18,16 @@
         "abbr": "BOS"
       },
       "market": {
-        "spreadHome": null,
-        "total": null
+        "spreadHome": 0.0,
+        "total": 220.0
       },
       "realLine": {
         "spreadHome": 0.0,
-        "total": 0.0
+        "total": 220.0
       },
       "edge": {
-        "spread": null,
-        "total": null
+        "spread": 0.0,
+        "total": 0.0
       }
     },
     {
@@ -44,16 +44,16 @@
         "abbr": "NYK"
       },
       "market": {
-        "spreadHome": null,
-        "total": null
+        "spreadHome": 0.0,
+        "total": 220.0
       },
       "realLine": {
         "spreadHome": 0.0,
-        "total": 0.0
+        "total": 220.0
       },
       "edge": {
-        "spread": null,
-        "total": null
+        "spread": 0.0,
+        "total": 0.0
       }
     },
     {
@@ -70,16 +70,16 @@
         "abbr": "ATL"
       },
       "market": {
-        "spreadHome": null,
-        "total": null
+        "spreadHome": 0.0,
+        "total": 220.0
       },
       "realLine": {
         "spreadHome": 0.0,
-        "total": 0.0
+        "total": 220.0
       },
       "edge": {
-        "spread": null,
-        "total": null
+        "spread": 0.0,
+        "total": 0.0
       }
     },
     {
@@ -96,16 +96,16 @@
         "abbr": "CLE"
       },
       "market": {
-        "spreadHome": null,
-        "total": null
+        "spreadHome": 0.0,
+        "total": 220.0
       },
       "realLine": {
         "spreadHome": 0.0,
-        "total": 0.0
+        "total": 220.0
       },
       "edge": {
-        "spread": null,
-        "total": null
+        "spread": 0.0,
+        "total": 0.0
       }
     },
     {
@@ -122,16 +122,16 @@
         "abbr": "MIN"
       },
       "market": {
-        "spreadHome": null,
-        "total": null
+        "spreadHome": 0.0,
+        "total": 220.0
       },
       "realLine": {
         "spreadHome": 0.0,
-        "total": 0.0
+        "total": 220.0
       },
       "edge": {
-        "spread": null,
-        "total": null
+        "spread": 0.0,
+        "total": 0.0
       }
     }
   ]
