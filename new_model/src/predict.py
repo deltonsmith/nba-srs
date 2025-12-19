@@ -186,13 +186,12 @@ def main():
     conn = sqlite3.connect(DB_PATH)
     try:
         df, feat_cols = load_games_and_features(conn, args.date)
+        baseline = compute_baseline_lines(conn)
     finally:
         conn.close()
 
     if df.empty:
         print(f"No games found for {args.date}; writing empty payload.")
-
-    baseline = compute_baseline_lines(conn)
 
     payload = build_predictions(df, feat_cols, m_margin, m_total, args.vendor_rule, args.date, baseline)
     out_path = output_dir / f"predictions_{args.date}.json"
