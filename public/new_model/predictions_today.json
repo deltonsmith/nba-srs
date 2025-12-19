@@ -1,5 +1,5 @@
 {
-  "asOfUtc": "2025-12-19T15:48:33Z",
+  "asOfUtc": "2025-12-19T16:53:01Z",
   "date": "2025-12-19",
   "timezone": "America/Chicago",
   "vendorRule": "draftkings",
@@ -22,8 +22,8 @@
         "total": null
       },
       "realLine": {
-        "spreadHome": null,
-        "total": null
+        "spreadHome": 0.0,
+        "total": 0.0
       },
       "edge": {
         "spread": null,
@@ -48,8 +48,8 @@
         "total": null
       },
       "realLine": {
-        "spreadHome": null,
-        "total": null
+        "spreadHome": 0.0,
+        "total": 0.0
       },
       "edge": {
         "spread": null,
@@ -74,8 +74,8 @@
         "total": null
       },
       "realLine": {
-        "spreadHome": null,
-        "total": null
+        "spreadHome": 0.0,
+        "total": 0.0
       },
       "edge": {
         "spread": null,
@@ -100,8 +100,8 @@
         "total": null
       },
       "realLine": {
-        "spreadHome": null,
-        "total": null
+        "spreadHome": 0.0,
+        "total": 0.0
       },
       "edge": {
         "spread": null,
@@ -126,8 +126,8 @@
         "total": null
       },
       "realLine": {
-        "spreadHome": null,
-        "total": null
+        "spreadHome": 0.0,
+        "total": 0.0
       },
       "edge": {
         "spread": null,
