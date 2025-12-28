@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import List
 
 import joblib
+import math
 import pandas as pd
 import sqlite3
 from sklearn.ensemble import HistGradientBoostingRegressor
@@ -63,6 +64,7 @@ def load_dataset(db_path: str) -> pd.DataFrame:
     )
     home_feats = home_feats.drop(columns=["team_id", "home_team_id"])
     home_feats = home_feats.add_suffix("_home")
+    home_feats = home_feats.rename(columns={"game_id_home": "game_id"})
 
     # Away features
     away_feats = feats.merge(
@@ -73,6 +75,7 @@ def load_dataset(db_path: str) -> pd.DataFrame:
     )
     away_feats = away_feats.drop(columns=["team_id", "away_team_id"])
     away_feats = away_feats.add_suffix("_away")
+    away_feats = away_feats.rename(columns={"game_id_away": "game_id"})
 
     df = games.merge(home_feats, on="game_id", how="left").merge(away_feats, on="game_id", how="left")
 
@@ -108,7 +111,7 @@ def train_and_eval(df: pd.DataFrame, feat_cols: List[str], label_col: str):
 
     preds = model.predict(X_val)
     mae = mean_absolute_error(y_val, preds)
-    rmse = mean_squared_error(y_val, preds, squared=False)
+    rmse = math.sqrt(mean_squared_error(y_val, preds))
 
     return model, {"mae": mae, "rmse": rmse, "n_train": len(X_train), "n_val": len(X_val)}
 
