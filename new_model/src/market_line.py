@@ -2,6 +2,7 @@
 Compute and store closing market lines based on odds snapshots.
 Usage:
   python market_line.py --date YYYY-MM-DD --vendor-rule draftkings|median [--minutes-before-tip 1]
+  python market_line.py --date-range YYYY-MM-DD:YYYY-MM-DD --vendor-rule draftkings|median [--minutes-before-tip 1]
 """
 
 import argparse
@@ -181,12 +182,30 @@ def process_date(date_str: str, vendor_rule: str, minutes_before_tip: int):
 
 def main():
     parser = argparse.ArgumentParser(description="Compute and store closing market lines for a date.")
-    parser.add_argument("--date", required=True, help="Date in YYYY-MM-DD")
+    parser.add_argument("--date", help="Date in YYYY-MM-DD")
+    parser.add_argument("--date-range", help="Date range YYYY-MM-DD:YYYY-MM-DD")
     parser.add_argument("--vendor-rule", required=True, help="Vendor name or 'median'")
     parser.add_argument("--minutes-before-tip", type=int, default=1, help="Cutoff minutes before tip (default 1)")
     args = parser.parse_args()
 
-    process_date(args.date, args.vendor_rule, args.minutes_before_tip)
+    if not args.date and not args.date_range:
+        parser.error("Must provide --date or --date-range")
+
+    dates: List[str] = []
+    if args.date:
+        dates.append(args.date)
+    if args.date_range:
+        try:
+            start_str, end_str = args.date_range.split(":", 1)
+            start_date = datetime.strptime(start_str, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_str, "%Y-%m-%d").date()
+        except Exception as e:
+            parser.error(f"Invalid --date-range format: {e}")
+        for n in range((end_date - start_date).days + 1):
+            dates.append((start_date + timedelta(days=n)).isoformat())
+
+    for d in dates:
+        process_date(d, args.vendor_rule, args.minutes_before_tip)
 
 
 if __name__ == "__main__":

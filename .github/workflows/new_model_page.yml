@@ -38,6 +38,7 @@ jobs:
           fi
           TODAY=$(date -u +%Y-%m-%d)
           python new_model/src/games_collector.py --date $TODAY
+          python new_model/src/injury_collector.py
           python new_model/src/odds_collector.py --date $TODAY --once
           python new_model/src/market_line.py --date $TODAY --vendor-rule draftkings --minutes-before-tip 1
           python new_model/src/features.py --date-range $TODAY:$TODAY

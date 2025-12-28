@@ -33,6 +33,8 @@ def normalize_games(raw_games: List[Mapping]) -> List[Mapping]:
                 "date": g.get("date"),
                 "home_team_id": (g.get("home_team") or {}).get("abbreviation"),
                 "away_team_id": (g.get("visitor_team") or {}).get("abbreviation"),
+                "home_team_bdl_id": (g.get("home_team") or {}).get("id"),
+                "away_team_bdl_id": (g.get("visitor_team") or {}).get("id"),
                 "home_score": g.get("home_team_score"),
                 "away_score": g.get("visitor_team_score"),
                 "status": g.get("status"),

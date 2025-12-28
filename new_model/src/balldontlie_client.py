@@ -62,3 +62,8 @@ def fetch_odds_by_game_ids(game_ids: List[int], chunk_size: int = 50) -> List[Di
         chunk = game_ids[i : i + chunk_size]
         results.extend(_paginate("/nba/v2/odds", params={"game_ids": chunk}))
     return results
+
+
+def fetch_player_injuries() -> List[Dict]:
+    """Fetch current player injuries (v1 endpoint)."""
+    return list(_paginate("/nba/v1/player_injuries"))

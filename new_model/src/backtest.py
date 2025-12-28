@@ -17,6 +17,7 @@ from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error
 
 from config import DB_PATH
+from db import init_db
 
 
 FEATURE_COLS = [
@@ -29,6 +30,15 @@ FEATURE_COLS = [
     "rest_days",
     "travel_miles",
     "back_to_back",
+    "inj_out",
+    "inj_day_to_day",
+    "inj_total",
+]
+
+GAME_FEATURE_COLS = [
+    "closing_spread_home",
+    "closing_total",
+    "closing_home_ml",
 ]
 
 
@@ -80,6 +90,7 @@ def load_games_with_features(conn) -> pd.DataFrame:
     for col in FEATURE_COLS:
         feat_cols.append(f"{col}_home")
         feat_cols.append(f"{col}_away")
+    feat_cols.extend(GAME_FEATURE_COLS)
 
     df[feat_cols] = df[feat_cols].fillna(0)
     return df, feat_cols
@@ -94,6 +105,7 @@ def train_models(train_df: pd.DataFrame, feat_cols: List[str]) -> Tuple[HistGrad
 
 
 def run_backtest(start_str: str, end_str: str, edge_threshold: float):
+    init_db(DB_PATH)
     conn = sqlite3.connect(DB_PATH)
     df, feat_cols = load_games_with_features(conn)
     conn.close()

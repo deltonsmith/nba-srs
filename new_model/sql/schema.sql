@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS games (
     date            TEXT NOT NULL,
     home_team_id    TEXT,
     away_team_id    TEXT,
+    home_team_bdl_id INTEGER,
+    away_team_bdl_id INTEGER,
     home_score      INTEGER,
     away_score      INTEGER,
     status          TEXT,
@@ -34,6 +36,7 @@ CREATE TABLE IF NOT EXISTS odds_snapshots (
 CREATE TABLE IF NOT EXISTS team_game_features (
     game_id      INTEGER NOT NULL,
     team_id      TEXT NOT NULL,
+    team_bdl_id  INTEGER,
     net_rating   REAL,
     pace         REAL,
     efg          REAL,
@@ -43,8 +46,22 @@ CREATE TABLE IF NOT EXISTS team_game_features (
     rest_days    INTEGER,
     travel_miles REAL,
     back_to_back INTEGER,
+    inj_out      INTEGER,
+    inj_day_to_day INTEGER,
+    inj_total    INTEGER,
     PRIMARY KEY (game_id, team_id),
     FOREIGN KEY (game_id) REFERENCES games (game_id)
+);
+
+-- Player injuries snapshots
+CREATE TABLE IF NOT EXISTS player_injuries (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id   INTEGER,
+    team_id     INTEGER,
+    status      TEXT,
+    return_date TEXT,
+    description TEXT,
+    pulled_at   TEXT NOT NULL
 );
 
 -- Market lines (closing/consensus)

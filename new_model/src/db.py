@@ -28,16 +28,39 @@ def init_db(db_path) -> None:
     conn = get_conn(db_path)
     try:
         conn.executescript(schema_sql)
+        _ensure_schema(conn)
         conn.commit()
     finally:
         conn.close()
+
+
+def _column_exists(conn: sqlite3.Connection, table: str, column: str) -> bool:
+    rows = conn.execute(f"PRAGMA table_info({table})").fetchall()
+    return any(r[1] == column for r in rows)
+
+
+def _ensure_schema(conn: sqlite3.Connection) -> None:
+    # Lightweight migrations for existing DBs.
+    if not _column_exists(conn, "games", "home_team_bdl_id"):
+        conn.execute("ALTER TABLE games ADD COLUMN home_team_bdl_id INTEGER")
+    if not _column_exists(conn, "games", "away_team_bdl_id"):
+        conn.execute("ALTER TABLE games ADD COLUMN away_team_bdl_id INTEGER")
+
+    if not _column_exists(conn, "team_game_features", "team_bdl_id"):
+        conn.execute("ALTER TABLE team_game_features ADD COLUMN team_bdl_id INTEGER")
+    if not _column_exists(conn, "team_game_features", "inj_out"):
+        conn.execute("ALTER TABLE team_game_features ADD COLUMN inj_out INTEGER")
+    if not _column_exists(conn, "team_game_features", "inj_day_to_day"):
+        conn.execute("ALTER TABLE team_game_features ADD COLUMN inj_day_to_day INTEGER")
+    if not _column_exists(conn, "team_game_features", "inj_total"):
+        conn.execute("ALTER TABLE team_game_features ADD COLUMN inj_total INTEGER")
 
 
 def upsert_games(db_path, games: Iterable[Mapping]) -> None:
     """
     Insert or replace games by primary key.
     Expected keys per item: game_id, season, date, home_team_id, away_team_id,
-    home_score, away_score, status, start_time_utc.
+    home_team_bdl_id, away_team_bdl_id, home_score, away_score, status, start_time_utc.
     """
     games = list(games)
     if not games:
@@ -48,9 +71,9 @@ def upsert_games(db_path, games: Iterable[Mapping]) -> None:
         conn.executemany(
             """
             INSERT OR REPLACE INTO games
-                (game_id, season, date, home_team_id, away_team_id, home_score, away_score, status, start_time_utc)
+                (game_id, season, date, home_team_id, away_team_id, home_team_bdl_id, away_team_bdl_id, home_score, away_score, status, start_time_utc)
             VALUES
-                (:game_id, :season, :date, :home_team_id, :away_team_id, :home_score, :away_score, :status, :start_time_utc)
+                (:game_id, :season, :date, :home_team_id, :away_team_id, :home_team_bdl_id, :away_team_bdl_id, :home_score, :away_score, :status, :start_time_utc)
             """,
             games,
         )
@@ -87,3 +110,35 @@ def insert_odds_snapshot(db_path, snapshot: Mapping, pulled_at: Optional[str] = 
         conn.commit()
     finally:
         conn.close()
+
+
+def insert_player_injuries(db_path, rows: Iterable[Mapping], pulled_at: Optional[str] = None) -> int:
+    """
+    Insert player injury rows with a shared pulled_at timestamp.
+    Expected keys per item: player_id, team_id, status, return_date, description.
+    """
+    rows = list(rows)
+    if not rows:
+        return 0
+    payload = []
+    stamp = pulled_at or datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    for r in rows:
+        item = dict(r)
+        item["pulled_at"] = stamp
+        payload.append(item)
+
+    conn = get_conn(db_path)
+    try:
+        conn.executemany(
+            """
+            INSERT INTO player_injuries
+                (player_id, team_id, status, return_date, description, pulled_at)
+            VALUES
+                (:player_id, :team_id, :status, :return_date, :description, :pulled_at)
+            """,
+            payload,
+        )
+        conn.commit()
+    finally:
+        conn.close()
+    return len(payload)

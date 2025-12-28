@@ -14,6 +14,7 @@ import pandas as pd
 import sqlite3
 
 from config import DB_PATH
+from db import init_db
 
 
 FEATURE_COLS = [
@@ -26,6 +27,15 @@ FEATURE_COLS = [
     "rest_days",
     "travel_miles",
     "back_to_back",
+    "inj_out",
+    "inj_day_to_day",
+    "inj_total",
+]
+
+GAME_FEATURE_COLS = [
+    "closing_spread_home",
+    "closing_total",
+    "closing_home_ml",
 ]
 
 
@@ -95,6 +105,7 @@ def load_games_and_features(conn, target_date: str):
     for col in FEATURE_COLS:
         feat_cols.append(f"{col}_home")
         feat_cols.append(f"{col}_away")
+    feat_cols.extend(GAME_FEATURE_COLS)
     df[feat_cols] = df[feat_cols].fillna(0)
     return df, feat_cols
 
@@ -381,6 +392,7 @@ def main():
     output_dir = base_dir / "output"
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    init_db(DB_PATH)
     m_margin, m_total = load_models(base_dir)
 
     conn = sqlite3.connect(DB_PATH)

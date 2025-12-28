@@ -17,6 +17,7 @@ from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 from config import DB_PATH
+from db import init_db
 
 
 FEATURE_COLS = [
@@ -29,6 +30,15 @@ FEATURE_COLS = [
     "rest_days",
     "travel_miles",
     "back_to_back",
+    "inj_out",
+    "inj_day_to_day",
+    "inj_total",
+]
+
+GAME_FEATURE_COLS = [
+    "closing_spread_home",
+    "closing_total",
+    "closing_home_ml",
 ]
 
 
@@ -86,6 +96,7 @@ def load_dataset(db_path: str) -> pd.DataFrame:
     for col in FEATURE_COLS:
         feat_cols.append(f"{col}_home")
         feat_cols.append(f"{col}_away")
+    feat_cols.extend(GAME_FEATURE_COLS)
 
     df[feat_cols] = df[feat_cols].fillna(0)
 
@@ -121,6 +132,7 @@ def ensure_dirs():
 
 def main():
     ensure_dirs()
+    init_db(DB_PATH)
     df, feat_cols = load_dataset(DB_PATH)
     model, metrics = train_and_eval(df, feat_cols, "total")
 

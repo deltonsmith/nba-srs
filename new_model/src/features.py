@@ -5,7 +5,9 @@ TODO: add richer possession/efficiency stats (eFG%, TOV%, ORB%, FTr) when availa
 """
 
 import argparse
-from datetime import datetime, timedelta
+from bisect import bisect_right
+from collections import defaultdict
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Iterable, List, Optional, Tuple
 
 from config import DB_PATH
@@ -54,6 +56,15 @@ def load_games_before(conn, cutoff_date: str) -> List[Dict]:
 def compute_rest(prev_game_date: Optional[str], current_date: str) -> Optional[int]:
     if not prev_game_date:
         return None
+
+
+def _parse_iso(dt_str: Optional[str]) -> Optional[datetime]:
+    if not dt_str:
+        return None
+    try:
+        return datetime.fromisoformat(dt_str.replace("Z", "+00:00")).astimezone(timezone.utc)
+    except Exception:
+        return None
     try:
         prev = parse_date(prev_game_date)
         cur = parse_date(current_date)
@@ -95,6 +106,63 @@ def build_team_history(games: List[Dict]) -> Dict[str, List[Dict]]:
     return history
 
 
+def load_injury_snapshots(conn) -> Dict[int, Dict[str, List]]:
+    rows = conn.execute(
+        """
+        SELECT player_id, team_id, status, pulled_at
+        FROM player_injuries
+        """
+    ).fetchall()
+
+    snapshots = {}
+    for player_id, team_id, status, pulled_at in rows:
+        if team_id is None or player_id is None or pulled_at is None:
+            continue
+        pulled_dt = _parse_iso(pulled_at)
+        if pulled_dt is None:
+            continue
+        status_key = str(status or "").strip().lower()
+        key = (int(team_id), pulled_dt)
+        entry = snapshots.setdefault(key, defaultdict(set))
+        entry[status_key].add(int(player_id))
+
+    team_snapshots: Dict[int, Dict[str, List]] = defaultdict(lambda: {"times": [], "counts": []})
+    for (team_id, pulled_dt), status_sets in snapshots.items():
+        out_count = len(status_sets.get("out", set()))
+        day_to_day_count = len(status_sets.get("day-to-day", set()))
+        total_count = 0
+        for players in status_sets.values():
+            total_count += len(players)
+        counts = {
+            "inj_out": out_count,
+            "inj_day_to_day": day_to_day_count,
+            "inj_total": total_count,
+        }
+        team_snapshots[team_id]["times"].append(pulled_dt)
+        team_snapshots[team_id]["counts"].append(counts)
+
+    for team_id, payload in team_snapshots.items():
+        paired = sorted(zip(payload["times"], payload["counts"]), key=lambda x: x[0])
+        payload["times"] = [p[0] for p in paired]
+        payload["counts"] = [p[1] for p in paired]
+
+    return team_snapshots
+
+
+def injury_counts_for_team(team_snapshots: Dict[int, Dict[str, List]], team_id: Optional[int], game_date: str) -> Dict[str, Optional[int]]:
+    if not team_id:
+        return {"inj_out": None, "inj_day_to_day": None, "inj_total": None}
+    payload = team_snapshots.get(int(team_id))
+    if not payload:
+        return {"inj_out": None, "inj_day_to_day": None, "inj_total": None}
+    cutoff = datetime.combine(parse_date(game_date), datetime.max.time()).replace(tzinfo=timezone.utc)
+    times = payload["times"]
+    idx = bisect_right(times, cutoff) - 1
+    if idx < 0:
+        return {"inj_out": None, "inj_day_to_day": None, "inj_total": None}
+    return payload["counts"][idx]
+
+
 def rolling_stats(entries: List[Dict], current_date: str) -> Dict[str, Dict[str, float]]:
     """
     For a team's chronological entries (past games), compute rolling stats before current_date.
@@ -126,7 +194,7 @@ def last_game_date(entries: List[Dict], current_date: str) -> Optional[str]:
     return prev[-1]["date"]
 
 
-def build_features_for_games(conn, games: List[Dict], team_history: Dict[str, List[Dict]]):
+def build_features_for_games(conn, games: List[Dict], team_history: Dict[str, List[Dict]], team_snapshots: Dict[int, Dict[str, List]]):
     to_write = []
     for g in games:
         game_id = g.get("game_id")
@@ -137,14 +205,18 @@ def build_features_for_games(conn, games: List[Dict], team_history: Dict[str, Li
             team_id = g.get(team_key)
             if not team_id:
                 continue
+            bdl_id_key = "home_team_bdl_id" if team_key == "home_team_id" else "away_team_bdl_id"
+            team_bdl_id = g.get(bdl_id_key)
             history = team_history.get(team_id, [])
             roll = rolling_stats(history, date)
             prev_date = last_game_date(history, date)
             rest = compute_rest(prev_date, date)
+            inj_counts = injury_counts_for_team(team_snapshots, team_bdl_id, date)
             # Use last available rolling window as baseline when missing
             features = {
                 "game_id": game_id,
                 "team_id": team_id,
+                "team_bdl_id": team_bdl_id,
                 "net_rating": roll.get("5", {}).get("avg_margin"),
                 "pace": None,     # TODO: add possession-based pace when available
                 "efg": None,      # TODO
@@ -154,6 +226,9 @@ def build_features_for_games(conn, games: List[Dict], team_history: Dict[str, Li
                 "rest_days": rest,
                 "travel_miles": None,  # TODO: add travel estimates
                 "back_to_back": 1 if rest is not None and rest <= 0 else 0 if rest is not None else None,
+                "inj_out": inj_counts.get("inj_out"),
+                "inj_day_to_day": inj_counts.get("inj_day_to_day"),
+                "inj_total": inj_counts.get("inj_total"),
             }
             to_write.append(features)
 
@@ -162,9 +237,11 @@ def build_features_for_games(conn, games: List[Dict], team_history: Dict[str, Li
             conn.executemany(
                 """
                 INSERT OR REPLACE INTO team_game_features
-                    (game_id, team_id, net_rating, pace, efg, tov, orb, ftr, rest_days, travel_miles, back_to_back)
+                    (game_id, team_id, team_bdl_id, net_rating, pace, efg, tov, orb, ftr, rest_days, travel_miles, back_to_back,
+                     inj_out, inj_day_to_day, inj_total)
                 VALUES
-                    (:game_id, :team_id, :net_rating, :pace, :efg, :tov, :orb, :ftr, :rest_days, :travel_miles, :back_to_back)
+                    (:game_id, :team_id, :team_bdl_id, :net_rating, :pace, :efg, :tov, :orb, :ftr, :rest_days, :travel_miles, :back_to_back,
+                     :inj_out, :inj_day_to_day, :inj_total)
                 """,
                 to_write,
             )
@@ -184,7 +261,8 @@ def process_date_range(start_date: str, end_date: str):
         return
     history_games = load_games_before(conn, end_date)
     history = build_team_history(history_games)
-    build_features_for_games(conn, all_games, history)
+    team_snapshots = load_injury_snapshots(conn)
+    build_features_for_games(conn, all_games, history, team_snapshots)
     conn.close()
 
 
