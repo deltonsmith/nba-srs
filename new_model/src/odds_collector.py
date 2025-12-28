@@ -88,7 +88,11 @@ def normalize_odds(odds: List[Mapping]) -> List[Mapping]:
 
 
 def collect_odds_for_date(date_str: str):
-    raw_odds = fetch_odds_by_date(date_str)
+    try:
+        raw_odds = fetch_odds_by_date(date_str)
+    except Exception as exc:
+        print(f"Odds fetch failed for {date_str}; skipping. Error: {exc}")
+        return
 
     # Fallback: if no odds by date, try by game_ids for that date.
     if not raw_odds:

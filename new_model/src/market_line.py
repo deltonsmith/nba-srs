@@ -12,7 +12,6 @@ from typing import Dict, Iterable, List, Optional, Tuple
 
 from config import DB_PATH
 from db import get_conn, init_db
-from balldontlie_client import fetch_games
 
 
 def compute_cutoff_time(game_start_time_utc: str, minutes_before_tip: int = 1) -> Optional[datetime]:
@@ -25,20 +24,31 @@ def compute_cutoff_time(game_start_time_utc: str, minutes_before_tip: int = 1) -
     return dt - timedelta(minutes=minutes_before_tip)
 
 
-def _latest_per_vendor(conn, game_id: int, cutoff_iso: str) -> Dict[Tuple[str, str], Dict]:
+def _latest_per_vendor(conn, game_id: int, cutoff_iso: Optional[str]) -> Dict[Tuple[str, str], Dict]:
     """
     For a game, pull the latest snapshot per (vendor, market_type) up to cutoff.
     Returns a dict keyed by (vendor, market_type) -> row dict.
     """
-    rows = conn.execute(
-        """
-        SELECT *
-        FROM odds_snapshots
-        WHERE game_id = ? AND updated_at <= ?
-        ORDER BY vendor, market_type, datetime(updated_at) DESC
-        """,
-        (game_id, cutoff_iso),
-    ).fetchall()
+    if cutoff_iso:
+        rows = conn.execute(
+            """
+            SELECT *
+            FROM odds_snapshots
+            WHERE game_id = ? AND updated_at <= ?
+            ORDER BY vendor, market_type, datetime(updated_at) DESC
+            """,
+            (game_id, cutoff_iso),
+        ).fetchall()
+    else:
+        rows = conn.execute(
+            """
+            SELECT *
+            FROM odds_snapshots
+            WHERE game_id = ?
+            ORDER BY vendor, market_type, datetime(updated_at) DESC
+            """,
+            (game_id,),
+        ).fetchall()
 
     latest = {}
     for r in rows:
@@ -58,6 +68,9 @@ def derive_closing_line(game_id: int, vendor_rule: str, cutoff_time_utc: Optiona
     cutoff_iso = cutoff_time_utc.replace(microsecond=0, tzinfo=timezone.utc).isoformat()
 
     latest = _latest_per_vendor(conn, game_id, cutoff_iso)
+    if not latest:
+        # If no pre-tip snapshots, fall back to latest available snapshot.
+        latest = _latest_per_vendor(conn, game_id, None)
     if not latest:
         return None
 
@@ -139,7 +152,20 @@ def _pick_source_id(spread, total, moneyline) -> Optional[int]:
 
 
 def _load_games_for_date(date_str: str) -> List[Dict]:
-    return fetch_games(date_str)
+    conn = get_conn(DB_PATH)
+    conn.row_factory = sqlite3.Row  # type: ignore
+    try:
+        rows = conn.execute(
+            """
+            SELECT game_id, start_time_utc
+            FROM games
+            WHERE date = ?
+            """,
+            (date_str,),
+        ).fetchall()
+        return [dict(r) for r in rows]
+    finally:
+        conn.close()
 
 
 def upsert_market_line(conn, closing: Dict):
@@ -169,8 +195,10 @@ def process_date(date_str: str, vendor_rule: str, minutes_before_tip: int):
     processed = 0
     with conn:
         for g in games:
-            game_id = g.get("id")
-            start_time = g.get("datetime") or g.get("start_time") or g.get("start_time_utc")
+            game_id = g.get("game_id") or g.get("id")
+            if game_id is None:
+                continue
+            start_time = g.get("start_time_utc") or g.get("datetime") or g.get("start_time")
             cutoff = compute_cutoff_time(start_time, minutes_before_tip=minutes_before_tip)
             closing = derive_closing_line(int(game_id), vendor_rule, cutoff, conn)
             if closing:
