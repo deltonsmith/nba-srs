@@ -1,5 +1,5 @@
 {
-  "asOfUtc": "2025-12-28T20:47:00Z",
+  "asOfUtc": "2025-12-28T21:57:56Z",
   "date": "2025-12-28",
   "timezone": "America/Chicago",
   "vendorRule": "draftkings",
@@ -18,16 +18,16 @@
         "abbr": "TOR"
       },
       "market": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": 2.5,
+        "total": 243.5
       },
       "realLine": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": -6.116723934561984,
+        "total": 239.4735696507158
       },
       "edge": {
-        "spread": 0.0,
-        "total": 0.0
+        "spread": -8.616723934561984,
+        "total": -4.0264303492841975
       }
     },
     {
@@ -44,16 +44,16 @@
         "abbr": "OKC"
       },
       "market": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": -10.5,
+        "total": 236.5
       },
       "realLine": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": 10.36187974422157,
+        "total": 240.22951419487796
       },
       "edge": {
-        "spread": 0.0,
-        "total": 0.0
+        "spread": 20.861879744221568,
+        "total": 3.7295141948779644
       }
     },
     {
@@ -70,16 +70,16 @@
         "abbr": "WAS"
       },
       "market": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": 7.5,
+        "total": 240.5
       },
       "realLine": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": -1.7016889638289447,
+        "total": 238.95743900950185
       },
       "edge": {
-        "spread": 0.0,
-        "total": 0.0
+        "spread": -9.201688963828945,
+        "total": -1.5425609904981457
       }
     },
     {
@@ -96,16 +96,16 @@
         "abbr": "POR"
       },
       "market": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": 7.5,
+        "total": 231.5
       },
       "realLine": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": -7.845513911834029,
+        "total": 239.55431110225504
       },
       "edge": {
-        "spread": 0.0,
-        "total": 0.0
+        "spread": -15.34551391183403,
+        "total": 8.054311102255042
       }
     },
     {
@@ -122,16 +122,16 @@
         "abbr": "LAC"
       },
       "market": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": 3.5,
+        "total": 224.5
       },
       "realLine": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": 1.3134797149552684,
+        "total": 245.09413843158697
       },
       "edge": {
-        "spread": 0.0,
-        "total": 0.0
+        "spread": -2.1865202850447316,
+        "total": 20.59413843158697
       }
     },
     {
@@ -148,16 +148,16 @@
         "abbr": "LAL"
       },
       "market": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": -13.5,
+        "total": 233.5
       },
       "realLine": {
-        "spreadHome": 3.0,
-        "total": 21.0
+        "spreadHome": -9.171568631727826,
+        "total": 237.31142861613483
       },
       "edge": {
-        "spread": 0.0,
-        "total": 0.0
+        "spread": 4.328431368272174,
+        "total": 3.811428616134833
       }
     }
   ]
