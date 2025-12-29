@@ -4,9 +4,9 @@ on:
   # manual trigger
   workflow_dispatch:
 
-  # daily at 3:00am CST (09:00 UTC)
+  # daily at 12:00pm CST (18:00 UTC)
   schedule:
-    - cron: '0 9 * * *'
+    - cron: '0 18 * * *'
 
   # optional: re-run when you push to master
   push:

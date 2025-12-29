@@ -3,6 +3,7 @@ Compute accuracy metrics using rating snapshots and final games.
 
 Policy (locked):
 - Snapshot selection: latest snapshot with as_of_utc <= game.date_utc.
+  If none exist for a game, fall back to the earliest snapshot after game time.
 - Tie handling: skip games when ratings are equal.
 - Missing rating in snapshot: skip the game.
 """
@@ -86,7 +87,8 @@ def find_snapshot(snapshots: List[Dict], game_dt: datetime) -> Optional[Dict]:
     times = [s["as_of_dt"] for s in snapshots]
     idx = bisect_right(times, game_dt) - 1
     if idx < 0:
-        return None
+        # No pre-game snapshot; fall back to the first snapshot after the game.
+        return snapshots[0]
     return snapshots[idx]
 
 
