@@ -245,8 +245,47 @@
       <div class="label">Sample size</div>
       <div class="metric" id="model-sample">__ games</div>
     </div>
+    <div class="item">
+      <div class="label">Spread RMSE (points)</div>
+      <div class="metric" id="model-spread-rmse">__</div>
+    </div>
+    <div class="item">
+      <div class="label">Total RMSE (points)</div>
+      <div class="metric" id="model-total-rmse">__</div>
+    </div>
+    <div class="item">
+      <div class="label">ATS cover rate</div>
+      <div class="metric" id="model-ats-rate">__%</div>
+    </div>
   </div>
   <p class="note" id="model-asof"></p>
+
+  <h2>New model season breakdown</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Season</th>
+        <th>Spread MAE</th>
+        <th>Spread RMSE</th>
+        <th>ATS cover %</th>
+        <th>Total MAE</th>
+        <th>Total RMSE</th>
+      </tr>
+    </thead>
+    <tbody id="model-season-table"></tbody>
+  </table>
+
+  <h2>New model accuracy by spread bucket</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Bucket (abs spread)</th>
+        <th>Hit rate</th>
+        <th>Games</th>
+      </tr>
+    </thead>
+    <tbody id="model-bucket-table"></tbody>
+  </table>
 
   <h2>What this page measures</h2>
   <ul>
@@ -354,10 +393,48 @@
       const total = data.total || {};
       document.getElementById("model-spread-mae").textContent = fmtNumber(spread.mae);
       document.getElementById("model-total-mae").textContent = fmtNumber(total.mae);
+      document.getElementById("model-spread-rmse").textContent = fmtNumber(spread.rmse);
+      document.getElementById("model-total-rmse").textContent = fmtNumber(total.rmse);
+      document.getElementById("model-ats-rate").textContent = fmtPct(spread.ats_cover_rate);
       document.getElementById("model-win-rate").textContent = fmtPct(spread.win_rate);
       document.getElementById("model-sample").textContent = fmtCount(data.games_total);
       const asOf = data.as_of_utc ? `As of ${data.as_of_utc}` : "";
       document.getElementById("model-asof").textContent = asOf;
+
+      const seasonTable = document.getElementById("model-season-table");
+      seasonTable.innerHTML = "";
+      const seasons = data.seasons || {};
+      const seasonKeys = Object.keys(seasons).sort().reverse();
+      for (const season of seasonKeys) {
+        const row = seasons[season] || {};
+        const spreadRow = row.spread || {};
+        const totalRow = row.total || {};
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${season}</td>
+          <td>${fmtNumber(spreadRow.mae)}</td>
+          <td>${fmtNumber(spreadRow.rmse)}</td>
+          <td>${fmtPct(spreadRow.ats_cover_rate)}</td>
+          <td>${fmtNumber(totalRow.mae)}</td>
+          <td>${fmtNumber(totalRow.rmse)}</td>
+        `;
+        seasonTable.appendChild(tr);
+      }
+
+      const bucketTable = document.getElementById("model-bucket-table");
+      bucketTable.innerHTML = "";
+      const buckets = data.buckets || {};
+      const bucketKeys = Object.keys(buckets);
+      for (const bucket of bucketKeys) {
+        const row = buckets[bucket] || {};
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${bucket}</td>
+          <td>${fmtPct(row.win_rate)}</td>
+          <td>${row.games ?? "-"}</td>
+        `;
+        bucketTable.appendChild(tr);
+      }
     };
 
     fetch(`${METRICS_URL}?cachebust=${Date.now()}`)
