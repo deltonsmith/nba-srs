@@ -1,8 +1,10 @@
 """
 Compute accuracy metrics using rating snapshots and final games.
 
-Policy:
-- Ties in ratings are skipped (not counted in accuracy).
+Policy (locked):
+- Snapshot selection: latest snapshot with as_of_utc <= game.date_utc.
+- Tie handling: skip games when ratings are equal.
+- Missing rating in snapshot: skip the game.
 """
 
 import csv
