@@ -404,6 +404,18 @@ def main():
 
     if df.empty:
         print(f"No games found for {args.date}; writing empty payload.")
+        payload = {
+            "asOfUtc": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+            "date": args.date,
+            "timezone": "America/Chicago",
+            "vendorRule": args.vendor_rule,
+            "games": [],
+        }
+        out_path = output_dir / f"predictions_{args.date}.json"
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2)
+        print(f"Wrote predictions to {out_path}")
+        return
 
     odds_failed = False
     odds: Optional[List[Dict]] = None

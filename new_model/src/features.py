@@ -7,7 +7,7 @@ TODO: add richer possession/efficiency stats (eFG%, TOV%, ORB%, FTr) when availa
 import argparse
 from bisect import bisect_right
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from typing import Dict, Iterable, List, Optional, Tuple
 
 from config import DB_PATH
@@ -16,8 +16,30 @@ from db import get_conn, init_db
 ROLLING_WINDOWS = [5, 10, 20]
 
 
+def _coerce_date(value: Optional[object]) -> Optional[date]:
+    if value is None:
+        return None
+    if isinstance(value, date) and not isinstance(value, datetime):
+        return value
+    if isinstance(value, datetime):
+        return value.date()
+    s = str(value).strip()
+    if not s:
+        return None
+    try:
+        return datetime.fromisoformat(s.replace("Z", "+00:00")).date()
+    except Exception:
+        try:
+            return datetime.strptime(s, "%Y-%m-%d").date()
+        except Exception:
+            return None
+
+
 def parse_date(date_str: str) -> datetime.date:
-    return datetime.strptime(date_str, "%Y-%m-%d").date()
+    coerced = _coerce_date(date_str)
+    if coerced is None:
+        raise ValueError(f"Invalid date: {date_str}")
+    return coerced
 
 
 def daterange(start_date, end_date):
@@ -56,6 +78,11 @@ def load_games_before(conn, cutoff_date: str) -> List[Dict]:
 def compute_rest(prev_game_date: Optional[str], current_date: str) -> Optional[int]:
     if not prev_game_date:
         return None
+    prev = _coerce_date(prev_game_date)
+    cur = _coerce_date(current_date)
+    if prev is None or cur is None:
+        return None
+    return (cur - prev).days - 1  # days between games minus game day
 
 
 def _parse_iso(dt_str: Optional[str]) -> Optional[datetime]:
@@ -77,6 +104,7 @@ def build_team_history(games: List[Dict]) -> Dict[str, List[Dict]]:
     history: Dict[str, List[Dict]] = {}
     for g in games:
         date = g.get("date")
+        date_key = _coerce_date(date)
         gid = g.get("game_id")
         home = g.get("home_team_id")
         away = g.get("away_team_id")
@@ -93,6 +121,7 @@ def build_team_history(games: List[Dict]) -> Dict[str, List[Dict]]:
             entry = {
                 "game_id": gid,
                 "date": date,
+                "date_key": date_key,
                 "team_id": team_id,
                 "opp_id": opp_id,
                 "pts_for": int(pts_for),
@@ -167,7 +196,8 @@ def rolling_stats(entries: List[Dict], current_date: str) -> Dict[str, Dict[str,
     """
     For a team's chronological entries (past games), compute rolling stats before current_date.
     """
-    prev = [e for e in entries if e["date"] < current_date]
+    current_key = _coerce_date(current_date)
+    prev = [e for e in entries if e.get("date_key") and current_key and e["date_key"] < current_key]
     result: Dict[str, Dict[str, float]] = {}
 
     for window in ROLLING_WINDOWS:
@@ -188,10 +218,11 @@ def rolling_stats(entries: List[Dict], current_date: str) -> Dict[str, Dict[str,
 
 
 def last_game_date(entries: List[Dict], current_date: str) -> Optional[str]:
-    prev = [e for e in entries if e["date"] < current_date]
+    current_key = _coerce_date(current_date)
+    prev = [e for e in entries if e.get("date_key") and current_key and e["date_key"] < current_key]
     if not prev:
         return None
-    return prev[-1]["date"]
+    return prev[-1]["date_key"]
 
 
 def build_features_for_games(conn, games: List[Dict], team_history: Dict[str, List[Dict]], team_snapshots: Dict[int, Dict[str, List]]):
