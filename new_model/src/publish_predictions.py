@@ -19,13 +19,19 @@ def main():
     if not src.exists():
         raise SystemExit(f"Missing predictions file: {src}")
 
+    data = json.loads(src.read_text(encoding="utf-8"))
+
     dest_dir = Path("public") / "new_model"
     dest_dir.mkdir(parents=True, exist_ok=True)
     dest = dest_dir / "predictions_today.json"
-
-    data = json.loads(src.read_text(encoding="utf-8"))
     dest.write_text(json.dumps(data, indent=2), encoding="utf-8")
     print(f"Wrote {dest}")
+
+    archive_dir = Path("data") / "new_model"
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    archive_path = archive_dir / f"predictions_{args.date}.json"
+    archive_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    print(f"Wrote {archive_path}")
 
 
 if __name__ == "__main__":

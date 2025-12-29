@@ -104,6 +104,12 @@ jobs:
             python scripts/calc_accuracy.py
           fi
 
+      - name: Calculate new model accuracy metrics
+        run: |
+          if [ -f scripts/calc_new_model_accuracy.py ]; then
+            python scripts/calc_new_model_accuracy.py
+          fi
+
       - name: Validate accuracy metrics
         run: |
           python - <<'PY'

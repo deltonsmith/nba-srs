@@ -224,6 +224,30 @@
     <tbody id="season-table"></tbody>
   </table>
 
+  <h2>New model accuracy</h2>
+  <p>
+    Compares the new model's line against final scores.
+  </p>
+  <div class="grid">
+    <div class="item">
+      <div class="label">Spread MAE (points)</div>
+      <div class="metric" id="model-spread-mae">__</div>
+    </div>
+    <div class="item">
+      <div class="label">Total MAE (points)</div>
+      <div class="metric" id="model-total-mae">__</div>
+    </div>
+    <div class="item">
+      <div class="label">Model winner hit rate</div>
+      <div class="metric" id="model-win-rate">__%</div>
+    </div>
+    <div class="item">
+      <div class="label">Sample size</div>
+      <div class="metric" id="model-sample">__ games</div>
+    </div>
+  </div>
+  <p class="note" id="model-asof"></p>
+
   <h2>What this page measures</h2>
   <ul>
     <li>We compare the higher-rated team versus the lower-rated team at game time, using the latest snapshot available.</li>
@@ -277,14 +301,22 @@
 
   <script>
     const METRICS_URL = "./data/metrics/accuracy.json";
+    const MODEL_METRICS_URL = "./data/metrics/new_model_accuracy.json";
 
     const fmtPct = (value) => {
-      if (value === null || value === undefined) return "—";
+      if (value === null || value === undefined) return "-";
       return `${(value * 100).toFixed(1)}%`;
     };
 
+    const fmtNumber = (value, digits = 2) => {
+      if (value === null || value === undefined) return "-";
+      const num = Number(value);
+      if (!Number.isFinite(num)) return "-";
+      return num.toFixed(digits);
+    };
+
     const fmtCount = (value) => {
-      if (value === null || value === undefined) return "—";
+      if (value === null || value === undefined) return "-";
       return `${value} games`;
     };
 
@@ -317,11 +349,29 @@
       }
     };
 
+    const updateModelMetrics = (data) => {
+      const spread = data.spread || {};
+      const total = data.total || {};
+      document.getElementById("model-spread-mae").textContent = fmtNumber(spread.mae);
+      document.getElementById("model-total-mae").textContent = fmtNumber(total.mae);
+      document.getElementById("model-win-rate").textContent = fmtPct(spread.win_rate);
+      document.getElementById("model-sample").textContent = fmtCount(data.games_total);
+      const asOf = data.as_of_utc ? `As of ${data.as_of_utc}` : "";
+      document.getElementById("model-asof").textContent = asOf;
+    };
+
     fetch(`${METRICS_URL}?cachebust=${Date.now()}`)
       .then((resp) => resp.json())
       .then(updateMetrics)
       .catch(() => {
         document.getElementById("metric-asof").textContent = "Metrics unavailable.";
+      });
+
+    fetch(`${MODEL_METRICS_URL}?cachebust=${Date.now()}`)
+      .then((resp) => resp.json())
+      .then(updateModelMetrics)
+      .catch(() => {
+        document.getElementById("model-asof").textContent = "Metrics unavailable.";
       });
   </script>
 </body>
