@@ -1,18 +1,50 @@
 {
-  "as_of_utc": "2025-12-29T21:13:02Z",
-  "games_total": 0,
+  "as_of_utc": "2025-12-29T23:48:53Z",
+  "games_total": 473,
   "spread": {
-    "games": 0,
-    "mae": null,
-    "rmse": null,
-    "win_rate": null,
-    "ats_cover_rate": null
+    "games": 473,
+    "mae": 23.830782840053544,
+    "rmse": 29.61357054046149,
+    "win_rate": 0.02536997885835095,
+    "ats_cover_rate": 0.5496828752642706
   },
   "total": {
-    "games": 0,
-    "mae": null,
-    "rmse": null
+    "games": 473,
+    "mae": 5.798738251921144,
+    "rmse": 12.789904313322662
   },
-  "buckets": {},
-  "seasons": {}
+  "buckets": {
+    "2.5-5.5": {
+      "games": 88,
+      "win_rate": 0.045454545454545456
+    },
+    "8.5+": {
+      "games": 265,
+      "win_rate": 0.0
+    },
+    "5.5-8.5": {
+      "games": 71,
+      "win_rate": 0.014084507042253521
+    },
+    "0-2.5": {
+      "games": 49,
+      "win_rate": 0.14285714285714285
+    }
+  },
+  "seasons": {
+    "2026": {
+      "spread": {
+        "games": 473,
+        "mae": 23.830782840053544,
+        "rmse": 29.61357054046149,
+        "win_rate": 0.02536997885835095,
+        "ats_cover_rate": 0.5496828752642706
+      },
+      "total": {
+        "games": 473,
+        "mae": 5.798738251921144,
+        "rmse": 12.789904313322662
+      }
+    }
+  }
 }
