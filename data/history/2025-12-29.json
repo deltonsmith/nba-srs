@@ -1,5 +1,5 @@
 {
-  "as_of_utc": "2025-12-29T04:36:19Z",
+  "as_of_utc": "2025-12-29T09:34:32Z",
   "run_date_utc": "2025-12-29",
   "season": 2026,
   "source": "balldontlie",
@@ -85,21 +85,21 @@
       "team": "MIA",
       "rating": 1.8994655058018621,
       "rank": 12,
-      "yest_rank": 13,
+      "yest_rank": 12,
       "last_week_rank": 12
     },
     {
       "team": "TOR",
       "rating": 1.8611606446750262,
       "rank": 13,
-      "yest_rank": 14,
+      "yest_rank": 13,
       "last_week_rank": 13
     },
     {
       "team": "DET",
       "rating": 1.7889352751967664,
       "rank": 14,
-      "yest_rank": 12,
+      "yest_rank": 14,
       "last_week_rank": 14
     },
     {
@@ -113,28 +113,28 @@
       "team": "LAC",
       "rating": -0.3099215248554535,
       "rank": 16,
-      "yest_rank": 17,
+      "yest_rank": 16,
       "last_week_rank": 19
     },
     {
       "team": "PHI",
       "rating": -0.3416981787068509,
       "rank": 17,
-      "yest_rank": 16,
+      "yest_rank": 17,
       "last_week_rank": 16
     },
     {
       "team": "POR",
       "rating": -1.3133769209908814,
       "rank": 18,
-      "yest_rank": 19,
+      "yest_rank": 18,
       "last_week_rank": 17
     },
     {
       "team": "MEM",
       "rating": -1.329319198771976,
       "rank": 19,
-      "yest_rank": 18,
+      "yest_rank": 19,
       "last_week_rank": 18
     },
     {
@@ -190,14 +190,14 @@
       "team": "UTA",
       "rating": -7.5211125810107475,
       "rank": 27,
-      "yest_rank": 28,
+      "yest_rank": 27,
       "last_week_rank": 28
     },
     {
       "team": "SAC",
       "rating": -7.5800539890803424,
       "rank": 28,
-      "yest_rank": 27,
+      "yest_rank": 28,
       "last_week_rank": 26
     },
     {
