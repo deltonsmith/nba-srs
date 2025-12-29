@@ -335,6 +335,25 @@ def build_ratings_payload(ratings, last_week_ranks, yesterday_ranks, season_int,
     }
 
 
+def build_snapshot_payload(ratings, season_int, as_of_utc):
+    sorted_items = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
+    rows = []
+    for rank, (team_abbr, rating) in enumerate(sorted_items, start=1):
+        rows.append(
+            {
+                "team_id": team_abbr,
+                "team_abbr": team_abbr,
+                "rating": float(rating),
+                "rank": rank,
+            }
+        )
+    return {
+        "as_of_utc": as_of_utc,
+        "season": int(season_int),
+        "ratings": rows,
+    }
+
+
 def write_ratings_json(payload, path):
     with open(path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
@@ -476,9 +495,14 @@ def run_season(season_int):
 
     snapshots_dir = DATA_DIR / "ratings_snapshots"
     snapshots_dir.mkdir(parents=True, exist_ok=True)
-    snapshot_path = snapshots_dir / f"{run_date_utc}.json"
-    write_ratings_json(payload, snapshot_path)
+    snapshot_payload = build_snapshot_payload(ratings, season_int, as_of_utc_str)
+    snapshot_name = f"ratings_{as_of_dt.strftime('%Y%m%d_%H%M%SZ')}.json"
+    snapshot_path = snapshots_dir / snapshot_name
+    write_ratings_json(snapshot_payload, snapshot_path)
+    latest_path = DATA_DIR / "ratings_latest.json"
+    write_ratings_json(snapshot_payload, latest_path)
     print(f"Saved ratings snapshot to {snapshot_path}")
+    print(f"Updated ratings latest pointer to {latest_path}")
 
     conn.close()
 
