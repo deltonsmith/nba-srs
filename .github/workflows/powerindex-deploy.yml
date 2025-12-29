@@ -119,6 +119,13 @@ jobs:
         run: |
           python scripts/smoke_check_outputs.py
 
+      - name: Sync metrics to public
+        run: |
+          mkdir -p public/data/metrics
+          if [ -d data/metrics ]; then
+            cp -f data/metrics/* public/data/metrics/ || true
+          fi
+
       # Commit updates on master (Pages branch)
       - name: Commit updated data
         run: |
@@ -134,6 +141,8 @@ jobs:
           git add data/games/*.json || true
           git add data/metrics/*.json || true
           git add data/metrics/*.csv || true
+          git add public/data/metrics/*.json || true
+          git add public/data/metrics/*.csv || true
           git add data/player_values_2026.csv || true
           git add data/nba_ratings.db || true
 
