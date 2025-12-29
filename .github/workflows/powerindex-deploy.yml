@@ -171,9 +171,11 @@ jobs:
           git add data/ratings_current.json || true
           git add data/history/*.json || true
           git add data/ratings_snapshots/*.json || true
+          git add data/ratings_latest.json || true
           git add data/ratings_*.json || true
           git add data/csv/*.csv || true
           git add data/games/*.json || true
+          git add data/games_*.json || true
           git add data/metrics/*.json || true
           git add data/metrics/*.csv || true
           git add public/data/metrics/*.json || true
