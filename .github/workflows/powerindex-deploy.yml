@@ -91,6 +91,18 @@ jobs:
             python compute_ratings.py
           fi
 
+      - name: Update final games snapshot
+        run: |
+          if [ -f scripts/update_games.py ]; then
+            python scripts/update_games.py
+          fi
+
+      - name: Calculate accuracy metrics
+        run: |
+          if [ -f scripts/calc_accuracy.py ]; then
+            python scripts/calc_accuracy.py
+          fi
+
       - name: Validate ratings
         run: |
           set -euo pipefail
