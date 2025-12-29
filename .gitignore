@@ -1,2 +1,6 @@
 nba_ratings.db
 data/ingest_state.json
+new_model/data/
+new_model/output/
+new_model/reports/
+new_model/src/__pycache__/
