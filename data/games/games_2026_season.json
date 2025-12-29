@@ -1,0 +1,4263 @@
+{
+  "season": 2026,
+  "updated_at_utc": "2025-12-29T17:59:02Z",
+  "games": [
+    {
+      "game_id": 18446819,
+      "date_utc": "2025-10-21T23:30:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "HOU",
+      "home_score": 125,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446820,
+      "date_utc": "2025-10-22T02:00:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "GSW",
+      "home_score": 109,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446821,
+      "date_utc": "2025-10-22T23:00:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "CLE",
+      "home_score": 119,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446822,
+      "date_utc": "2025-10-23T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "SAS",
+      "home_score": 92,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446823,
+      "date_utc": "2025-10-22T23:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "BKN",
+      "home_score": 136,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446824,
+      "date_utc": "2025-10-22T23:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "MIA",
+      "home_score": 125,
+      "visitor_score": 121,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446825,
+      "date_utc": "2025-10-22T23:30:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "TOR",
+      "home_score": 118,
+      "visitor_score": 138,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446826,
+      "date_utc": "2025-10-22T23:30:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "PHI",
+      "home_score": 116,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446827,
+      "date_utc": "2025-10-23T00:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "DET",
+      "home_score": 115,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446828,
+      "date_utc": "2025-10-23T00:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "NOP",
+      "home_score": 128,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446829,
+      "date_utc": "2025-10-23T00:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "WAS",
+      "home_score": 133,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446830,
+      "date_utc": "2025-10-23T01:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "LAC",
+      "home_score": 129,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446831,
+      "date_utc": "2025-10-23T02:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "SAC",
+      "home_score": 120,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446832,
+      "date_utc": "2025-10-23T02:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "MIN",
+      "home_score": 114,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446833,
+      "date_utc": "2025-10-23T23:30:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "OKC",
+      "home_score": 135,
+      "visitor_score": 141,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446834,
+      "date_utc": "2025-10-24T02:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "DEN",
+      "home_score": 137,
+      "visitor_score": 131,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446835,
+      "date_utc": "2025-10-24T23:30:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "BOS",
+      "home_score": 105,
+      "visitor_score": 95,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446836,
+      "date_utc": "2025-10-25T02:00:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "MIN",
+      "home_score": 128,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446837,
+      "date_utc": "2025-10-24T23:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "ATL",
+      "home_score": 107,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446838,
+      "date_utc": "2025-10-24T23:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "CLE",
+      "home_score": 124,
+      "visitor_score": 131,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446839,
+      "date_utc": "2025-10-24T22:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "MIL",
+      "home_score": 116,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446840,
+      "date_utc": "2025-10-25T00:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "DET",
+      "home_score": 111,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446841,
+      "date_utc": "2025-10-25T00:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "MIA",
+      "home_score": 114,
+      "visitor_score": 146,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446842,
+      "date_utc": "2025-10-25T00:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "SAS",
+      "home_score": 116,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446843,
+      "date_utc": "2025-10-25T00:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "WAS",
+      "home_score": 107,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446844,
+      "date_utc": "2025-10-25T02:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "GSW",
+      "home_score": 139,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446845,
+      "date_utc": "2025-10-25T02:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "UTA",
+      "home_score": 105,
+      "visitor_score": 104,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446846,
+      "date_utc": "2025-10-25T02:30:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "PHX",
+      "home_score": 129,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446847,
+      "date_utc": "2025-10-25T23:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "CHI",
+      "home_score": 98,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446848,
+      "date_utc": "2025-10-25T23:30:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "OKC",
+      "home_score": 100,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446849,
+      "date_utc": "2025-10-25T23:30:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "CHA",
+      "home_score": 125,
+      "visitor_score": 121,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446850,
+      "date_utc": "2025-10-26T00:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "IND",
+      "home_score": 128,
+      "visitor_score": 103,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446851,
+      "date_utc": "2025-10-26T01:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "PHX",
+      "home_score": 133,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446852,
+      "date_utc": "2025-10-26T18:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "BKN",
+      "home_score": 118,
+      "visitor_score": 107,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446853,
+      "date_utc": "2025-10-26T19:30:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "BOS",
+      "home_score": 119,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446854,
+      "date_utc": "2025-10-26T22:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "MIL",
+      "home_score": 118,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446855,
+      "date_utc": "2025-10-26T22:00:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "NYK",
+      "home_score": 115,
+      "visitor_score": 107,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446856,
+      "date_utc": "2025-10-26T22:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "CHA",
+      "home_score": 113,
+      "visitor_score": 139,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446857,
+      "date_utc": "2025-10-26T23:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "IND",
+      "home_score": 114,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446858,
+      "date_utc": "2025-10-26T23:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "TOR",
+      "home_score": 139,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446859,
+      "date_utc": "2025-10-27T01:00:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "POR",
+      "home_score": 114,
+      "visitor_score": 107,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446860,
+      "date_utc": "2025-10-27T01:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "LAL",
+      "home_score": 120,
+      "visitor_score": 127,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446861,
+      "date_utc": "2025-10-27T23:00:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "CLE",
+      "home_score": 95,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446862,
+      "date_utc": "2025-10-28T01:30:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "DEN",
+      "home_score": 114,
+      "visitor_score": 127,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446863,
+      "date_utc": "2025-10-27T23:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "ORL",
+      "home_score": 136,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446864,
+      "date_utc": "2025-10-28T00:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "ATL",
+      "home_score": 128,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446865,
+      "date_utc": "2025-10-28T00:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "BKN",
+      "home_score": 137,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446866,
+      "date_utc": "2025-10-28T00:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "BOS",
+      "home_score": 90,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446867,
+      "date_utc": "2025-10-28T00:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "TOR",
+      "home_score": 121,
+      "visitor_score": 103,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446868,
+      "date_utc": "2025-10-28T00:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "OKC",
+      "home_score": 94,
+      "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446869,
+      "date_utc": "2025-10-28T01:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "PHX",
+      "home_score": 138,
+      "visitor_score": 134,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446870,
+      "date_utc": "2025-10-28T02:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "MEM",
+      "home_score": 131,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446871,
+      "date_utc": "2025-10-28T02:30:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "POR",
+      "home_score": 108,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446872,
+      "date_utc": "2025-10-28T23:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "PHI",
+      "home_score": 134,
+      "visitor_score": 139,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446873,
+      "date_utc": "2025-10-28T23:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "CHA",
+      "home_score": 144,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446874,
+      "date_utc": "2025-10-29T00:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "NYK",
+      "home_score": 121,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446875,
+      "date_utc": "2025-10-29T00:00:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "SAC",
+      "home_score": 107,
+      "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446876,
+      "date_utc": "2025-10-29T03:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "LAC",
+      "home_score": 98,
+      "visitor_score": 79,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446877,
+      "date_utc": "2025-10-29T23:00:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "CLE",
+      "home_score": 125,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446878,
+      "date_utc": "2025-10-29T23:00:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "ORL",
+      "home_score": 135,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446879,
+      "date_utc": "2025-10-29T23:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "ATL",
+      "home_score": 112,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446880,
+      "date_utc": "2025-10-29T22:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "HOU",
+      "home_score": 121,
+      "visitor_score": 139,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446881,
+      "date_utc": "2025-10-30T00:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "SAC",
+      "home_score": 126,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446882,
+      "date_utc": "2025-10-30T00:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "IND",
+      "home_score": 107,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446883,
+      "date_utc": "2025-10-30T01:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "NOP",
+      "home_score": 122,
+      "visitor_score": 88,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446884,
+      "date_utc": "2025-10-30T01:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "POR",
+      "home_score": 134,
+      "visitor_score": 136,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446885,
+      "date_utc": "2025-10-30T01:30:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "LAL",
+      "home_score": 115,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446886,
+      "date_utc": "2025-10-30T02:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "MEM",
+      "home_score": 113,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446887,
+      "date_utc": "2025-10-30T23:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "ORL",
+      "home_score": 107,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446888,
+      "date_utc": "2025-10-31T00:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "GSW",
+      "home_score": 120,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446889,
+      "date_utc": "2025-10-31T00:00:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "WAS",
+      "home_score": 127,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446890,
+      "date_utc": "2025-10-31T00:30:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "MIA",
+      "home_score": 107,
+      "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446891,
+      "date_utc": "2025-10-31T23:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "ATL",
+      "home_score": 108,
+      "visitor_score": 128,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446892,
+      "date_utc": "2025-10-31T23:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "BOS",
+      "home_score": 108,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446893,
+      "date_utc": "2025-10-31T23:30:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "TOR",
+      "home_score": 101,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446894,
+      "date_utc": "2025-11-01T00:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "NYK",
+      "home_score": 135,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446895,
+      "date_utc": "2025-11-01T01:30:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "LAL",
+      "home_score": 112,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446896,
+      "date_utc": "2025-11-01T02:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "UTA",
+      "home_score": 118,
+      "visitor_score": 96,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446897,
+      "date_utc": "2025-11-01T02:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "DEN",
+      "home_score": 109,
+      "visitor_score": 107,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446898,
+      "date_utc": "2025-11-01T02:30:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "NOP",
+      "home_score": 126,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446899,
+      "date_utc": "2025-11-01T21:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "SAC",
+      "home_score": 133,
+      "visitor_score": 135,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446900,
+      "date_utc": "2025-11-01T22:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "MIN",
+      "home_score": 105,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446901,
+      "date_utc": "2025-11-01T23:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "GSW",
+      "home_score": 114,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446902,
+      "date_utc": "2025-11-01T23:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "ORL",
+      "home_score": 94,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446903,
+      "date_utc": "2025-11-02T00:00:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "HOU",
+      "home_score": 101,
+      "visitor_score": 128,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446904,
+      "date_utc": "2025-11-02T02:00:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "DAL",
+      "home_score": 122,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446905,
+      "date_utc": "2025-11-02T20:30:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "NOP",
+      "home_score": 137,
+      "visitor_score": 106,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446906,
+      "date_utc": "2025-11-02T23:00:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "PHI",
+      "home_score": 105,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446907,
+      "date_utc": "2025-11-02T23:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "UTA",
+      "home_score": 126,
+      "visitor_score": 103,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446908,
+      "date_utc": "2025-11-02T23:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "ATL",
+      "home_score": 117,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446909,
+      "date_utc": "2025-11-02T23:00:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "MEM",
+      "home_score": 117,
+      "visitor_score": 104,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446910,
+      "date_utc": "2025-11-03T00:00:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "CHI",
+      "home_score": 128,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446911,
+      "date_utc": "2025-11-03T01:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "SAS",
+      "home_score": 130,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446912,
+      "date_utc": "2025-11-03T02:30:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "MIA",
+      "home_score": 130,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446913,
+      "date_utc": "2025-11-04T00:00:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "MIN",
+      "home_score": 109,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446914,
+      "date_utc": "2025-11-04T00:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "MIL",
+      "home_score": 115,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446915,
+      "date_utc": "2025-11-04T00:30:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "UTA",
+      "home_score": 103,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446916,
+      "date_utc": "2025-11-04T00:30:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "WAS",
+      "home_score": 119,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446917,
+      "date_utc": "2025-11-04T01:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "DAL",
+      "home_score": 110,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446918,
+      "date_utc": "2025-11-04T01:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "DET",
+      "home_score": 106,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446919,
+      "date_utc": "2025-11-04T02:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "SAC",
+      "home_score": 130,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446920,
+      "date_utc": "2025-11-04T03:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "LAL",
+      "home_score": 115,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446921,
+      "date_utc": "2025-11-04T03:30:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "MIA",
+      "home_score": 119,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446922,
+      "date_utc": "2025-11-05T00:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "MIL",
+      "home_score": 128,
+      "visitor_score": 100,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446923,
+      "date_utc": "2025-11-05T01:00:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "ORL",
+      "home_score": 127,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446924,
+      "date_utc": "2025-11-05T01:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "PHI",
+      "home_score": 113,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446925,
+      "date_utc": "2025-11-05T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "CHA",
+      "home_score": 116,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446926,
+      "date_utc": "2025-11-05T03:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "PHX",
+      "home_score": 118,
+      "visitor_score": 107,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446927,
+      "date_utc": "2025-11-05T04:00:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "OKC",
+      "home_score": 107,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446928,
+      "date_utc": "2025-11-06T00:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "PHI",
+      "home_score": 132,
+      "visitor_score": 121,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446929,
+      "date_utc": "2025-11-06T00:00:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "UTA",
+      "home_score": 114,
+      "visitor_score": 103,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446930,
+      "date_utc": "2025-11-06T00:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "BKN",
+      "home_score": 103,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446931,
+      "date_utc": "2025-11-06T00:30:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "WAS",
+      "home_score": 136,
+      "visitor_score": 107,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446932,
+      "date_utc": "2025-11-06T00:30:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "MIN",
+      "home_score": 137,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446933,
+      "date_utc": "2025-11-06T01:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "HOU",
+      "home_score": 109,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446934,
+      "date_utc": "2025-11-06T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "NOP",
+      "home_score": 99,
+      "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446935,
+      "date_utc": "2025-11-06T02:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "MIA",
+      "home_score": 122,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446936,
+      "date_utc": "2025-11-06T03:00:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "SAS",
+      "home_score": 118,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446937,
+      "date_utc": "2025-11-06T03:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "OKC",
+      "home_score": 121,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446938,
+      "date_utc": "2025-11-06T03:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "GSW",
+      "home_score": 121,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446939,
+      "date_utc": "2025-11-07T02:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "LAC",
+      "home_score": 115,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446940,
+      "date_utc": "2025-11-08T00:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "BOS",
+      "home_score": 123,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446941,
+      "date_utc": "2025-11-08T00:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "CLE",
+      "home_score": 115,
+      "visitor_score": 148,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446942,
+      "date_utc": "2025-11-08T00:30:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "TOR",
+      "home_score": 97,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446943,
+      "date_utc": "2025-11-08T00:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "DET",
+      "home_score": 107,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446944,
+      "date_utc": "2025-11-08T00:30:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "HOU",
+      "home_score": 121,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446945,
+      "date_utc": "2025-11-08T01:00:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "CHA",
+      "home_score": 126,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446946,
+      "date_utc": "2025-11-08T01:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "DAL",
+      "home_score": 118,
+      "visitor_score": 104,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446947,
+      "date_utc": "2025-11-08T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "CHI",
+      "home_score": 126,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446948,
+      "date_utc": "2025-11-08T01:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "UTA",
+      "home_score": 137,
+      "visitor_score": 97,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446949,
+      "date_utc": "2025-11-08T03:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "GSW",
+      "home_score": 129,
+      "visitor_score": 104,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446950,
+      "date_utc": "2025-11-08T03:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "OKC",
+      "home_score": 101,
+      "visitor_score": 132,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446951,
+      "date_utc": "2025-11-09T00:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "DAL",
+      "home_score": 105,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446952,
+      "date_utc": "2025-11-09T00:30:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "TOR",
+      "home_score": 130,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446953,
+      "date_utc": "2025-11-09T01:00:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "LAL",
+      "home_score": 122,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446954,
+      "date_utc": "2025-11-09T01:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "CHI",
+      "home_score": 128,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446955,
+      "date_utc": "2025-11-09T01:00:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "POR",
+      "home_score": 136,
+      "visitor_score": 131,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446956,
+      "date_utc": "2025-11-09T01:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "NOP",
+      "home_score": 126,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446957,
+      "date_utc": "2025-11-09T02:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "IND",
+      "home_score": 117,
+      "visitor_score": 100,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446958,
+      "date_utc": "2025-11-09T03:30:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "PHX",
+      "home_score": 103,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446959,
+      "date_utc": "2025-11-09T20:30:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "HOU",
+      "home_score": 115,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446960,
+      "date_utc": "2025-11-09T23:00:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "BKN",
+      "home_score": 134,
+      "visitor_score": 98,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446961,
+      "date_utc": "2025-11-09T23:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "BOS",
+      "home_score": 107,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446962,
+      "date_utc": "2025-11-09T23:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "OKC",
+      "home_score": 100,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446963,
+      "date_utc": "2025-11-10T00:30:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "DET",
+      "home_score": 108,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446964,
+      "date_utc": "2025-11-10T01:30:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "IND",
+      "home_score": 114,
+      "visitor_score": 83,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446965,
+      "date_utc": "2025-11-10T02:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "MIN",
+      "home_score": 117,
+      "visitor_score": 144,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446966,
+      "date_utc": "2025-11-11T00:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "LAL",
+      "home_score": 111,
+      "visitor_score": 121,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446967,
+      "date_utc": "2025-11-11T00:00:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "WAS",
+      "home_score": 137,
+      "visitor_score": 135,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446968,
+      "date_utc": "2025-11-11T00:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "POR",
+      "home_score": 115,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446969,
+      "date_utc": "2025-11-11T00:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "CLE",
+      "home_score": 140,
+      "visitor_score": 138,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446970,
+      "date_utc": "2025-11-11T01:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "SAS",
+      "home_score": 117,
+      "visitor_score": 121,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446971,
+      "date_utc": "2025-11-11T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "MIL",
+      "home_score": 114,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446972,
+      "date_utc": "2025-11-11T02:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "NOP",
+      "home_score": 121,
+      "visitor_score": 98,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446973,
+      "date_utc": "2025-11-11T02:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "MIN",
+      "home_score": 113,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446974,
+      "date_utc": "2025-11-11T03:30:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "ATL",
+      "home_score": 102,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446975,
+      "date_utc": "2025-11-12T00:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "TOR",
+      "home_score": 109,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446976,
+      "date_utc": "2025-11-12T00:30:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "MEM",
+      "home_score": 133,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446977,
+      "date_utc": "2025-11-12T01:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "BOS",
+      "home_score": 102,
+      "visitor_score": 100,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446978,
+      "date_utc": "2025-11-12T01:00:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "GSW",
+      "home_score": 126,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446979,
+      "date_utc": "2025-11-12T02:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "IND",
+      "home_score": 152,
+      "visitor_score": 128,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446980,
+      "date_utc": "2025-11-12T04:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "DEN",
+      "home_score": 108,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446981,
+      "date_utc": "2025-11-13T00:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "MIL",
+      "home_score": 111,
+      "visitor_score": 100,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446982,
+      "date_utc": "2025-11-13T00:00:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "CHI",
+      "home_score": 124,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446983,
+      "date_utc": "2025-11-13T00:00:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "ORL",
+      "home_score": 107,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446984,
+      "date_utc": "2025-11-13T00:30:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "MEM",
+      "home_score": 131,
+      "visitor_score": 95,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446985,
+      "date_utc": "2025-11-13T00:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "CLE",
+      "home_score": 116,
+      "visitor_score": 130,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446986,
+      "date_utc": "2025-11-13T01:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "WAS",
+      "home_score": 135,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446987,
+      "date_utc": "2025-11-13T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "POR",
+      "home_score": 117,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446988,
+      "date_utc": "2025-11-13T01:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "GSW",
+      "home_score": 120,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446989,
+      "date_utc": "2025-11-13T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "PHX",
+      "home_score": 114,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446990,
+      "date_utc": "2025-11-13T02:30:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "LAL",
+      "home_score": 121,
+      "visitor_score": 92,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446991,
+      "date_utc": "2025-11-13T03:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "ATL",
+      "home_score": 100,
+      "visitor_score": 133,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446992,
+      "date_utc": "2025-11-13T03:30:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "DEN",
+      "home_score": 116,
+      "visitor_score": 130,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446993,
+      "date_utc": "2025-11-14T00:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "TOR",
+      "home_score": 113,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446994,
+      "date_utc": "2025-11-14T02:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "IND",
+      "home_score": 133,
+      "visitor_score": 98,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446995,
+      "date_utc": "2025-11-14T02:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "ATL",
+      "home_score": 122,
+      "visitor_score": 132,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446996,
+      "date_utc": "2025-11-15T00:00:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "MIA",
+      "home_score": 140,
+      "visitor_score": 132,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446997,
+      "date_utc": "2025-11-15T00:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "BKN",
+      "home_score": 105,
+      "visitor_score": 98,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446998,
+      "date_utc": "2025-11-15T00:30:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "PHI",
+      "home_score": 114,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 18446999,
+      "date_utc": "2025-11-15T01:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "POR",
+      "home_score": 140,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447000,
+      "date_utc": "2025-11-15T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "CHA",
+      "home_score": 147,
+      "visitor_score": 134,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447001,
+      "date_utc": "2025-11-15T01:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "SAC",
+      "home_score": 124,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447002,
+      "date_utc": "2025-11-15T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "LAL",
+      "home_score": 104,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447003,
+      "date_utc": "2025-11-15T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "LAC",
+      "home_score": 127,
+      "visitor_score": 133,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447004,
+      "date_utc": "2025-11-15T02:30:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "GSW",
+      "home_score": 108,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447005,
+      "date_utc": "2025-11-15T22:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "MEM",
+      "home_score": 108,
+      "visitor_score": 100,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447006,
+      "date_utc": "2025-11-16T00:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "OKC",
+      "home_score": 96,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447007,
+      "date_utc": "2025-11-16T00:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "TOR",
+      "home_score": 111,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447008,
+      "date_utc": "2025-11-16T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "LAL",
+      "home_score": 95,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447009,
+      "date_utc": "2025-11-16T01:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "DEN",
+      "home_score": 112,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447010,
+      "date_utc": "2025-11-16T20:30:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "LAC",
+      "home_score": 121,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447011,
+      "date_utc": "2025-11-16T21:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "SAC",
+      "home_score": 123,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447012,
+      "date_utc": "2025-11-16T23:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "BKN",
+      "home_score": 106,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447013,
+      "date_utc": "2025-11-17T00:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "ORL",
+      "home_score": 117,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447014,
+      "date_utc": "2025-11-17T00:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "GSW",
+      "home_score": 106,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447015,
+      "date_utc": "2025-11-17T00:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "POR",
+      "home_score": 138,
+      "visitor_score": 133,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447016,
+      "date_utc": "2025-11-17T01:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "ATL",
+      "home_score": 122,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447017,
+      "date_utc": "2025-11-17T01:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "CHI",
+      "home_score": 150,
+      "visitor_score": 147,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447018,
+      "date_utc": "2025-11-18T00:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "MIL",
+      "home_score": 118,
+      "visitor_score": 106,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447019,
+      "date_utc": "2025-11-18T00:00:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "IND",
+      "home_score": 127,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447020,
+      "date_utc": "2025-11-18T00:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "LAC",
+      "home_score": 110,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447021,
+      "date_utc": "2025-11-18T00:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "NYK",
+      "home_score": 115,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447022,
+      "date_utc": "2025-11-18T00:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "CHA",
+      "home_score": 110,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447023,
+      "date_utc": "2025-11-18T01:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "DAL",
+      "home_score": 120,
+      "visitor_score": 96,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447024,
+      "date_utc": "2025-11-18T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "OKC",
+      "home_score": 109,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447025,
+      "date_utc": "2025-11-18T02:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "CHI",
+      "home_score": 127,
+      "visitor_score": 130,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447026,
+      "date_utc": "2025-11-19T00:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "GSW",
+      "home_score": 121,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447027,
+      "date_utc": "2025-11-19T00:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "BOS",
+      "home_score": 99,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447028,
+      "date_utc": "2025-11-19T00:30:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "DET",
+      "home_score": 112,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447029,
+      "date_utc": "2025-11-19T01:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "MEM",
+      "home_score": 111,
+      "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447030,
+      "date_utc": "2025-11-19T03:30:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "UTA",
+      "home_score": 140,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447031,
+      "date_utc": "2025-11-19T04:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "PHX",
+      "home_score": 110,
+      "visitor_score": 127,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447032,
+      "date_utc": "2025-11-20T00:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "HOU",
+      "home_score": 104,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447033,
+      "date_utc": "2025-11-20T00:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "CHA",
+      "home_score": 127,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447034,
+      "date_utc": "2025-11-20T00:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "GSW",
+      "home_score": 110,
+      "visitor_score": 96,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447035,
+      "date_utc": "2025-11-20T00:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "TOR",
+      "home_score": 112,
+      "visitor_score": 121,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447036,
+      "date_utc": "2025-11-20T01:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "WAS",
+      "home_score": 120,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447037,
+      "date_utc": "2025-11-20T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "DEN",
+      "home_score": 118,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447038,
+      "date_utc": "2025-11-20T01:00:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "SAC",
+      "home_score": 113,
+      "visitor_score": 99,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447039,
+      "date_utc": "2025-11-20T02:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "NYK",
+      "home_score": 111,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447040,
+      "date_utc": "2025-11-20T03:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "CHI",
+      "home_score": 121,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447041,
+      "date_utc": "2025-11-21T00:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "LAC",
+      "home_score": 129,
+      "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447042,
+      "date_utc": "2025-11-21T01:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "SAC",
+      "home_score": 137,
+      "visitor_score": 96,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447043,
+      "date_utc": "2025-11-21T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "PHI",
+      "home_score": 114,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447044,
+      "date_utc": "2025-11-21T01:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "ATL",
+      "home_score": 135,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447045,
+      "date_utc": "2025-11-22T00:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "IND",
+      "home_score": 120,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447046,
+      "date_utc": "2025-11-22T00:30:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "BKN",
+      "home_score": 105,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447047,
+      "date_utc": "2025-11-22T00:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "WAS",
+      "home_score": 140,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447048,
+      "date_utc": "2025-11-22T01:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "MIA",
+      "home_score": 107,
+      "visitor_score": 143,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447049,
+      "date_utc": "2025-11-22T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "NOP",
+      "home_score": 118,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447050,
+      "date_utc": "2025-11-22T02:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "MIN",
+      "home_score": 114,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447051,
+      "date_utc": "2025-11-22T02:30:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "DEN",
+      "home_score": 109,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447052,
+      "date_utc": "2025-11-22T03:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "OKC",
+      "home_score": 112,
+      "visitor_score": 144,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447053,
+      "date_utc": "2025-11-22T03:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "POR",
+      "home_score": 123,
+      "visitor_score": 127,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447054,
+      "date_utc": "2025-11-22T18:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "LAC",
+      "home_score": 116,
+      "visitor_score": 131,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447055,
+      "date_utc": "2025-11-22T22:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "NYK",
+      "home_score": 133,
+      "visitor_score": 121,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447056,
+      "date_utc": "2025-11-23T00:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "ATL",
+      "home_score": 98,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447057,
+      "date_utc": "2025-11-23T01:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "WAS",
+      "home_score": 121,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447058,
+      "date_utc": "2025-11-23T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "DET",
+      "home_score": 116,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447059,
+      "date_utc": "2025-11-23T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "MEM",
+      "home_score": 96,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447060,
+      "date_utc": "2025-11-23T03:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "SAC",
+      "home_score": 123,
+      "visitor_score": 128,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447061,
+      "date_utc": "2025-11-23T18:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "MIA",
+      "home_score": 117,
+      "visitor_score": 127,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447062,
+      "date_utc": "2025-11-23T23:00:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "CHA",
+      "home_score": 113,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447063,
+      "date_utc": "2025-11-23T23:00:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "ORL",
+      "home_score": 138,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447064,
+      "date_utc": "2025-11-23T23:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "LAC",
+      "home_score": 120,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447065,
+      "date_utc": "2025-11-23T23:00:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "BKN",
+      "home_score": 119,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447066,
+      "date_utc": "2025-11-24T00:00:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "POR",
+      "home_score": 122,
+      "visitor_score": 95,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447067,
+      "date_utc": "2025-11-24T01:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "SAS",
+      "home_score": 111,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447068,
+      "date_utc": "2025-11-24T01:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "LAL",
+      "home_score": 106,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447069,
+      "date_utc": "2025-11-25T00:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "DET",
+      "home_score": 117,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447070,
+      "date_utc": "2025-11-25T00:00:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "CLE",
+      "home_score": 110,
+      "visitor_score": 99,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447071,
+      "date_utc": "2025-11-25T00:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "NYK",
+      "home_score": 100,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447072,
+      "date_utc": "2025-11-25T00:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "DAL",
+      "home_score": 106,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447073,
+      "date_utc": "2025-11-25T01:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "DEN",
+      "home_score": 115,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447074,
+      "date_utc": "2025-11-25T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "POR",
+      "home_score": 103,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447075,
+      "date_utc": "2025-11-25T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "CHI",
+      "home_score": 143,
+      "visitor_score": 130,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447076,
+      "date_utc": "2025-11-25T02:30:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "HOU",
+      "home_score": 92,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447077,
+      "date_utc": "2025-11-25T03:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "UTA",
+      "home_score": 134,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447078,
+      "date_utc": "2025-11-25T03:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "MIN",
+      "home_score": 117,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447079,
+      "date_utc": "2025-11-26T00:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "ATL",
+      "home_score": 132,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447080,
+      "date_utc": "2025-11-26T01:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "ORL",
+      "home_score": 103,
+      "visitor_score": 144,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447081,
+      "date_utc": "2025-11-26T04:00:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "LAC",
+      "home_score": 135,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447082,
+      "date_utc": "2025-11-26T22:00:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "DET",
+      "home_score": 117,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447083,
+      "date_utc": "2025-11-27T00:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "NYK",
+      "home_score": 101,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447084,
+      "date_utc": "2025-11-27T00:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "MIL",
+      "home_score": 106,
+      "visitor_score": 103,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447085,
+      "date_utc": "2025-11-27T00:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "IND",
+      "home_score": 97,
+      "visitor_score": 95,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447086,
+      "date_utc": "2025-11-27T00:30:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "MIN",
+      "home_score": 113,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447087,
+      "date_utc": "2025-11-27T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "MEM",
+      "home_score": 128,
+      "visitor_score": 133,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447088,
+      "date_utc": "2025-11-27T03:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "HOU",
+      "home_score": 100,
+      "visitor_score": 104,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447089,
+      "date_utc": "2025-11-27T03:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "SAS",
+      "home_score": 102,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447090,
+      "date_utc": "2025-11-27T03:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "PHX",
+      "home_score": 100,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447091,
+      "date_utc": "2025-11-29T00:30:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "CLE",
+      "home_score": 130,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447092,
+      "date_utc": "2025-11-29T00:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "PHI",
+      "home_score": 103,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447093,
+      "date_utc": "2025-11-29T00:30:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "CHI",
+      "home_score": 123,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447094,
+      "date_utc": "2025-11-29T00:30:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "ORL",
+      "home_score": 109,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447095,
+      "date_utc": "2025-11-29T00:30:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "WAS",
+      "home_score": 119,
+      "visitor_score": 86,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447096,
+      "date_utc": "2025-11-29T00:30:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "MIL",
+      "home_score": 118,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447097,
+      "date_utc": "2025-11-29T02:30:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "PHX",
+      "home_score": 123,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447098,
+      "date_utc": "2025-11-29T02:30:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "SAS",
+      "home_score": 136,
+      "visitor_score": 139,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447099,
+      "date_utc": "2025-11-29T02:30:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "SAC",
+      "home_score": 128,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447100,
+      "date_utc": "2025-11-29T03:00:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "DAL",
+      "home_score": 129,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447101,
+      "date_utc": "2025-11-29T03:00:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "MEM",
+      "home_score": 107,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447102,
+      "date_utc": "2025-11-29T22:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "BOS",
+      "home_score": 119,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447103,
+      "date_utc": "2025-11-29T23:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "TOR",
+      "home_score": 118,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447104,
+      "date_utc": "2025-11-30T00:30:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "CHI",
+      "home_score": 103,
+      "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447105,
+      "date_utc": "2025-11-30T01:00:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "DET",
+      "home_score": 135,
+      "visitor_score": 138,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447106,
+      "date_utc": "2025-11-30T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "BKN",
+      "home_score": 116,
+      "visitor_score": 99,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447107,
+      "date_utc": "2025-11-30T01:30:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "NOP",
+      "home_score": 104,
+      "visitor_score": 96,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447108,
+      "date_utc": "2025-11-30T02:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "DEN",
+      "home_score": 112,
+      "visitor_score": 130,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447109,
+      "date_utc": "2025-11-30T03:00:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "DAL",
+      "home_score": 110,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447110,
+      "date_utc": "2025-11-30T20:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "HOU",
+      "home_score": 101,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447111,
+      "date_utc": "2025-11-30T23:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "BOS",
+      "home_score": 115,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447112,
+      "date_utc": "2025-11-30T23:00:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "TOR",
+      "home_score": 116,
+      "visitor_score": 94,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447113,
+      "date_utc": "2025-11-30T23:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "ATL",
+      "home_score": 134,
+      "visitor_score": 142,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447114,
+      "date_utc": "2025-11-30T23:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "OKC",
+      "home_score": 115,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447115,
+      "date_utc": "2025-12-01T00:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "SAS",
+      "home_score": 125,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447116,
+      "date_utc": "2025-12-01T02:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "MEM",
+      "home_score": 107,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447117,
+      "date_utc": "2025-12-01T02:30:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "NOP",
+      "home_score": 133,
+      "visitor_score": 121,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447118,
+      "date_utc": "2025-12-02T00:00:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "ATL",
+      "home_score": 99,
+      "visitor_score": 98,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447119,
+      "date_utc": "2025-12-02T00:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "CLE",
+      "home_score": 119,
+      "visitor_score": 135,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447120,
+      "date_utc": "2025-12-02T00:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "MIL",
+      "home_score": 129,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447121,
+      "date_utc": "2025-12-02T00:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "CHA",
+      "home_score": 116,
+      "visitor_score": 103,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447122,
+      "date_utc": "2025-12-02T00:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "LAC",
+      "home_score": 140,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447123,
+      "date_utc": "2025-12-02T00:30:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "CHI",
+      "home_score": 125,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447124,
+      "date_utc": "2025-12-02T02:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "DAL",
+      "home_score": 121,
+      "visitor_score": 131,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447125,
+      "date_utc": "2025-12-02T02:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "HOU",
+      "home_score": 133,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447126,
+      "date_utc": "2025-12-02T03:00:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "PHX",
+      "home_score": 108,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447127,
+      "date_utc": "2025-12-03T00:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "WAS",
+      "home_score": 121,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447128,
+      "date_utc": "2025-12-03T00:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "POR",
+      "home_score": 121,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447129,
+      "date_utc": "2025-12-03T01:00:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "NYK",
+      "home_score": 123,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447130,
+      "date_utc": "2025-12-03T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "MIN",
+      "home_score": 142,
+      "visitor_score": 149,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447131,
+      "date_utc": "2025-12-03T01:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "MEM",
+      "home_score": 126,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447132,
+      "date_utc": "2025-12-03T04:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "OKC",
+      "home_score": 112,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447133,
+      "date_utc": "2025-12-04T00:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "POR",
+      "home_score": 110,
+      "visitor_score": 122,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447134,
+      "date_utc": "2025-12-04T00:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "DEN",
+      "home_score": 120,
+      "visitor_score": 135,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447135,
+      "date_utc": "2025-12-04T00:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "SAS",
+      "home_score": 112,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447136,
+      "date_utc": "2025-12-04T00:30:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "LAC",
+      "home_score": 92,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447137,
+      "date_utc": "2025-12-04T00:30:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "CHA",
+      "home_score": 119,
+      "visitor_score": 104,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447138,
+      "date_utc": "2025-12-04T01:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "BKN",
+      "home_score": 103,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447139,
+      "date_utc": "2025-12-04T01:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "SAC",
+      "home_score": 121,
+      "visitor_score": 95,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447140,
+      "date_utc": "2025-12-04T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "DET",
+      "home_score": 113,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447141,
+      "date_utc": "2025-12-04T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "MIA",
+      "home_score": 118,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447142,
+      "date_utc": "2025-12-05T00:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "GSW",
+      "home_score": 99,
+      "visitor_score": 98,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447143,
+      "date_utc": "2025-12-05T00:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "BOS",
+      "home_score": 101,
+      "visitor_score": 146,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447144,
+      "date_utc": "2025-12-05T00:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "UTA",
+      "home_score": 110,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447145,
+      "date_utc": "2025-12-05T00:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "LAL",
+      "home_score": 120,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447146,
+      "date_utc": "2025-12-05T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "MIN",
+      "home_score": 116,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447147,
+      "date_utc": "2025-12-06T00:00:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "LAL",
+      "home_score": 126,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447148,
+      "date_utc": "2025-12-06T00:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "MIA",
+      "home_score": 106,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447149,
+      "date_utc": "2025-12-06T00:30:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "DEN",
+      "home_score": 133,
+      "visitor_score": 134,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447150,
+      "date_utc": "2025-12-06T00:30:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "SAS",
+      "home_score": 130,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447151,
+      "date_utc": "2025-12-06T00:30:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "POR",
+      "home_score": 122,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447152,
+      "date_utc": "2025-12-06T00:30:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "UTA",
+      "home_score": 146,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447153,
+      "date_utc": "2025-12-06T00:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "CHA",
+      "home_score": 86,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447154,
+      "date_utc": "2025-12-06T01:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "IND",
+      "home_score": 105,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447155,
+      "date_utc": "2025-12-06T01:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "PHX",
+      "home_score": 117,
+      "visitor_score": 98,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447156,
+      "date_utc": "2025-12-06T01:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "LAC",
+      "home_score": 107,
+      "visitor_score": 98,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447157,
+      "date_utc": "2025-12-06T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "PHI",
+      "home_score": 101,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447158,
+      "date_utc": "2025-12-06T02:30:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "DAL",
+      "home_score": 132,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447159,
+      "date_utc": "2025-12-06T22:00:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "NOP",
+      "home_score": 119,
+      "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447160,
+      "date_utc": "2025-12-07T00:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "ATL",
+      "home_score": 116,
+      "visitor_score": 131,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447161,
+      "date_utc": "2025-12-07T00:30:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "GSW",
+      "home_score": 94,
+      "visitor_score": 99,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447162,
+      "date_utc": "2025-12-07T00:30:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "MIL",
+      "home_score": 124,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447163,
+      "date_utc": "2025-12-07T01:00:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "SAC",
+      "home_score": 111,
+      "visitor_score": 127,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447164,
+      "date_utc": "2025-12-07T01:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "LAC",
+      "home_score": 109,
+      "visitor_score": 106,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447165,
+      "date_utc": "2025-12-07T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "HOU",
+      "home_score": 122,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447166,
+      "date_utc": "2025-12-07T17:00:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "ORL",
+      "home_score": 106,
+      "visitor_score": 100,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447167,
+      "date_utc": "2025-12-07T20:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "BOS",
+      "home_score": 113,
+      "visitor_score": 121,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447168,
+      "date_utc": "2025-12-07T23:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "DEN",
+      "home_score": 106,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447169,
+      "date_utc": "2025-12-07T23:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "POR",
+      "home_score": 119,
+      "visitor_score": 96,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447170,
+      "date_utc": "2025-12-08T00:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "GSW",
+      "home_score": 91,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447171,
+      "date_utc": "2025-12-08T00:30:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "LAL",
+      "home_score": 108,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447172,
+      "date_utc": "2025-12-08T01:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "OKC",
+      "home_score": 101,
+      "visitor_score": 131,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447173,
+      "date_utc": "2025-12-09T00:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "SAC",
+      "home_score": 116,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447174,
+      "date_utc": "2025-12-09T00:30:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "PHX",
+      "home_score": 105,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447175,
+      "date_utc": "2025-12-09T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "SAS",
+      "home_score": 132,
+      "visitor_score": 135,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054033,
+      "date_utc": "2025-12-09T23:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "MIA",
+      "home_score": 117,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054034,
+      "date_utc": "2025-12-10T01:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "NYK",
+      "home_score": 101,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054035,
+      "date_utc": "2025-12-11T00:30:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "PHX",
+      "home_score": 138,
+      "visitor_score": 89,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054036,
+      "date_utc": "2025-12-11T03:00:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "SAS",
+      "home_score": 119,
+      "visitor_score": 132,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054958,
+      "date_utc": "2025-12-12T01:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "LAC",
+      "home_score": 115,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054959,
+      "date_utc": "2025-12-12T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "BOS",
+      "home_score": 116,
+      "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054960,
+      "date_utc": "2025-12-12T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "POR",
+      "home_score": 143,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054961,
+      "date_utc": "2025-12-12T03:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "DEN",
+      "home_score": 105,
+      "visitor_score": 136,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054962,
+      "date_utc": "2025-12-13T00:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "CHI",
+      "home_score": 126,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054963,
+      "date_utc": "2025-12-13T00:00:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "ATL",
+      "home_score": 142,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054964,
+      "date_utc": "2025-12-13T00:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "IND",
+      "home_score": 115,
+      "visitor_score": 105,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054965,
+      "date_utc": "2025-12-13T00:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "CLE",
+      "home_score": 126,
+      "visitor_score": 130,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054966,
+      "date_utc": "2025-12-13T01:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "UTA",
+      "home_score": 126,
+      "visitor_score": 130,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054967,
+      "date_utc": "2025-12-13T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "BKN",
+      "home_score": 119,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054968,
+      "date_utc": "2025-12-13T03:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "MIN",
+      "home_score": 120,
+      "visitor_score": 127,
+      "status": "Final"
+    },
+    {
+      "game_id": 20290668,
+      "date_utc": "2025-12-13T22:30:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "NYK",
+      "home_score": 120,
+      "visitor_score": 132,
+      "status": "Final"
+    },
+    {
+      "game_id": 20314126,
+      "date_utc": "2025-12-14T02:00:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "SAS",
+      "home_score": 109,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054969,
+      "date_utc": "2025-12-14T20:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "WAS",
+      "home_score": 89,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054970,
+      "date_utc": "2025-12-14T23:00:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "PHI",
+      "home_score": 120,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054971,
+      "date_utc": "2025-12-14T20:30:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "CHA",
+      "home_score": 111,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054972,
+      "date_utc": "2025-12-14T23:00:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "MIL",
+      "home_score": 127,
+      "visitor_score": 82,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054973,
+      "date_utc": "2025-12-15T00:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "SAC",
+      "home_score": 117,
+      "visitor_score": 103,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054974,
+      "date_utc": "2025-12-15T02:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "GSW",
+      "home_score": 136,
+      "visitor_score": 131,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054976,
+      "date_utc": "2025-12-15T00:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "NOP",
+      "home_score": 104,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 20314134,
+      "date_utc": "2025-12-15T01:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "LAL",
+      "home_score": 114,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054975,
+      "date_utc": "2025-12-16T00:00:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "DET",
+      "home_score": 105,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054977,
+      "date_utc": "2025-12-16T02:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "DAL",
+      "home_score": 140,
+      "visitor_score": 133,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054978,
+      "date_utc": "2025-12-16T02:30:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "HOU",
+      "home_score": 128,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 20054979,
+      "date_utc": "2025-12-16T03:30:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "MEM",
+      "home_score": 103,
+      "visitor_score": 121,
+      "status": "Final"
+    },
+    {
+      "game_id": 20290680,
+      "date_utc": "2025-12-16T00:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "TOR",
+      "home_score": 96,
+      "visitor_score": 106,
+      "status": "Final"
+    },
+    {
+      "game_id": 20377171,
+      "date_utc": "2025-12-17T01:30:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "SAS",
+      "home_score": 124,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447176,
+      "date_utc": "2025-12-18T01:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "CLE",
+      "home_score": 127,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447177,
+      "date_utc": "2025-12-18T01:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "MEM",
+      "home_score": 110,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447178,
+      "date_utc": "2025-12-19T01:00:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "LAC",
+      "home_score": 122,
+      "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447179,
+      "date_utc": "2025-12-19T01:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "WAS",
+      "home_score": 119,
+      "visitor_score": 94,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447180,
+      "date_utc": "2025-12-19T00:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "ATL",
+      "home_score": 133,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447181,
+      "date_utc": "2025-12-19T00:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "NYK",
+      "home_score": 113,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447182,
+      "date_utc": "2025-12-19T00:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "MIA",
+      "home_score": 95,
+      "visitor_score": 106,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447183,
+      "date_utc": "2025-12-19T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "TOR",
+      "home_score": 105,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447184,
+      "date_utc": "2025-12-19T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "HOU",
+      "home_score": 133,
+      "visitor_score": 128,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447185,
+      "date_utc": "2025-12-19T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "DET",
+      "home_score": 116,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447186,
+      "date_utc": "2025-12-19T02:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "ORL",
+      "home_score": 126,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447187,
+      "date_utc": "2025-12-19T02:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "GSW",
+      "home_score": 99,
+      "visitor_score": 98,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447188,
+      "date_utc": "2025-12-19T02:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "LAL",
+      "home_score": 135,
+      "visitor_score": 143,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447189,
+      "date_utc": "2025-12-19T03:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "SAC",
+      "home_score": 134,
+      "visitor_score": 133,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447190,
+      "date_utc": "2025-12-20T00:00:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "MIA",
+      "home_score": 129,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447191,
+      "date_utc": "2025-12-20T00:00:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "PHI",
+      "home_score": 107,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447192,
+      "date_utc": "2025-12-20T00:30:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "SAS",
+      "home_score": 98,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447193,
+      "date_utc": "2025-12-20T00:30:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "CHI",
+      "home_score": 125,
+      "visitor_score": 136,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447194,
+      "date_utc": "2025-12-20T02:30:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "OKC",
+      "home_score": 112,
+      "visitor_score": 107,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447195,
+      "date_utc": "2025-12-20T22:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "HOU",
+      "home_score": 101,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447196,
+      "date_utc": "2025-12-21T00:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "DAL",
+      "home_score": 121,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447197,
+      "date_utc": "2025-12-21T00:00:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "BOS",
+      "home_score": 96,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447198,
+      "date_utc": "2025-12-21T00:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "IND",
+      "home_score": 128,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447199,
+      "date_utc": "2025-12-21T00:30:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "CHA",
+      "home_score": 112,
+      "visitor_score": 86,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447200,
+      "date_utc": "2025-12-21T01:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "WAS",
+      "home_score": 122,
+      "visitor_score": 130,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447201,
+      "date_utc": "2025-12-21T01:30:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "PHX",
+      "home_score": 119,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447202,
+      "date_utc": "2025-12-21T02:30:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "ORL",
+      "home_score": 127,
+      "visitor_score": 128,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447203,
+      "date_utc": "2025-12-21T03:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "POR",
+      "home_score": 93,
+      "visitor_score": 98,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447204,
+      "date_utc": "2025-12-21T03:30:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "LAL",
+      "home_score": 103,
+      "visitor_score": 88,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447205,
+      "date_utc": "2025-12-21T20:30:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "CHI",
+      "home_score": 150,
+      "visitor_score": 152,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447206,
+      "date_utc": "2025-12-21T23:00:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "TOR",
+      "home_score": 96,
+      "visitor_score": 81,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447207,
+      "date_utc": "2025-12-21T23:00:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "MIA",
+      "home_score": 132,
+      "visitor_score": 125,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447208,
+      "date_utc": "2025-12-22T00:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "SAS",
+      "home_score": 113,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447209,
+      "date_utc": "2025-12-22T00:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "MIL",
+      "home_score": 103,
+      "visitor_score": 100,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447210,
+      "date_utc": "2025-12-22T03:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "HOU",
+      "home_score": 125,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447211,
+      "date_utc": "2025-12-23T00:00:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "CHA",
+      "home_score": 139,
+      "visitor_score": 132,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447212,
+      "date_utc": "2025-12-23T00:30:00Z",
+      "home_team_id": "BOS",
+      "visitor_team_id": "IND",
+      "home_score": 103,
+      "visitor_score": 95,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447213,
+      "date_utc": "2025-12-23T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "DAL",
+      "home_score": 119,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447214,
+      "date_utc": "2025-12-23T02:00:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "UTA",
+      "home_score": 135,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447215,
+      "date_utc": "2025-12-23T02:30:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "MEM",
+      "home_score": 119,
+      "visitor_score": 103,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447216,
+      "date_utc": "2025-12-23T03:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "ORL",
+      "home_score": 120,
+      "visitor_score": 97,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447217,
+      "date_utc": "2025-12-23T03:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "DET",
+      "home_score": 102,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447218,
+      "date_utc": "2025-12-24T00:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "WAS",
+      "home_score": 126,
+      "visitor_score": 109,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447219,
+      "date_utc": "2025-12-24T00:00:00Z",
+      "home_team_id": "PHI",
+      "visitor_team_id": "BKN",
+      "home_score": 106,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447220,
+      "date_utc": "2025-12-24T00:30:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "CHI",
+      "home_score": 123,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447221,
+      "date_utc": "2025-12-24T00:30:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "NOP",
+      "home_score": 141,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447222,
+      "date_utc": "2025-12-24T00:30:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "MIL",
+      "home_score": 94,
+      "visitor_score": 111,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447223,
+      "date_utc": "2025-12-24T00:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "TOR",
+      "home_score": 91,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447224,
+      "date_utc": "2025-12-24T01:00:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "DEN",
+      "home_score": 131,
+      "visitor_score": 130,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447225,
+      "date_utc": "2025-12-24T01:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "NYK",
+      "home_score": 115,
+      "visitor_score": 104,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447226,
+      "date_utc": "2025-12-24T01:30:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "OKC",
+      "home_score": 130,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447227,
+      "date_utc": "2025-12-24T02:00:00Z",
+      "home_team_id": "PHX",
+      "visitor_team_id": "LAL",
+      "home_score": 132,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447228,
+      "date_utc": "2025-12-24T02:00:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "MEM",
+      "home_score": 128,
+      "visitor_score": 137,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447229,
+      "date_utc": "2025-12-24T03:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "ORL",
+      "home_score": 106,
+      "visitor_score": 110,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447230,
+      "date_utc": "2025-12-24T03:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "DET",
+      "home_score": 127,
+      "visitor_score": 136,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447231,
+      "date_utc": "2025-12-24T03:30:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "HOU",
+      "home_score": 128,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447232,
+      "date_utc": "2025-12-25T17:00:00Z",
+      "home_team_id": "NYK",
+      "visitor_team_id": "CLE",
+      "home_score": 126,
+      "visitor_score": 124,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447233,
+      "date_utc": "2025-12-25T19:30:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "SAS",
+      "home_score": 102,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447234,
+      "date_utc": "2025-12-25T22:00:00Z",
+      "home_team_id": "GSW",
+      "visitor_team_id": "DAL",
+      "home_score": 126,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447235,
+      "date_utc": "2025-12-26T01:00:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "HOU",
+      "home_score": 96,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447236,
+      "date_utc": "2025-12-26T03:30:00Z",
+      "home_team_id": "DEN",
+      "visitor_team_id": "MIN",
+      "home_score": 142,
+      "visitor_score": 138,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447237,
+      "date_utc": "2025-12-27T00:00:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "MIA",
+      "home_score": 111,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447238,
+      "date_utc": "2025-12-27T00:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "CHA",
+      "home_score": 105,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447239,
+      "date_utc": "2025-12-27T00:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "TOR",
+      "home_score": 138,
+      "visitor_score": 117,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447240,
+      "date_utc": "2025-12-27T00:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "BOS",
+      "home_score": 122,
+      "visitor_score": 140,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447241,
+      "date_utc": "2025-12-27T00:30:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "PHI",
+      "home_score": 109,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447242,
+      "date_utc": "2025-12-27T01:00:00Z",
+      "home_team_id": "MEM",
+      "visitor_team_id": "MIL",
+      "home_score": 125,
+      "visitor_score": 104,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447243,
+      "date_utc": "2025-12-27T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "PHX",
+      "home_score": 108,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447244,
+      "date_utc": "2025-12-27T02:30:00Z",
+      "home_team_id": "UTA",
+      "visitor_team_id": "DET",
+      "home_score": 131,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447245,
+      "date_utc": "2025-12-27T03:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "LAC",
+      "home_score": 103,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447246,
+      "date_utc": "2025-12-27T22:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "DAL",
+      "home_score": 113,
+      "visitor_score": 107,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447247,
+      "date_utc": "2025-12-28T00:00:00Z",
+      "home_team_id": "ORL",
+      "visitor_team_id": "DEN",
+      "home_score": 127,
+      "visitor_score": 126,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447248,
+      "date_utc": "2025-12-28T00:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "PHX",
+      "home_score": 114,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447249,
+      "date_utc": "2025-12-28T01:00:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "NYK",
+      "home_score": 125,
+      "visitor_score": 128,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447250,
+      "date_utc": "2025-12-28T01:00:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "IND",
+      "home_score": 142,
+      "visitor_score": 116,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447251,
+      "date_utc": "2025-12-28T01:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "MIL",
+      "home_score": 103,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447252,
+      "date_utc": "2025-12-28T01:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "CLE",
+      "home_score": 117,
+      "visitor_score": 100,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447253,
+      "date_utc": "2025-12-28T01:00:00Z",
+      "home_team_id": "MIN",
+      "visitor_team_id": "BKN",
+      "home_score": 107,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447254,
+      "date_utc": "2025-12-28T01:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "UTA",
+      "home_score": 114,
+      "visitor_score": 127,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447255,
+      "date_utc": "2025-12-28T20:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "GSW",
+      "home_score": 141,
+      "visitor_score": 127,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447256,
+      "date_utc": "2025-12-28T20:30:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "PHI",
+      "home_score": 129,
+      "visitor_score": 104,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447257,
+      "date_utc": "2025-12-28T23:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "MEM",
+      "home_score": 116,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447258,
+      "date_utc": "2025-12-28T23:00:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "BOS",
+      "home_score": 114,
+      "visitor_score": 108,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447259,
+      "date_utc": "2025-12-29T02:00:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "DET",
+      "home_score": 112,
+      "visitor_score": 99,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447260,
+      "date_utc": "2025-12-29T02:30:00Z",
+      "home_team_id": "LAL",
+      "visitor_team_id": "SAC",
+      "home_score": 125,
+      "visitor_score": 101,
+      "status": "Final"
+    }
+  ]
+}
