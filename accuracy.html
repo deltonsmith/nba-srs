@@ -193,21 +193,22 @@
   <div class="grid">
     <div class="item">
       <div class="label">Season to date higher-rated win rate</div>
-      <div class="metric">__%</div>
+      <div class="metric" id="metric-std">__%</div>
     </div>
     <div class="item">
       <div class="label">Last 30 days higher-rated win rate</div>
-      <div class="metric">__%</div>
+      <div class="metric" id="metric-30">__%</div>
     </div>
     <div class="item">
       <div class="label">Last 7 days higher-rated win rate</div>
-      <div class="metric">__%</div>
+      <div class="metric" id="metric-7">__%</div>
     </div>
     <div class="item">
       <div class="label">Sample size</div>
-      <div class="metric">__ games</div>
+      <div class="metric" id="metric-sample">__ games</div>
     </div>
   </div>
+  <p class="note" id="metric-asof"></p>
 
   <h2>Season-by-season summary</h2>
   <table>
@@ -219,26 +220,7 @@
         <th>Notes</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td>2023</td>
-        <td>__</td>
-        <td>__</td>
-        <td>TBD</td>
-      </tr>
-      <tr>
-        <td>2024</td>
-        <td>__</td>
-        <td>__</td>
-        <td>TBD</td>
-      </tr>
-      <tr>
-        <td>2025</td>
-        <td>__</td>
-        <td>__</td>
-        <td>TBD</td>
-      </tr>
-    </tbody>
+    <tbody id="season-table"></tbody>
   </table>
 
   <h2>What this page measures</h2>
@@ -291,5 +273,55 @@
   <p class="note">
     Data is updated alongside the daily rankings once metrics are wired in.
   </p>
+
+  <script>
+    const METRICS_URL = "./data/metrics/accuracy.json";
+
+    const fmtPct = (value) => {
+      if (value === null || value === undefined) return "—";
+      return `${(value * 100).toFixed(1)}%`;
+    };
+
+    const fmtCount = (value) => {
+      if (value === null || value === undefined) return "—";
+      return `${value} games`;
+    };
+
+    const updateMetrics = (data) => {
+      const overall = data.overall || {};
+      document.getElementById("metric-std").textContent = fmtPct(overall.win_rate_total);
+      document.getElementById("metric-30").textContent = fmtPct(overall.win_rate_last_30);
+      document.getElementById("metric-7").textContent = fmtPct(overall.win_rate_last_7);
+      document.getElementById("metric-sample").textContent = fmtCount(overall.games_total);
+
+      const asOf = data.as_of_utc ? `As of ${data.as_of_utc}` : "";
+      document.getElementById("metric-asof").textContent = asOf;
+
+      const table = document.getElementById("season-table");
+      table.innerHTML = "";
+      const seasons = data.seasons || {};
+      const seasonKeys = Object.keys(seasons).sort().reverse();
+      for (const season of seasonKeys) {
+        const row = seasons[season] || {};
+        const tr = document.createElement("tr");
+        const winRate = fmtPct(row.win_rate_total);
+        const games = row.games_total ?? "—";
+        tr.innerHTML = `
+          <td>${season}</td>
+          <td>${winRate}</td>
+          <td>${games}</td>
+          <td>Snapshot-based</td>
+        `;
+        table.appendChild(tr);
+      }
+    };
+
+    fetch(`${METRICS_URL}?cachebust=${Date.now()}`)
+      .then((resp) => resp.json())
+      .then(updateMetrics)
+      .catch(() => {
+        document.getElementById("metric-asof").textContent = "Metrics unavailable.";
+      });
+  </script>
 </body>
 </html>
