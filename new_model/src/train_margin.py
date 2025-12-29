@@ -105,18 +105,18 @@ def load_dataset(db_path: str) -> pd.DataFrame:
     return df, feat_cols
 
 
-def time_split(df: pd.DataFrame, feat_cols: List[str], label_col: str):
+def time_split(df: pd.DataFrame):
     df_sorted = df.sort_values("date").reset_index(drop=True)
     split_idx = max(1, int(0.8 * len(df_sorted)))
     train = df_sorted.iloc[:split_idx]
     val = df_sorted.iloc[split_idx:]
-    X_train, y_train = train[feat_cols], train[label_col]
-    X_val, y_val = val[feat_cols], val[label_col]
-    return X_train, X_val, y_train, y_val
+    return train, val
 
 
 def train_and_eval(df: pd.DataFrame, feat_cols: List[str], label_col: str):
-    X_train, X_val, y_train, y_val = time_split(df, feat_cols, label_col)
+    train, val = time_split(df)
+    X_train, y_train = train[feat_cols], train[label_col]
+    X_val, y_val = val[feat_cols], val[label_col]
     model = HistGradientBoostingRegressor(random_state=42)
     model.fit(X_train, y_train)
 
@@ -124,7 +124,7 @@ def train_and_eval(df: pd.DataFrame, feat_cols: List[str], label_col: str):
     mae = mean_absolute_error(y_val, preds)
     rmse = math.sqrt(mean_squared_error(y_val, preds))
 
-    return model, {"mae": mae, "rmse": rmse, "n_train": len(X_train), "n_val": len(X_val)}, preds, X_val
+    return model, {"mae": mae, "rmse": rmse, "n_train": len(X_train), "n_val": len(X_val)}, preds, val
 
 
 def ensure_dirs():
@@ -142,8 +142,7 @@ def main():
         raise SystemExit("No games with closing spreads found for training.")
     df["residual"] = df["margin"] - df["closing_spread_home"]
 
-    model, metrics, preds, X_val = train_and_eval(df, feat_cols, "residual")
-    val = df.loc[X_val.index]
+    model, metrics, preds, val = train_and_eval(df, feat_cols, "residual")
     pred_margin = preds + val["closing_spread_home"].to_numpy()
     mae_margin = mean_absolute_error(val["margin"], pred_margin)
     metrics.update({"mae_margin": mae_margin, "target": "residual"})
