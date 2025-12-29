@@ -37,7 +37,9 @@ jobs:
             echo "BALLDONTLIE_API_KEY is required"; exit 1; 
           fi
           TODAY=$(date -u +%Y-%m-%d)
+          YESTERDAY=$(date -u -d "yesterday" +%Y-%m-%d)
           python new_model/src/games_collector.py --date $TODAY
+          python new_model/src/boxscore_collector.py --date $YESTERDAY
           python new_model/src/injury_collector.py
           python new_model/src/odds_collector.py --date $TODAY --once
           python new_model/src/market_line.py --date $TODAY --vendor-rule draftkings --minutes-before-tip 1

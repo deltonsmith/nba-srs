@@ -122,7 +122,7 @@ def train_and_eval(df: pd.DataFrame, feat_cols: List[str], label_col: str):
     mae = mean_absolute_error(y_val, preds)
     rmse = math.sqrt(mean_squared_error(y_val, preds))
 
-    return model, {"mae": mae, "rmse": rmse, "n_train": len(X_train), "n_val": len(X_val)}
+    return model, {"mae": mae, "rmse": rmse, "n_train": len(X_train), "n_val": len(X_val)}, preds, X_val
 
 
 def ensure_dirs():
@@ -134,7 +134,17 @@ def main():
     ensure_dirs()
     init_db(DB_PATH)
     df, feat_cols = load_dataset(DB_PATH)
-    model, metrics = train_and_eval(df, feat_cols, "total")
+    # Train on residual vs market (edge-focused)
+    df = df[df["closing_total"].notna()].copy()
+    if df.empty:
+        raise SystemExit("No games with closing totals found for training.")
+    df["residual"] = df["total"] - df["closing_total"]
+
+    model, metrics, preds, X_val = train_and_eval(df, feat_cols, "residual")
+    val = df.loc[X_val.index]
+    pred_total = preds + val["closing_total"].to_numpy()
+    mae_total = mean_absolute_error(val["total"], pred_total)
+    metrics.update({"mae_total": mae_total, "target": "residual"})
 
     models_dir = Path(__file__).resolve().parent.parent / "models"
     reports_dir = Path(__file__).resolve().parent.parent / "reports"

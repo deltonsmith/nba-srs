@@ -5,6 +5,7 @@ TODO: add richer possession/efficiency stats (eFG%, TOV%, ORB%, FTr) when availa
 """
 
 import argparse
+import sqlite3
 from bisect import bisect_right
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
@@ -92,15 +93,67 @@ def _parse_iso(dt_str: Optional[str]) -> Optional[datetime]:
         return datetime.fromisoformat(dt_str.replace("Z", "+00:00")).astimezone(timezone.utc)
     except Exception:
         return None
-    try:
-        prev = parse_date(prev_game_date)
-        cur = parse_date(current_date)
-        return (cur - prev).days - 1  # days between games minus game day
-    except Exception:
-        return None
 
 
-def build_team_history(games: List[Dict]) -> Dict[str, List[Dict]]:
+def load_team_game_stats(conn) -> Dict[Tuple[int, str], Dict]:
+    rows = conn.execute(
+        """
+        SELECT game_id, team_id, team_bdl_id, fgm, fga, fg3m, ftm, fta, oreb, dreb, reb, ast, stl, blk, tov, pf, pts
+        FROM team_game_stats
+        """
+    ).fetchall()
+    stats = {}
+    for r in rows:
+        row = dict(r)
+        key = (int(row["game_id"]), row["team_id"])
+        stats[key] = row
+    return stats
+
+
+def compute_advanced_metrics(team_stats: Optional[Dict], opp_stats: Optional[Dict]) -> Dict[str, Optional[float]]:
+    if not team_stats or not opp_stats:
+        return {"pace": None, "efg": None, "tov": None, "orb": None, "ftr": None}
+
+    fgm = team_stats.get("fgm") or 0
+    fga = team_stats.get("fga") or 0
+    fg3m = team_stats.get("fg3m") or 0
+    fta = team_stats.get("fta") or 0
+    oreb = team_stats.get("oreb") or 0
+    tov = team_stats.get("tov") or 0
+    opp_fga = opp_stats.get("fga") or 0
+    opp_fta = opp_stats.get("fta") or 0
+    opp_oreb = opp_stats.get("oreb") or 0
+    opp_tov = opp_stats.get("tov") or 0
+    opp_dreb = opp_stats.get("dreb") or 0
+
+    efg = None
+    if fga:
+        efg = (fgm + 0.5 * fg3m) / fga
+
+    ftr = None
+    if fga:
+        ftr = fta / fga
+
+    tov_rate = None
+    denom = fga + 0.44 * fta + tov
+    if denom:
+        tov_rate = tov / denom
+
+    orb_rate = None
+    denom_orb = oreb + opp_dreb
+    if denom_orb:
+        orb_rate = oreb / denom_orb
+
+    poss = fga + 0.44 * fta - oreb + tov
+    opp_poss = opp_fga + 0.44 * opp_fta - opp_oreb + opp_tov
+    pace = None
+    if poss and opp_poss:
+        pace = (poss + opp_poss) / 2.0
+
+    return {"pace": pace, "efg": efg, "tov": tov_rate, "orb": orb_rate, "ftr": ftr}
+
+
+def build_team_history(games: List[Dict], stats_map: Optional[Dict[Tuple[int, str], Dict]] = None) -> Dict[str, List[Dict]]:
     history: Dict[str, List[Dict]] = {}
     for g in games:
         date = g.get("date")
@@ -118,6 +171,9 @@ def build_team_history(games: List[Dict]) -> Dict[str, List[Dict]]:
         ]:
             if pts_for is None or pts_against is None:
                 continue
+            team_stats = stats_map.get((int(gid), team_id)) if stats_map else None
+            opp_stats = stats_map.get((int(gid), opp_id)) if stats_map else None
+            adv = compute_advanced_metrics(team_stats, opp_stats)
             entry = {
                 "game_id": gid,
                 "date": date,
@@ -127,6 +183,11 @@ def build_team_history(games: List[Dict]) -> Dict[str, List[Dict]]:
                 "pts_for": int(pts_for),
                 "pts_against": int(pts_against),
                 "margin": int(pts_for) - int(pts_against),
+                "pace": adv.get("pace"),
+                "efg": adv.get("efg"),
+                "tov": adv.get("tov"),
+                "orb": adv.get("orb"),
+                "ftr": adv.get("ftr"),
             }
             history.setdefault(team_id, []).append(entry)
     # Ensure sorted by date then game_id
@@ -209,10 +270,21 @@ def rolling_stats(entries: List[Dict], current_date: str) -> Dict[str, Dict[str,
         margin = sum(e["margin"] for e in subset) / n
         pts_for = sum(e["pts_for"] for e in subset) / n
         pts_against = sum(e["pts_against"] for e in subset) / n
+        def mean_or_none(key: str) -> Optional[float]:
+            vals = [e.get(key) for e in subset if e.get(key) is not None]
+            if not vals:
+                return None
+            return float(sum(vals) / len(vals))
+
         result[str(window)] = {
             "avg_margin": margin,
             "avg_pts_for": pts_for,
             "avg_pts_against": pts_against,
+            "avg_pace": mean_or_none("pace"),
+            "avg_efg": mean_or_none("efg"),
+            "avg_tov": mean_or_none("tov"),
+            "avg_orb": mean_or_none("orb"),
+            "avg_ftr": mean_or_none("ftr"),
         }
     return result
 
@@ -249,11 +321,11 @@ def build_features_for_games(conn, games: List[Dict], team_history: Dict[str, Li
                 "team_id": team_id,
                 "team_bdl_id": team_bdl_id,
                 "net_rating": roll.get("5", {}).get("avg_margin"),
-                "pace": None,     # TODO: add possession-based pace when available
-                "efg": None,      # TODO
-                "tov": None,      # TODO
-                "orb": None,      # TODO
-                "ftr": None,      # TODO
+                "pace": roll.get("5", {}).get("avg_pace"),
+                "efg": roll.get("5", {}).get("avg_efg"),
+                "tov": roll.get("5", {}).get("avg_tov"),
+                "orb": roll.get("5", {}).get("avg_orb"),
+                "ftr": roll.get("5", {}).get("avg_ftr"),
                 "rest_days": rest,
                 "travel_miles": None,  # TODO: add travel estimates
                 "back_to_back": 1 if rest is not None and rest <= 0 else 0 if rest is not None else None,
@@ -291,7 +363,8 @@ def process_date_range(start_date: str, end_date: str):
         conn.close()
         return
     history_games = load_games_before(conn, end_date)
-    history = build_team_history(history_games)
+    stats_map = load_team_game_stats(conn)
+    history = build_team_history(history_games, stats_map)
     team_snapshots = load_injury_snapshots(conn)
     build_features_for_games(conn, all_games, history, team_snapshots)
     conn.close()

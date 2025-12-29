@@ -99,8 +99,8 @@ def load_games_with_features(conn) -> pd.DataFrame:
 def train_models(train_df: pd.DataFrame, feat_cols: List[str]) -> Tuple[HistGradientBoostingRegressor, HistGradientBoostingRegressor]:
     m_margin = HistGradientBoostingRegressor(random_state=42)
     m_total = HistGradientBoostingRegressor(random_state=42)
-    m_margin.fit(train_df[feat_cols], train_df["margin"])
-    m_total.fit(train_df[feat_cols], train_df["total"])
+    m_margin.fit(train_df[feat_cols], train_df["resid_margin"])
+    m_total.fit(train_df[feat_cols], train_df["resid_total"])
     return m_margin, m_total
 
 
@@ -115,29 +115,36 @@ def run_backtest(start_str: str, end_str: str, edge_threshold: float):
 
     records = []
     for day in daterange(start_date, end_date):
-        day_df = df[df["date"] == pd.Timestamp(day)]
+        day_df = df[df["date"] == pd.Timestamp(day)].copy()
         if day_df.empty:
             continue
 
-        train_df = df[df["date"] < pd.Timestamp(day)]
+        train_df = df[df["date"] < pd.Timestamp(day)].copy()
         if train_df.empty:
             continue
 
+        train_df = train_df[train_df["closing_spread_home"].notna() & train_df["closing_total"].notna()]
+        day_df = day_df[day_df["closing_spread_home"].notna() & day_df["closing_total"].notna()]
+        if train_df.empty or day_df.empty:
+            continue
+
+        train_df["resid_margin"] = train_df["margin"] - train_df["closing_spread_home"]
+        train_df["resid_total"] = train_df["total"] - train_df["closing_total"]
+
         m_margin, m_total = train_models(train_df, feat_cols)
 
-        preds_margin = m_margin.predict(day_df[feat_cols])
-        preds_total = m_total.predict(day_df[feat_cols])
+        preds_resid_margin = m_margin.predict(day_df[feat_cols])
+        preds_resid_total = m_total.predict(day_df[feat_cols])
+
+        preds_margin = preds_resid_margin + day_df["closing_spread_home"].to_numpy()
+        preds_total = preds_resid_total + day_df["closing_total"].to_numpy()
 
         mae_margin = mean_absolute_error(day_df["margin"], preds_margin) if day_df["home_score"].notna().all() else None
         mae_total = mean_absolute_error(day_df["total"], preds_total) if day_df["home_score"].notna().all() else None
 
-        for (_, row), pm, pt in zip(day_df.iterrows(), preds_margin, preds_total):
-            edge_spread = None
-            edge_total = None
-            if pd.notna(row.get("closing_spread_home")):
-                edge_spread = pm - float(row["closing_spread_home"])
-            if pd.notna(row.get("closing_total")):
-                edge_total = pt - float(row["closing_total"])
+        for (_, row), pm, pt, pr_m, pr_t in zip(day_df.iterrows(), preds_margin, preds_total, preds_resid_margin, preds_resid_total):
+            edge_spread = pr_m
+            edge_total = pr_t
 
             signal_spread = abs(edge_spread) > edge_threshold if edge_spread is not None else False
             signal_total = abs(edge_total) > edge_threshold if edge_total is not None else False

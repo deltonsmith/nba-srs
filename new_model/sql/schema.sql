@@ -64,6 +64,29 @@ CREATE TABLE IF NOT EXISTS player_injuries (
     pulled_at   TEXT NOT NULL
 );
 
+-- Team boxscore aggregates (for advanced feature computation)
+CREATE TABLE IF NOT EXISTS team_game_stats (
+    game_id   INTEGER NOT NULL,
+    team_id   TEXT NOT NULL,
+    team_bdl_id INTEGER,
+    fgm       INTEGER,
+    fga       INTEGER,
+    fg3m      INTEGER,
+    ftm       INTEGER,
+    fta       INTEGER,
+    oreb      INTEGER,
+    dreb      INTEGER,
+    reb       INTEGER,
+    ast       INTEGER,
+    stl       INTEGER,
+    blk       INTEGER,
+    tov       INTEGER,
+    pf        INTEGER,
+    pts       INTEGER,
+    PRIMARY KEY (game_id, team_id),
+    FOREIGN KEY (game_id) REFERENCES games (game_id)
+);
+
 -- Market lines (closing/consensus)
 CREATE TABLE IF NOT EXISTS market_lines (
     game_id             INTEGER PRIMARY KEY,

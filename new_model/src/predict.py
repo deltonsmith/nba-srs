@@ -344,8 +344,15 @@ def build_predictions(
         market_spread_val = market_entry.get("spreadHome")
         market_total_val = market_entry.get("total")
 
-        model_spread = float(pm) if pd.notna(pm) else None
-        model_total = float(pt) if pd.notna(pt) else None
+        model_resid_spread = float(pm) if pd.notna(pm) else None
+        model_resid_total = float(pt) if pd.notna(pt) else None
+
+        model_spread = None
+        model_total = None
+        if model_resid_spread is not None and market_spread_val is not None:
+            model_spread = market_spread_val + model_resid_spread
+        if model_resid_total is not None and market_total_val is not None:
+            model_total = market_total_val + model_resid_total
 
         edge_spread = None
         edge_total = None

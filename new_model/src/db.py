@@ -39,6 +39,11 @@ def _column_exists(conn: sqlite3.Connection, table: str, column: str) -> bool:
     return any(r[1] == column for r in rows)
 
 
+def _table_exists(conn: sqlite3.Connection, table: str) -> bool:
+    row = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name = ?", (table,)).fetchone()
+    return row is not None
+
+
 def _ensure_schema(conn: sqlite3.Connection) -> None:
     # Lightweight migrations for existing DBs.
     if not _column_exists(conn, "games", "home_team_bdl_id"):
@@ -54,6 +59,33 @@ def _ensure_schema(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE team_game_features ADD COLUMN inj_day_to_day INTEGER")
     if not _column_exists(conn, "team_game_features", "inj_total"):
         conn.execute("ALTER TABLE team_game_features ADD COLUMN inj_total INTEGER")
+
+    if not _table_exists(conn, "team_game_stats"):
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS team_game_stats (
+                game_id   INTEGER NOT NULL,
+                team_id   TEXT NOT NULL,
+                team_bdl_id INTEGER,
+                fgm       INTEGER,
+                fga       INTEGER,
+                fg3m      INTEGER,
+                ftm       INTEGER,
+                fta       INTEGER,
+                oreb      INTEGER,
+                dreb      INTEGER,
+                reb       INTEGER,
+                ast       INTEGER,
+                stl       INTEGER,
+                blk       INTEGER,
+                tov       INTEGER,
+                pf        INTEGER,
+                pts       INTEGER,
+                PRIMARY KEY (game_id, team_id),
+                FOREIGN KEY (game_id) REFERENCES games (game_id)
+            )
+            """
+        )
 
 
 def upsert_games(db_path, games: Iterable[Mapping]) -> None:
@@ -142,3 +174,29 @@ def insert_player_injuries(db_path, rows: Iterable[Mapping], pulled_at: Optional
     finally:
         conn.close()
     return len(payload)
+
+
+def upsert_team_game_stats(db_path, rows: Iterable[Mapping]) -> int:
+    """
+    Insert or replace team game stats by (game_id, team_id).
+    Expected keys per item: game_id, team_id, team_bdl_id, fgm, fga, fg3m, ftm, fta,
+    oreb, dreb, reb, ast, stl, blk, tov, pf, pts.
+    """
+    rows = list(rows)
+    if not rows:
+        return 0
+    conn = get_conn(db_path)
+    try:
+        conn.executemany(
+            """
+            INSERT OR REPLACE INTO team_game_stats
+                (game_id, team_id, team_bdl_id, fgm, fga, fg3m, ftm, fta, oreb, dreb, reb, ast, stl, blk, tov, pf, pts)
+            VALUES
+                (:game_id, :team_id, :team_bdl_id, :fgm, :fga, :fg3m, :ftm, :fta, :oreb, :dreb, :reb, :ast, :stl, :blk, :tov, :pf, :pts)
+            """,
+            rows,
+        )
+        conn.commit()
+    finally:
+        conn.close()
+    return len(rows)
