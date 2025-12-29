@@ -161,6 +161,10 @@ jobs:
             cp -f data/metrics/* public/data/metrics/ || true
           fi
 
+      - name: Clean ingest state
+        run: |
+          rm -f data/ingest_state.json
+
       # Commit updates on master (Pages branch)
       - name: Commit updated data
         run: |
