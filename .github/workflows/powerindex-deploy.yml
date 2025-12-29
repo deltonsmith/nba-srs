@@ -190,27 +190,16 @@ jobs:
           git add -u
 
           if ! git diff --cached --quiet; then
-            echo "Staged changes:"
-            git diff --cached --name-status
             git commit -m "Auto-update ratings"
 
             if [ -n "$(git status --porcelain)" ]; then
               echo "Working tree not clean; aborting rebase to avoid failure."
-              git status --porcelain
-              echo "Dirty paths:"
-              git status --porcelain | awk '{print $2}'
               exit 1
             fi
 
             # Rebase on latest master to avoid non-fast-forward pushes
             for i in 1 2 3; do
               git fetch origin master
-              echo "Pre-rebase status:"
-              git status --porcelain=v1
-              echo "Modified tracked files:"
-              git ls-files -m
-              echo "Untracked files:"
-              git ls-files -o --exclude-standard
               git rebase origin/master
               if git push origin HEAD:master; then
                 break
