@@ -12,6 +12,7 @@ import json
 import shutil
 import sqlite3
 from collections import defaultdict
+import math
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -359,6 +360,67 @@ def write_ratings_csv(ratings_dict, season_int):
     print(f"Saved CSV to {out_path}")
 
 
+def compute_accuracy_metrics(conn, ratings, season_int):
+    """
+    Compute simple accuracy metrics using final game margins vs rating-based spread.
+    pred_margin = rating_home - rating_away + HCA
+    """
+    cur = conn.cursor()
+    cur.execute(
+        """
+        SELECT home_team_id, away_team_id, home_pts, away_pts
+        FROM games
+        WHERE season = ? AND home_pts IS NOT NULL AND away_pts IS NOT NULL
+        """,
+        (season_int,),
+    )
+    rows = cur.fetchall()
+    if not rows:
+        return None
+
+    errors = []
+    for home_team, away_team, home_pts, away_pts in rows:
+        if home_team not in ratings or away_team not in ratings:
+            continue
+        actual = float(home_pts) - float(away_pts)
+        pred = float(ratings[home_team]) - float(ratings[away_team]) + HCA
+        errors.append(actual - pred)
+
+    if not errors:
+        return None
+
+    mae = sum(abs(e) for e in errors) / len(errors)
+    rmse = math.sqrt(sum(e * e for e in errors) / len(errors))
+    return {
+        "games_count": len(errors),
+        "mae": mae,
+        "rmse": rmse,
+    }
+
+
+def write_accuracy_metrics(metrics, season_int, run_date_utc):
+    metrics_dir = DATA_DIR / "metrics"
+    metrics_dir.mkdir(parents=True, exist_ok=True)
+
+    accuracy_path = metrics_dir / "accuracy.json"
+    payload = {
+        "season": int(season_int),
+        "run_date_utc": run_date_utc,
+        "games_count": metrics["games_count"],
+        "mae": metrics["mae"],
+        "rmse": metrics["rmse"],
+    }
+    accuracy_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+    history_path = metrics_dir / "accuracy_history.csv"
+    write_header = not history_path.exists()
+    with history_path.open("a", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        if write_header:
+            w.writerow(["date_utc", "season", "games_count", "mae", "rmse"])
+        w.writerow([run_date_utc, season_int, metrics["games_count"], metrics["mae"], metrics["rmse"]])
+
+
 # ------------ PER-SEASON RUNNER ------------
 
 def run_season(season_int):
@@ -372,8 +434,6 @@ def run_season(season_int):
 
     records_by_team = compute_game_records(conn, player_values, team_full_values, season_int)
     print(f"Built game records for {len(records_by_team)} teams.")
-
-    conn.close()
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     history_dir = DATA_DIR / "history"
@@ -413,6 +473,22 @@ def run_season(season_int):
     print(f"Saved history snapshot to {history_path}")
 
     write_ratings_csv(ratings, season_int)
+
+    snapshots_dir = DATA_DIR / "ratings_snapshots"
+    snapshots_dir.mkdir(parents=True, exist_ok=True)
+    snapshot_path = snapshots_dir / f"{run_date_utc}.json"
+    write_ratings_json(payload, snapshot_path)
+    print(f"Saved ratings snapshot to {snapshot_path}")
+
+    conn.close()
+
+    with sqlite3.connect(DB_PATH) as metrics_conn:
+        metrics = compute_accuracy_metrics(metrics_conn, ratings, season_int)
+    if metrics:
+        write_accuracy_metrics(metrics, season_int, run_date_utc)
+        print(f"Saved accuracy metrics to {DATA_DIR / 'metrics' / 'accuracy.json'}")
+    else:
+        print("No accuracy metrics computed (missing games or ratings).")
 
     print("-" * 40)
 

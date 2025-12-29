@@ -71,6 +71,21 @@ def write_games_json_atomic(season: int, games: List[Dict]):
     os.replace(tmp_path, final_path)
 
 
+def write_games_snapshot(games: List[Dict], season: int):
+    snapshot_dir = DATA_DIR / "games"
+    snapshot_dir.mkdir(parents=True, exist_ok=True)
+    run_date = datetime.utcnow().date().isoformat()
+    snapshot_path = snapshot_dir / f"{run_date}.json"
+    payload = {
+        "season": int(season),
+        "pulled_at_utc": datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
+        "games": games,
+    }
+    tmp_path = snapshot_path.with_suffix(snapshot_path.suffix + ".tmp")
+    tmp_path.write_text(json.dumps(payload, indent=2))
+    os.replace(tmp_path, snapshot_path)
+
+
 def request_with_retries(
     url: str,
     headers: Optional[Dict] = None,
@@ -226,11 +241,12 @@ def normalize_game_row(game: Dict, season_int: int) -> Optional[Dict]:
     }
 
 
-def build_games_table(season_int: int) -> List[Dict]:
+def build_games_table(season_int: int) -> Dict[str, List[Dict]]:
     """
     Pull regular season and playoff games from Balldontlie and shape them for the DB.
     """
     rows: List[Dict] = []
+    raw_games: List[Dict] = []
     state = load_ingest_state()
     resume_postseason: Optional[bool] = None
     resume_cursor: Optional[int] = None
@@ -251,6 +267,7 @@ def build_games_table(season_int: int) -> List[Dict]:
         for game in fetch_balldontlie_games(
             season_int, postseason=postseason_flag, start_cursor=start_cursor, save_checkpoint=checkpoint
         ):
+            raw_games.append(game)
             parsed = normalize_game_row(game, season_int)
             if parsed:
                 rows.append(parsed)
@@ -264,7 +281,7 @@ def build_games_table(season_int: int) -> List[Dict]:
 
     save_ingest_state("games", season_int, True, None)
 
-    return rows
+    return {"rows": rows, "raw": raw_games}
 
 
 def upsert_games(games: List[Dict]):
@@ -315,15 +332,18 @@ def main():
 
     try:
         if args.resume:
-            games = build_games_table(season_int)
+            result = build_games_table(season_int)
         else:
             if STATE_PATH.exists():
                 STATE_PATH.unlink()
-            games = build_games_table(season_int)
+            result = build_games_table(season_int)
     except requests.HTTPError as exc:
         if exc.response is not None and exc.response.status_code == 429:
             raise SystemExit("Balldontlie rate limit reached even after retries; dataset not updated.")
         raise
+
+    games = result["rows"]
+    raw_games = result["raw"]
 
     if not games:
         raise SystemExit("No games fetched; aborting to avoid stale ratings.")
@@ -334,6 +354,8 @@ def main():
 
     print(f"Prepared {len(games)} games (regular season + playoffs). Writing atomically...")
     write_games_json_atomic(season_int, games)
+    if raw_games:
+        write_games_snapshot(raw_games, season_int)
     upsert_games(games)
     print("Done.")
 

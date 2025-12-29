@@ -128,8 +128,12 @@ jobs:
           # Stage canonical, history, aliases, and supporting data
           git add data/ratings_current.json || true
           git add data/history/*.json || true
+          git add data/ratings_snapshots/*.json || true
           git add data/ratings_*.json || true
           git add data/csv/*.csv || true
+          git add data/games/*.json || true
+          git add data/metrics/*.json || true
+          git add data/metrics/*.csv || true
           git add data/player_values_2026.csv || true
           git add data/nba_ratings.db || true
 
