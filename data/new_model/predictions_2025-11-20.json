@@ -1,0 +1,112 @@
+{
+  "asOfUtc": "2025-12-29T23:13:53Z",
+  "date": "2025-11-20",
+  "timezone": "America/Chicago",
+  "vendorRule": "draftkings",
+  "games": [
+    {
+      "gameId": 18447041,
+      "startTimeUtc": "2025-11-21T00:00:00.000Z",
+      "away": {
+        "id": "LAC",
+        "name": null,
+        "abbr": "LAC"
+      },
+      "home": {
+        "id": "ORL",
+        "name": null,
+        "abbr": "ORL"
+      },
+      "market": {
+        "spreadHome": -27.5,
+        "total": 229.5
+      },
+      "realLine": {
+        "spreadHome": 32.54734582107225,
+        "total": 229.5558916104083
+      },
+      "edge": {
+        "spread": 60.04734582107225,
+        "total": 0.05589161040830959
+      }
+    },
+    {
+      "gameId": 18447042,
+      "startTimeUtc": "2025-11-21T01:00:00.000Z",
+      "away": {
+        "id": "SAC",
+        "name": null,
+        "abbr": "SAC"
+      },
+      "home": {
+        "id": "MEM",
+        "name": null,
+        "abbr": "MEM"
+      },
+      "market": {
+        "spreadHome": -44.5,
+        "total": 233.5
+      },
+      "realLine": {
+        "spreadHome": 28.566559838403066,
+        "total": 232.69127514674804
+      },
+      "edge": {
+        "spread": 73.06655983840307,
+        "total": -0.8087248532519595
+      }
+    },
+    {
+      "gameId": 18447043,
+      "startTimeUtc": "2025-11-21T01:00:00.000Z",
+      "away": {
+        "id": "PHI",
+        "name": null,
+        "abbr": "PHI"
+      },
+      "home": {
+        "id": "MIL",
+        "name": null,
+        "abbr": "MIL"
+      },
+      "market": {
+        "spreadHome": 8.5,
+        "total": 238.5
+      },
+      "realLine": {
+        "spreadHome": -8.236430164519518,
+        "total": 236.14490063228322
+      },
+      "edge": {
+        "spread": -16.73643016451952,
+        "total": -2.3550993677167753
+      }
+    },
+    {
+      "gameId": 18447044,
+      "startTimeUtc": "2025-11-21T01:00:00.000Z",
+      "away": {
+        "id": "ATL",
+        "name": null,
+        "abbr": "ATL"
+      },
+      "home": {
+        "id": "SAS",
+        "name": null,
+        "abbr": "SAS"
+      },
+      "market": {
+        "spreadHome": -10.5,
+        "total": 259.5
+      },
+      "realLine": {
+        "spreadHome": 8.58952237785951,
+        "total": 260.4473235354158
+      },
+      "edge": {
+        "spread": 19.08952237785951,
+        "total": 0.9473235354158192
+      }
+    }
+  ]
+}

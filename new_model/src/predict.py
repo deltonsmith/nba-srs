@@ -343,6 +343,12 @@ def build_predictions(
         market_entry = market_map.get(int(row["game_id"]), {})
         market_spread_val = market_entry.get("spreadHome")
         market_total_val = market_entry.get("total")
+        if market_spread_val is None:
+            db_spread = row.get("closing_spread_home")
+            market_spread_val = float(db_spread) if pd.notna(db_spread) else None
+        if market_total_val is None:
+            db_total = row.get("closing_total")
+            market_total_val = float(db_total) if pd.notna(db_total) else None
 
         model_resid_spread = float(pm) if pd.notna(pm) else None
         model_resid_total = float(pt) if pd.notna(pt) else None
@@ -393,6 +399,7 @@ def main():
     parser = argparse.ArgumentParser(description="Generate model predictions for a given date.")
     parser.add_argument("--date", required=True, help="Date YYYY-MM-DD")
     parser.add_argument("--vendor-rule", default="median", help="Vendor rule context")
+    parser.add_argument("--skip-odds", action="store_true", help="Skip odds fetch and rely on stored market lines.")
     args = parser.parse_args()
 
     base_dir = Path(__file__).resolve().parent.parent
@@ -426,20 +433,23 @@ def main():
 
     odds_failed = False
     odds: Optional[List[Dict]] = None
-    try:
-        from balldontlie_client import fetch_odds_by_date, fetch_odds_by_game_ids
-        try:
-            odds = fetch_odds_by_date(args.date)
-            if not odds:
-                game_ids = [int(gid) for gid in df["game_id"].tolist()] if not df.empty else []
-                if game_ids:
-                    odds = fetch_odds_by_game_ids(game_ids)
-        except Exception as exc:
-            print(f"Odds fetch failed; continuing with null market lines. Error: {exc}")
-            odds_failed = True
-    except Exception as exc:
-        print(f"Odds fetch skipped; continuing with null market lines. Error: {exc}")
+    if args.skip_odds:
         odds_failed = True
+    else:
+        try:
+            from balldontlie_client import fetch_odds_by_date, fetch_odds_by_game_ids
+            try:
+                odds = fetch_odds_by_date(args.date)
+                if not odds:
+                    game_ids = [int(gid) for gid in df["game_id"].tolist()] if not df.empty else []
+                    if game_ids:
+                        odds = fetch_odds_by_game_ids(game_ids)
+            except Exception as exc:
+                print(f"Odds fetch failed; continuing with null market lines. Error: {exc}")
+                odds_failed = True
+        except Exception as exc:
+            print(f"Odds fetch skipped; continuing with null market lines. Error: {exc}")
+            odds_failed = True
 
     market_map = _build_market_map(odds or [], df, args.vendor_rule) if not odds_failed else {}
 

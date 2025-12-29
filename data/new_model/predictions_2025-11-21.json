@@ -1,0 +1,242 @@
+{
+  "asOfUtc": "2025-12-29T23:13:57Z",
+  "date": "2025-11-21",
+  "timezone": "America/Chicago",
+  "vendorRule": "draftkings",
+  "games": [
+    {
+      "gameId": 18447045,
+      "startTimeUtc": "2025-11-22T00:00:00.000Z",
+      "away": {
+        "id": "IND",
+        "name": null,
+        "abbr": "IND"
+      },
+      "home": {
+        "id": "CLE",
+        "name": null,
+        "abbr": "CLE"
+      },
+      "market": {
+        "spreadHome": -13.5,
+        "total": 232.5
+      },
+      "realLine": {
+        "spreadHome": 11.441857646916677,
+        "total": 229.57347289058578
+      },
+      "edge": {
+        "spread": 24.941857646916677,
+        "total": -2.9265271094142236
+      }
+    },
+    {
+      "gameId": 18447046,
+      "startTimeUtc": "2025-11-22T00:30:00.000Z",
+      "away": {
+        "id": "BKN",
+        "name": null,
+        "abbr": "BKN"
+      },
+      "home": {
+        "id": "BOS",
+        "name": null,
+        "abbr": "BOS"
+      },
+      "market": {
+        "spreadHome": 8.5,
+        "total": 221.5
+      },
+      "realLine": {
+        "spreadHome": -8.7488749820977,
+        "total": 219.0777935860365
+      },
+      "edge": {
+        "spread": -17.2488749820977,
+        "total": -2.422206413963494
+      }
+    },
+    {
+      "gameId": 18447047,
+      "startTimeUtc": "2025-11-22T00:30:00.000Z",
+      "away": {
+        "id": "WAS",
+        "name": null,
+        "abbr": "WAS"
+      },
+      "home": {
+        "id": "TOR",
+        "name": null,
+        "abbr": "TOR"
+      },
+      "market": {
+        "spreadHome": -29.5,
+        "total": 245.5
+      },
+      "realLine": {
+        "spreadHome": 31.32363412166945,
+        "total": 248.84153025909097
+      },
+      "edge": {
+        "spread": 60.82363412166945,
+        "total": 3.3415302590909732
+      }
+    },
+    {
+      "gameId": 18447048,
+      "startTimeUtc": "2025-11-22T01:00:00.000Z",
+      "away": {
+        "id": "MIA",
+        "name": null,
+        "abbr": "MIA"
+      },
+      "home": {
+        "id": "CHI",
+        "name": null,
+        "abbr": "CHI"
+      },
+      "market": {
+        "spreadHome": 38.5,
+        "total": 247.5
+      },
+      "realLine": {
+        "spreadHome": -31.686638294705332,
+        "total": 250.12008014426308
+      },
+      "edge": {
+        "spread": -70.18663829470533,
+        "total": 2.6200801442630848
+      }
+    },
+    {
+      "gameId": 18447049,
+      "startTimeUtc": "2025-11-22T01:30:00.000Z",
+      "away": {
+        "id": "NOP",
+        "name": null,
+        "abbr": "NOP"
+      },
+      "home": {
+        "id": "DAL",
+        "name": null,
+        "abbr": "DAL"
+      },
+      "market": {
+        "spreadHome": -3.5,
+        "total": 238.5
+      },
+      "realLine": {
+        "spreadHome": 2.6970453044637175,
+        "total": 234.07653013199658
+      },
+      "edge": {
+        "spread": 6.1970453044637175,
+        "total": -4.423469868003423
+      }
+    },
+    {
+      "gameId": 18447050,
+      "startTimeUtc": "2025-11-22T02:00:00.000Z",
+      "away": {
+        "id": "MIN",
+        "name": null,
+        "abbr": "MIN"
+      },
+      "home": {
+        "id": "PHX",
+        "name": null,
+        "abbr": "PHX"
+      },
+      "market": {
+        "spreadHome": 3.5,
+        "total": 229.5
+      },
+      "realLine": {
+        "spreadHome": 0.9061307670968626,
+        "total": 230.33157868872019
+      },
+      "edge": {
+        "spread": -2.5938692329031374,
+        "total": 0.8315786887201853
+      }
+    },
+    {
+      "gameId": 18447051,
+      "startTimeUtc": "2025-11-22T02:30:00.000Z",
+      "away": {
+        "id": "DEN",
+        "name": null,
+        "abbr": "DEN"
+      },
+      "home": {
+        "id": "HOU",
+        "name": null,
+        "abbr": "HOU"
+      },
+      "market": {
+        "spreadHome": 2.5,
+        "total": 213.5
+      },
+      "realLine": {
+        "spreadHome": -2.2466885193597985,
+        "total": 205.75980556436542
+      },
+      "edge": {
+        "spread": -4.7466885193597985,
+        "total": -7.740194435634578
+      }
+    },
+    {
+      "gameId": 18447052,
+      "startTimeUtc": "2025-11-22T03:00:00.000Z",
+      "away": {
+        "id": "OKC",
+        "name": null,
+        "abbr": "OKC"
+      },
+      "home": {
+        "id": "UTA",
+        "name": null,
+        "abbr": "UTA"
+      },
+      "market": {
+        "spreadHome": 31.5,
+        "total": 261.5
+      },
+      "realLine": {
+        "spreadHome": -31.35870972569142,
+        "total": 258.0501976650218
+      },
+      "edge": {
+        "spread": -62.85870972569142,
+        "total": -3.4498023349781874
+      }
+    },
+    {
+      "gameId": 18447053,
+      "startTimeUtc": "2025-11-22T03:00:00.000Z",
+      "away": {
+        "id": "POR",
+        "name": null,
+        "abbr": "POR"
+      },
+      "home": {
+        "id": "GSW",
+        "name": null,
+        "abbr": "GSW"
+      },
+      "market": {
+        "spreadHome": 2.5,
+        "total": 248.5
+      },
+      "realLine": {
+        "spreadHome": -3.6754470887319846,
+        "total": 247.63765443949939
+      },
+      "edge": {
+        "spread": -6.175447088731985,
+        "total": -0.8623455605006143
+      }
+    }
+  ]
+}

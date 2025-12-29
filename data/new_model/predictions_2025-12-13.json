@@ -1,0 +1,60 @@
+{
+  "asOfUtc": "2025-12-29T23:15:09Z",
+  "date": "2025-12-13",
+  "timezone": "America/Chicago",
+  "vendorRule": "draftkings",
+  "games": [
+    {
+      "gameId": 20290668,
+      "startTimeUtc": "2025-12-13T22:30:00.000Z",
+      "away": {
+        "id": "NYK",
+        "name": null,
+        "abbr": "NYK"
+      },
+      "home": {
+        "id": "ORL",
+        "name": null,
+        "abbr": "ORL"
+      },
+      "market": {
+        "spreadHome": -11.5,
+        "total": 256.5
+      },
+      "realLine": {
+        "spreadHome": -5.160235929085985,
+        "total": 252.28234789316446
+      },
+      "edge": {
+        "spread": 6.339764070914015,
+        "total": -4.217652106835544
+      }
+    },
+    {
+      "gameId": 20314126,
+      "startTimeUtc": "2025-12-14T02:00:00.000Z",
+      "away": {
+        "id": "SAS",
+        "name": null,
+        "abbr": "SAS"
+      },
+      "home": {
+        "id": "OKC",
+        "name": null,
+        "abbr": "OKC"
+      },
+      "market": {
+        "spreadHome": 3.5,
+        "total": 217.5
+      },
+      "realLine": {
+        "spreadHome": -1.5540728945000506,
+        "total": 223.53486389299755
+      },
+      "edge": {
+        "spread": -5.054072894500051,
+        "total": 6.034863892997549
+      }
+    }
+  ]
+}

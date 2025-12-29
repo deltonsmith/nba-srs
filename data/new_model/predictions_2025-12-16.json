@@ -1,0 +1,34 @@
+{
+  "asOfUtc": "2025-12-29T23:15:20Z",
+  "date": "2025-12-16",
+  "timezone": "America/Chicago",
+  "vendorRule": "draftkings",
+  "games": [
+    {
+      "gameId": 20377171,
+      "startTimeUtc": "2025-12-17T01:30:00.000Z",
+      "away": {
+        "id": "SAS",
+        "name": null,
+        "abbr": "SAS"
+      },
+      "home": {
+        "id": "NYK",
+        "name": null,
+        "abbr": "NYK"
+      },
+      "market": {
+        "spreadHome": -10.5,
+        "total": 236.5
+      },
+      "realLine": {
+        "spreadHome": 11.69906856326627,
+        "total": 233.54689584925433
+      },
+      "edge": {
+        "spread": 22.19906856326627,
+        "total": -2.9531041507456735
+      }
+    }
+  ]
+}

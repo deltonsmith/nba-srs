@@ -1,0 +1,60 @@
+{
+  "asOfUtc": "2025-12-29T23:14:59Z",
+  "date": "2025-12-10",
+  "timezone": "America/Chicago",
+  "vendorRule": "draftkings",
+  "games": [
+    {
+      "gameId": 20054035,
+      "startTimeUtc": "2025-12-11T00:30:00.000Z",
+      "away": {
+        "id": "PHX",
+        "name": null,
+        "abbr": "PHX"
+      },
+      "home": {
+        "id": "OKC",
+        "name": null,
+        "abbr": "OKC"
+      },
+      "market": {
+        "spreadHome": 0.0,
+        "total": 0.0
+      },
+      "realLine": {
+        "spreadHome": 16.71698452890423,
+        "total": 202.71602922392702
+      },
+      "edge": {
+        "spread": 16.71698452890423,
+        "total": 202.71602922392702
+      }
+    },
+    {
+      "gameId": 20054036,
+      "startTimeUtc": "2025-12-11T03:00:00.000Z",
+      "away": {
+        "id": "SAS",
+        "name": null,
+        "abbr": "SAS"
+      },
+      "home": {
+        "id": "LAL",
+        "name": null,
+        "abbr": "LAL"
+      },
+      "market": {
+        "spreadHome": 0.0,
+        "total": 0.0
+      },
+      "realLine": {
+        "spreadHome": -10.993046551628881,
+        "total": 204.94513357624498
+      },
+      "edge": {
+        "spread": -10.993046551628881,
+        "total": 204.94513357624498
+      }
+    }
+  ]
+}

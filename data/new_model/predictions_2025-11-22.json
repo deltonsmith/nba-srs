@@ -1,0 +1,190 @@
+{
+  "asOfUtc": "2025-12-29T23:14:00Z",
+  "date": "2025-11-22",
+  "timezone": "America/Chicago",
+  "vendorRule": "draftkings",
+  "games": [
+    {
+      "gameId": 18447054,
+      "startTimeUtc": "2025-11-22T18:00:00.000Z",
+      "away": {
+        "id": "LAC",
+        "name": null,
+        "abbr": "LAC"
+      },
+      "home": {
+        "id": "CHA",
+        "name": null,
+        "abbr": "CHA"
+      },
+      "market": {
+        "spreadHome": 16.5,
+        "total": 249.5
+      },
+      "realLine": {
+        "spreadHome": -14.978206366299503,
+        "total": 247.74781023963388
+      },
+      "edge": {
+        "spread": -31.478206366299503,
+        "total": -1.7521897603661216
+      }
+    },
+    {
+      "gameId": 18447055,
+      "startTimeUtc": "2025-11-22T22:00:00.000Z",
+      "away": {
+        "id": "NYK",
+        "name": null,
+        "abbr": "NYK"
+      },
+      "home": {
+        "id": "ORL",
+        "name": null,
+        "abbr": "ORL"
+      },
+      "market": {
+        "spreadHome": -1.5,
+        "total": 230.5
+      },
+      "realLine": {
+        "spreadHome": 7.731047807125114,
+        "total": 251.9920698340673
+      },
+      "edge": {
+        "spread": 9.231047807125114,
+        "total": 21.49206983406731
+      }
+    },
+    {
+      "gameId": 18447056,
+      "startTimeUtc": "2025-11-23T00:00:00.000Z",
+      "away": {
+        "id": "ATL",
+        "name": null,
+        "abbr": "ATL"
+      },
+      "home": {
+        "id": "NOP",
+        "name": null,
+        "abbr": "NOP"
+      },
+      "market": {
+        "spreadHome": 9.5,
+        "total": 231.5
+      },
+      "realLine": {
+        "spreadHome": -14.394581075096692,
+        "total": 211.01793870285314
+      },
+      "edge": {
+        "spread": -23.894581075096692,
+        "total": -20.482061297146856
+      }
+    },
+    {
+      "gameId": 18447057,
+      "startTimeUtc": "2025-11-23T01:00:00.000Z",
+      "away": {
+        "id": "WAS",
+        "name": null,
+        "abbr": "WAS"
+      },
+      "home": {
+        "id": "CHI",
+        "name": null,
+        "abbr": "CHI"
+      },
+      "market": {
+        "spreadHome": -12.5,
+        "total": 244.5
+      },
+      "realLine": {
+        "spreadHome": 2.171057928324254,
+        "total": 241.65614990642658
+      },
+      "edge": {
+        "spread": 14.671057928324254,
+        "total": -2.8438500935734226
+      }
+    },
+    {
+      "gameId": 18447058,
+      "startTimeUtc": "2025-11-23T01:00:00.000Z",
+      "away": {
+        "id": "DET",
+        "name": null,
+        "abbr": "DET"
+      },
+      "home": {
+        "id": "MIL",
+        "name": null,
+        "abbr": "MIL"
+      },
+      "market": {
+        "spreadHome": 8.5,
+        "total": 223.5
+      },
+      "realLine": {
+        "spreadHome": -12.385067726321534,
+        "total": 242.77008798877074
+      },
+      "edge": {
+        "spread": -20.885067726321534,
+        "total": 19.27008798877074
+      }
+    },
+    {
+      "gameId": 18447059,
+      "startTimeUtc": "2025-11-23T01:30:00.000Z",
+      "away": {
+        "id": "MEM",
+        "name": null,
+        "abbr": "MEM"
+      },
+      "home": {
+        "id": "DAL",
+        "name": null,
+        "abbr": "DAL"
+      },
+      "market": {
+        "spreadHome": -1.5,
+        "total": 229.5
+      },
+      "realLine": {
+        "spreadHome": -5.651061207064282,
+        "total": 227.22919043634857
+      },
+      "edge": {
+        "spread": -4.151061207064282,
+        "total": -2.270809563651426
+      }
+    },
+    {
+      "gameId": 18447060,
+      "startTimeUtc": "2025-11-23T03:00:00.000Z",
+      "away": {
+        "id": "SAC",
+        "name": null,
+        "abbr": "SAC"
+      },
+      "home": {
+        "id": "DEN",
+        "name": null,
+        "abbr": "DEN"
+      },
+      "market": {
+        "spreadHome": 4.5,
+        "total": 246.5
+      },
+      "realLine": {
+        "spreadHome": -5.2092494147916995,
+        "total": 246.66037786638645
+      },
+      "edge": {
+        "spread": -9.7092494147917,
+        "total": 0.16037786638645457
+      }
+    }
+  ]
+}

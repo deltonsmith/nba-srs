@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Iterable, List
 
 import requests
+import time
 
 from config import DB_PATH
 from db import get_conn, init_db, upsert_team_game_stats
@@ -38,8 +39,20 @@ def fetch_stats_for_game(session: requests.Session, game_id: int) -> List[Dict]:
     page = 1
     while True:
         params = {"game_ids[]": game_id, "per_page": 100, "page": page}
-        resp = session.get(f"{BALLDONTLIE_BASE}/stats", params=params, timeout=30)
-        resp.raise_for_status()
+        resp = None
+        last_err = None
+        for attempt in range(3):
+            try:
+                resp = session.get(f"{BALLDONTLIE_BASE}/stats", params=params, timeout=30)
+                resp.raise_for_status()
+                last_err = None
+                break
+            except requests.exceptions.RequestException as exc:
+                last_err = exc
+                time.sleep(2 * (attempt + 1))
+        if last_err is not None or resp is None:
+            print(f"Warning: failed to fetch stats for game {game_id} page {page}: {last_err}")
+            return []
         payload = resp.json()
         data = payload.get("data", []) or []
         meta = payload.get("meta") or {}
