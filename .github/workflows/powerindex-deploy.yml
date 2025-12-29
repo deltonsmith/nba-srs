@@ -103,6 +103,29 @@ jobs:
             python scripts/calc_accuracy.py
           fi
 
+      - name: Validate accuracy metrics
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("data/metrics/accuracy.json")
+          if not path.exists():
+            raise SystemExit("Missing data/metrics/accuracy.json")
+          payload = json.loads(path.read_text())
+          overall = payload.get("overall") or {}
+          def is_number(val):
+            return isinstance(val, (int, float))
+          for key in ("win_rate_total", "win_rate_last_30", "win_rate_last_7"):
+            val = overall.get(key)
+            if val is not None and not is_number(val):
+              raise SystemExit(f"Invalid {key}: {val}")
+          games_total = overall.get("games_total")
+          if games_total is None or not isinstance(games_total, int):
+            raise SystemExit("Missing or invalid games_total")
+          if games_total == 0:
+            print("Warning: games_total is 0 (early season).")
+          PY
+
       - name: Validate ratings
         run: |
           set -euo pipefail
