@@ -1,0 +1,60 @@
+name: New Model Retrain
+
+on:
+  schedule:
+    - cron: "0 12 * * 1"  # weekly Monday at 12:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  retrain-models:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f new_model/requirements.txt ]; then
+            pip install -r new_model/requirements.txt
+          fi
+
+      - name: Backfill data window and retrain
+        env:
+          BALLDONTLIE_API_KEY: ${{ secrets.BALLDONTLIE_API_KEY }}
+        run: |
+          if [ -z "$BALLDONTLIE_API_KEY" ]; then
+            echo "BALLDONTLIE_API_KEY is required"; exit 1;
+          fi
+          END=$(date -u -d "yesterday" +%Y-%m-%d)
+          START=$(date -u -d "90 days ago" +%Y-%m-%d)
+          python new_model/src/games_collector.py --date-range $START:$END
+          python new_model/src/boxscore_collector.py --date-range $START:$END
+          python new_model/src/odds_collector.py --date-range $START:$END
+          python new_model/src/market_line.py --date-range $START:$END --vendor-rule draftkings --minutes-before-tip 1
+          python new_model/src/injury_collector.py
+          python new_model/src/features.py --date-range $START:$END
+          python new_model/src/train_margin.py
+          python new_model/src/train_total.py
+
+      - name: Commit model artifacts
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add new_model/models/margin_model.joblib new_model/models/total_model.joblib || true
+          if git diff --cached --quiet; then
+            echo "No model changes to commit"
+            exit 0
+          fi
+          git commit -m "Retrain new model artifacts"
+          git push origin HEAD:master

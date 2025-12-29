@@ -70,6 +70,7 @@ def load_games_with_features(conn) -> pd.DataFrame:
     )
     home_feats = home_feats.drop(columns=["team_id", "home_team_id"])
     home_feats = home_feats.add_suffix("_home")
+    home_feats = home_feats.rename(columns={"game_id_home": "game_id"})
 
     # Away features
     away_feats = feats.merge(
@@ -80,6 +81,7 @@ def load_games_with_features(conn) -> pd.DataFrame:
     )
     away_feats = away_feats.drop(columns=["team_id", "away_team_id"])
     away_feats = away_feats.add_suffix("_away")
+    away_feats = away_feats.rename(columns={"game_id_away": "game_id"})
 
     df = games.merge(home_feats, on="game_id", how="left").merge(away_feats, on="game_id", how="left")
     df["date"] = pd.to_datetime(df["date"])
