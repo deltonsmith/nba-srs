@@ -32,15 +32,17 @@ def _load_predictions(window_start: datetime, window_end: datetime) -> Dict[int,
     preds: Dict[int, Dict] = {}
     if not PRED_DIR.exists():
         return preds
+    start_date = window_start.date()
+    end_date = window_end.date()
     for path in sorted(PRED_DIR.glob("predictions_*.json")):
         date_part = path.stem.split("_", 1)[-1]
         if not date_part:
             continue
         try:
-            file_date = datetime.strptime(date_part, "%Y-%m-%d")
+            file_date = datetime.strptime(date_part, "%Y-%m-%d").date()
         except Exception:
             continue
-        if file_date < window_start.date() or file_date > window_end.date():
+        if file_date < start_date or file_date > end_date:
             continue
         try:
             payload = json.loads(path.read_text(encoding="utf-8"))
