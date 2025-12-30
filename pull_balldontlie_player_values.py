@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 
 import requests
+import time
 
 # ---- CONFIGURE THE SEASON YOU WANT ----
 # 2024 = 2023-24 season, 2026 = 2025-26 season, etc.
@@ -81,8 +82,20 @@ def fetch_stats_for_season(season_int: int, postseason: bool) -> List[Dict]:
         }
         if API_KEY:
             params["api_key"] = API_KEY
-        resp = SESSION.get(f"{BALLDONTLIE_BASE}/stats", params=params, timeout=30)
-        resp.raise_for_status()
+        resp = None
+        last_err = None
+        for attempt in range(5):
+            try:
+                resp = SESSION.get(f"{BALLDONTLIE_BASE}/stats", params=params, timeout=60)
+                resp.raise_for_status()
+                last_err = None
+                break
+            except requests.exceptions.RequestException as exc:
+                last_err = exc
+                time.sleep(2 * (attempt + 1))
+        if last_err is not None or resp is None:
+            print(f"Warning: failed to fetch stats page {page} (postseason={postseason}): {last_err}")
+            break
         payload = resp.json()
 
         data = payload.get("data", [])
