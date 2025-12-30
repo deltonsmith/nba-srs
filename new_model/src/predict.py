@@ -38,6 +38,8 @@ GAME_FEATURE_COLS = [
     "closing_home_ml",
 ]
 
+CALIBRATION_PATH = Path("data") / "new_model" / "calibration.json"
+
 
 def load_models(base_dir: Path):
     models_dir = base_dir / "models"
@@ -329,6 +331,7 @@ def build_predictions(
     target_date: str,
     baseline: Optional[tuple],
     market_map: Dict[int, Dict[str, Optional[float]]],
+    calibration: Optional[Dict],
 ) -> Dict:
     if m_margin is None or m_total is None:
         base_margin, base_total = baseline if baseline else (0.0, 220.0)
@@ -353,13 +356,27 @@ def build_predictions(
         model_resid_spread = float(pm) if pd.notna(pm) else None
         model_resid_total = float(pt) if pd.notna(pt) else None
 
+        calib_spread = calibration.get("spread") if calibration else None
+        calib_total = calibration.get("total") if calibration else None
+        calib_spread_a = float(calib_spread.get("intercept", 0.0)) if calib_spread else 0.0
+        calib_spread_b = float(calib_spread.get("slope", 1.0)) if calib_spread else 1.0
+        calib_total_a = float(calib_total.get("intercept", 0.0)) if calib_total else 0.0
+        calib_total_b = float(calib_total.get("slope", 1.0)) if calib_total else 1.0
+
+        calibrated_spread = None
+        calibrated_total = None
+        if model_resid_spread is not None:
+            calibrated_spread = calib_spread_a + calib_spread_b * model_resid_spread
+        if model_resid_total is not None:
+            calibrated_total = calib_total_a + calib_total_b * model_resid_total
+
         model_spread = None
         model_total = None
-        if model_resid_spread is not None and market_spread_val is not None:
+        if calibrated_spread is not None and market_spread_val is not None:
             # Model predicts residual vs expected margin; convert back to betting line.
-            model_spread = market_spread_val - model_resid_spread
-        if model_resid_total is not None and market_total_val is not None:
-            model_total = market_total_val + model_resid_total
+            model_spread = market_spread_val - calibrated_spread
+        if calibrated_total is not None and market_total_val is not None:
+            model_total = market_total_val + calibrated_total
 
         edge_spread = None
         edge_total = None
@@ -380,6 +397,12 @@ def build_predictions(
             "realLine": {
                 "spreadHome": model_spread,
                 "total": model_total,
+            },
+            "model": {
+                "resid_spread_raw": model_resid_spread,
+                "resid_total_raw": model_resid_total,
+                "resid_spread_calibrated": calibrated_spread,
+                "resid_total_calibrated": calibrated_total,
             },
             "edge": {
                 "spread": edge_spread,
@@ -409,6 +432,12 @@ def main():
 
     init_db(DB_PATH)
     m_margin, m_total = load_models(base_dir)
+    calibration = None
+    if CALIBRATION_PATH.exists():
+        try:
+            calibration = json.loads(CALIBRATION_PATH.read_text(encoding="utf-8"))
+        except Exception as exc:
+            print(f"Warning: failed to read calibration file {CALIBRATION_PATH}: {exc}")
 
     conn = sqlite3.connect(DB_PATH)
     try:
@@ -463,6 +492,7 @@ def main():
         args.date,
         baseline,
         market_map,
+        calibration,
     )
 
     if payload["games"]:
