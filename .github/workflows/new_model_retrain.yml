@@ -36,6 +36,13 @@ jobs:
           if [ -z "$BALLDONTLIE_API_KEY" ]; then
             echo "BALLDONTLIE_API_KEY is required"; exit 1;
           fi
+          mkdir -p /tmp/new_model_metrics
+          if [ -f new_model/reports/margin_metrics.json ]; then
+            cp new_model/reports/margin_metrics.json /tmp/new_model_metrics/prev_margin.json
+          fi
+          if [ -f new_model/reports/total_metrics.json ]; then
+            cp new_model/reports/total_metrics.json /tmp/new_model_metrics/prev_total.json
+          fi
           END=$(date -u -d "yesterday" +%Y-%m-%d)
           START=$(date -u -d "90 days ago" +%Y-%m-%d)
           python new_model/src/games_collector.py --date-range $START:$END
@@ -46,8 +53,16 @@ jobs:
           python new_model/src/features.py --date-range $START:$END
           python new_model/src/train_margin.py
           python new_model/src/train_total.py
+          python new_model/src/drift_check.py --window-days 30 --baseline-days 30 --alert-threshold 0.1
+          python new_model/src/evaluate_retrain.py \
+            --prev-margin /tmp/new_model_metrics/prev_margin.json \
+            --prev-total /tmp/new_model_metrics/prev_total.json \
+            --new-margin new_model/reports/margin_metrics.json \
+            --new-total new_model/reports/total_metrics.json \
+            --min-improvement 0.0
 
       - name: Commit model artifacts
+        if: env.MODEL_IMPROVED == 'true'
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
