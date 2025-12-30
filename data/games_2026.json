@@ -4255,5 +4255,95 @@
     "away_team_id": "SAC",
     "home_pts": 125,
     "away_pts": 101
+  },
+  {
+    "game_id": 18447261,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "CHA",
+    "away_team_id": "MIL",
+    "home_pts": 88,
+    "away_pts": 93
+  },
+  {
+    "game_id": 18447262,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "WAS",
+    "away_team_id": "PHX",
+    "home_pts": 79,
+    "away_pts": 87
+  },
+  {
+    "game_id": 18447263,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "BKN",
+    "away_team_id": "GSW",
+    "home_pts": 57,
+    "away_pts": 59
+  },
+  {
+    "game_id": 18447264,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "MIA",
+    "away_team_id": "DEN",
+    "home_pts": 63,
+    "away_pts": 63
+  },
+  {
+    "game_id": 18447265,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "TOR",
+    "away_team_id": "ORL",
+    "home_pts": 54,
+    "away_pts": 65
+  },
+  {
+    "game_id": 18447266,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "CHI",
+    "away_team_id": "MIN",
+    "home_pts": 39,
+    "away_pts": 32
+  },
+  {
+    "game_id": 18447267,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "HOU",
+    "away_team_id": "IND",
+    "home_pts": 34,
+    "away_pts": 31
+  },
+  {
+    "game_id": 18447268,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "NOP",
+    "away_team_id": "NYK",
+    "home_pts": 47,
+    "away_pts": 43
+  },
+  {
+    "game_id": 18447269,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "OKC",
+    "away_team_id": "ATL",
+    "home_pts": 44,
+    "away_pts": 49
+  },
+  {
+    "game_id": 18447270,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "SAS",
+    "away_team_id": "CLE",
+    "home_pts": 33,
+    "away_pts": 34
   }
 ]
