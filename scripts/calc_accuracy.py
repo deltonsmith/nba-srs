@@ -143,8 +143,12 @@ def build_history_rows(season: int, snapshots: List[Dict], games: List[Dict]) ->
                 "season": season,
                 "game_id": g.get("game_id"),
                 "date_utc": date_utc,
+                "home_team_id": home_id,
+                "away_team_id": away_id,
                 "higher_team_id": higher_team,
                 "winner_team_id": winner,
+                "higher_is_home": 1 if higher_team == home_id else 0,
+                "winner_is_home": 1 if winner == home_id else 0,
                 "correct": correct,
                 "rating_gap": rating_gap,
                 "snapshot_as_of_utc": snap["as_of_utc"],
@@ -221,8 +225,12 @@ def main():
                 "season",
                 "game_id",
                 "date_utc",
+                "home_team_id",
+                "away_team_id",
                 "higher_team_id",
                 "winner_team_id",
+                "higher_is_home",
+                "winner_is_home",
                 "correct",
                 "rating_gap",
                 "snapshot_as_of_utc",
@@ -234,15 +242,88 @@ def main():
                     row["season"],
                     row["game_id"],
                     row["date_utc"],
+                    row["home_team_id"],
+                    row["away_team_id"],
                     row["higher_team_id"],
                     row["winner_team_id"],
+                    row["higher_is_home"],
+                    row["winner_is_home"],
                     row["correct"],
                     row["rating_gap"],
                     row["snapshot_as_of_utc"],
                 ]
             )
 
+    misses = [r for r in history_rows if r.get("correct") == 0]
+    misses_path = METRICS_DIR / "accuracy_misses.csv"
+    with misses_path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(
+            [
+                "season",
+                "game_id",
+                "date_utc",
+                "home_team_id",
+                "away_team_id",
+                "higher_team_id",
+                "winner_team_id",
+                "higher_is_home",
+                "winner_is_home",
+                "rating_gap",
+                "snapshot_as_of_utc",
+            ]
+        )
+        for row in misses:
+            w.writerow(
+                [
+                    row["season"],
+                    row["game_id"],
+                    row["date_utc"],
+                    row["home_team_id"],
+                    row["away_team_id"],
+                    row["higher_team_id"],
+                    row["winner_team_id"],
+                    row["higher_is_home"],
+                    row["winner_is_home"],
+                    row["rating_gap"],
+                    row["snapshot_as_of_utc"],
+                ]
+            )
+
+    def gap_bucket(val: float) -> str:
+        if val < 1:
+            return "0-1"
+        if val < 2:
+            return "1-2"
+        if val < 3:
+            return "2-3"
+        if val < 5:
+            return "3-5"
+        if val < 8:
+            return "5-8"
+        return "8+"
+
+    bucket_counts = {}
+    for row in misses:
+        gap = row.get("rating_gap")
+        if gap is None:
+            continue
+        bucket = gap_bucket(float(gap))
+        bucket_counts[bucket] = bucket_counts.get(bucket, 0) + 1
+
+    summary = {
+        "as_of_utc": payload["as_of_utc"],
+        "misses_total": len(misses),
+        "games_total": len(history_rows),
+        "miss_rate": (len(misses) / len(history_rows)) if history_rows else None,
+        "misses_higher_is_home": sum(1 for r in misses if r.get("higher_is_home") == 1),
+        "misses_by_gap_bucket": bucket_counts,
+    }
+    summary_path = METRICS_DIR / "accuracy_miss_summary.json"
+    summary_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+
     print(f"Wrote {accuracy_path} and {history_path} ({len(history_rows)} rows).")
+    print(f"Wrote {misses_path} and {summary_path} ({len(misses)} misses).")
 
 
 if __name__ == "__main__":
