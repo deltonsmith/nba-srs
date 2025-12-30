@@ -130,7 +130,7 @@ def run_backtest(start_str: str, end_str: str, edge_threshold: float):
         if train_df.empty or day_df.empty:
             continue
 
-        train_df["resid_margin"] = train_df["margin"] - train_df["closing_spread_home"]
+        train_df["resid_margin"] = train_df["margin"] + train_df["closing_spread_home"]
         train_df["resid_total"] = train_df["total"] - train_df["closing_total"]
 
         m_margin, m_total = train_models(train_df, feat_cols)
@@ -138,7 +138,7 @@ def run_backtest(start_str: str, end_str: str, edge_threshold: float):
         preds_resid_margin = m_margin.predict(day_df[feat_cols])
         preds_resid_total = m_total.predict(day_df[feat_cols])
 
-        preds_margin = preds_resid_margin + day_df["closing_spread_home"].to_numpy()
+        preds_margin = preds_resid_margin - day_df["closing_spread_home"].to_numpy()
         preds_total = preds_resid_total + day_df["closing_total"].to_numpy()
 
         mae_margin = mean_absolute_error(day_df["margin"], preds_margin) if day_df["home_score"].notna().all() else None

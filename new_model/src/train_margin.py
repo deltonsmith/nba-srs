@@ -140,10 +140,11 @@ def main():
     df = df[df["closing_spread_home"].notna()].copy()
     if df.empty:
         raise SystemExit("No games with closing spreads found for training.")
-    df["residual"] = df["margin"] - df["closing_spread_home"]
+    # closing_spread_home is the betting line (home - points), so expected margin is -line.
+    df["residual"] = df["margin"] + df["closing_spread_home"]
 
     model, metrics, preds, val = train_and_eval(df, feat_cols, "residual")
-    pred_margin = preds + val["closing_spread_home"].to_numpy()
+    pred_margin = preds - val["closing_spread_home"].to_numpy()
     mae_margin = mean_absolute_error(val["margin"], pred_margin)
     metrics.update({"mae_margin": mae_margin, "target": "residual"})
 

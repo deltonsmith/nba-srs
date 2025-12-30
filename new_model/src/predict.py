@@ -356,7 +356,8 @@ def build_predictions(
         model_spread = None
         model_total = None
         if model_resid_spread is not None and market_spread_val is not None:
-            model_spread = market_spread_val + model_resid_spread
+            # Model predicts residual vs expected margin; convert back to betting line.
+            model_spread = market_spread_val - model_resid_spread
         if model_resid_total is not None and market_total_val is not None:
             model_total = market_total_val + model_resid_total
 
