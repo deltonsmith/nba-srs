@@ -4262,8 +4262,8 @@
     "date": "2025-12-29",
     "home_team_id": "CHA",
     "away_team_id": "MIL",
-    "home_pts": 88,
-    "away_pts": 93
+    "home_pts": 113,
+    "away_pts": 123
   },
   {
     "game_id": 18447262,
@@ -4271,8 +4271,8 @@
     "date": "2025-12-29",
     "home_team_id": "WAS",
     "away_team_id": "PHX",
-    "home_pts": 79,
-    "away_pts": 87
+    "home_pts": 101,
+    "away_pts": 115
   },
   {
     "game_id": 18447263,
@@ -4280,8 +4280,8 @@
     "date": "2025-12-29",
     "home_team_id": "BKN",
     "away_team_id": "GSW",
-    "home_pts": 57,
-    "away_pts": 59
+    "home_pts": 107,
+    "away_pts": 120
   },
   {
     "game_id": 18447264,
@@ -4289,8 +4289,8 @@
     "date": "2025-12-29",
     "home_team_id": "MIA",
     "away_team_id": "DEN",
-    "home_pts": 63,
-    "away_pts": 63
+    "home_pts": 147,
+    "away_pts": 123
   },
   {
     "game_id": 18447265,
@@ -4298,8 +4298,8 @@
     "date": "2025-12-29",
     "home_team_id": "TOR",
     "away_team_id": "ORL",
-    "home_pts": 54,
-    "away_pts": 65
+    "home_pts": 107,
+    "away_pts": 106
   },
   {
     "game_id": 18447266,
@@ -4307,8 +4307,8 @@
     "date": "2025-12-29",
     "home_team_id": "CHI",
     "away_team_id": "MIN",
-    "home_pts": 39,
-    "away_pts": 32
+    "home_pts": 101,
+    "away_pts": 136
   },
   {
     "game_id": 18447267,
@@ -4316,8 +4316,8 @@
     "date": "2025-12-29",
     "home_team_id": "HOU",
     "away_team_id": "IND",
-    "home_pts": 34,
-    "away_pts": 31
+    "home_pts": 126,
+    "away_pts": 119
   },
   {
     "game_id": 18447268,
@@ -4325,8 +4325,8 @@
     "date": "2025-12-29",
     "home_team_id": "NOP",
     "away_team_id": "NYK",
-    "home_pts": 47,
-    "away_pts": 43
+    "home_pts": 125,
+    "away_pts": 130
   },
   {
     "game_id": 18447269,
@@ -4334,8 +4334,8 @@
     "date": "2025-12-29",
     "home_team_id": "OKC",
     "away_team_id": "ATL",
-    "home_pts": 44,
-    "away_pts": 49
+    "home_pts": 140,
+    "away_pts": 129
   },
   {
     "game_id": 18447270,
@@ -4343,7 +4343,16 @@
     "date": "2025-12-29",
     "home_team_id": "SAS",
     "away_team_id": "CLE",
-    "home_pts": 33,
-    "away_pts": 34
+    "home_pts": 101,
+    "away_pts": 113
+  },
+  {
+    "game_id": 18447271,
+    "season": 2026,
+    "date": "2025-12-29",
+    "home_team_id": "POR",
+    "away_team_id": "DAL",
+    "home_pts": 125,
+    "away_pts": 122
   }
 ]

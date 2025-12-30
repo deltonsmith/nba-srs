@@ -1,6 +1,6 @@
 {
   "season": 2026,
-  "updated_at_utc": "2025-12-30T02:15:44Z",
+  "updated_at_utc": "2025-12-30T09:51:56Z",
   "games": [
     {
       "game_id": 18446819,
@@ -4257,6 +4257,105 @@
       "visitor_team_id": "SAC",
       "home_score": 125,
       "visitor_score": 101,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447261,
+      "date_utc": "2025-12-30T00:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "MIL",
+      "home_score": 113,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447262,
+      "date_utc": "2025-12-30T00:00:00Z",
+      "home_team_id": "WAS",
+      "visitor_team_id": "PHX",
+      "home_score": 101,
+      "visitor_score": 115,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447263,
+      "date_utc": "2025-12-30T00:30:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "GSW",
+      "home_score": 107,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447264,
+      "date_utc": "2025-12-30T00:30:00Z",
+      "home_team_id": "MIA",
+      "visitor_team_id": "DEN",
+      "home_score": 147,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447265,
+      "date_utc": "2025-12-30T00:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "ORL",
+      "home_score": 107,
+      "visitor_score": 106,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447266,
+      "date_utc": "2025-12-30T01:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "MIN",
+      "home_score": 101,
+      "visitor_score": 136,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447267,
+      "date_utc": "2025-12-30T01:00:00Z",
+      "home_team_id": "HOU",
+      "visitor_team_id": "IND",
+      "home_score": 126,
+      "visitor_score": 119,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447268,
+      "date_utc": "2025-12-30T01:00:00Z",
+      "home_team_id": "NOP",
+      "visitor_team_id": "NYK",
+      "home_score": 125,
+      "visitor_score": 130,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447269,
+      "date_utc": "2025-12-30T01:00:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "ATL",
+      "home_score": 140,
+      "visitor_score": 129,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447270,
+      "date_utc": "2025-12-30T01:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "CLE",
+      "home_score": 101,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447271,
+      "date_utc": "2025-12-30T03:30:00Z",
+      "home_team_id": "POR",
+      "visitor_team_id": "DAL",
+      "home_score": 125,
+      "visitor_score": 122,
       "status": "Final"
     }
   ]
