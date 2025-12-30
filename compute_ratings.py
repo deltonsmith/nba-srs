@@ -160,6 +160,80 @@ def compute_game_records(conn, player_values, team_full_values, season_int):
     return records_by_team
 
 
+# ------------ COMPONENT HELPERS ------------
+
+def compute_team_results(conn, season_int):
+    """
+    Return per-team aggregates based on actual scores:
+    games, wins, losses, point_diff_sum.
+    """
+    cur = conn.cursor()
+    cur.execute(
+        """
+        SELECT home_team_id, away_team_id, home_pts, away_pts
+        FROM games
+        WHERE season = ? AND home_pts IS NOT NULL AND away_pts IS NOT NULL
+        """,
+        (season_int,),
+    )
+    rows = cur.fetchall()
+    stats = defaultdict(lambda: {"games": 0, "wins": 0, "losses": 0, "point_diff_sum": 0.0})
+    for home_team, away_team, home_pts, away_pts in rows:
+        try:
+            home_pts = float(home_pts)
+            away_pts = float(away_pts)
+        except Exception:
+            continue
+        margin = home_pts - away_pts
+        stats[home_team]["games"] += 1
+        stats[away_team]["games"] += 1
+        stats[home_team]["point_diff_sum"] += margin
+        stats[away_team]["point_diff_sum"] -= margin
+        if margin > 0:
+            stats[home_team]["wins"] += 1
+            stats[away_team]["losses"] += 1
+        elif margin < 0:
+            stats[away_team]["wins"] += 1
+            stats[home_team]["losses"] += 1
+    return stats
+
+
+def compute_component_stats(conn, records_by_team, ratings, season_int):
+    """
+    Build per-team components to log alongside ratings.
+    Components are intentionally simple and derived from existing data.
+    """
+    results = compute_team_results(conn, season_int)
+    components = {}
+    for team, rating in ratings.items():
+        recs = records_by_team.get(team, [])
+        games = len(recs)
+        avg_adj_margin = None
+        avg_home_flag = None
+        avg_opp_rating = None
+        if recs:
+            avg_adj_margin = sum(r["M_adj"] for r in recs) / games
+            avg_home_flag = sum(r["home_flag"] for r in recs) / games
+            avg_opp_rating = sum(ratings[r["opp"]] for r in recs) / games
+
+        res = results.get(team, {})
+        games_played = res.get("games", 0)
+        wins = res.get("wins", 0)
+        win_pct = (wins / games_played) if games_played else None
+        avg_margin = (res.get("point_diff_sum", 0.0) / games_played) if games_played else None
+
+        components[team] = {
+            "games_played": games_played if games_played else None,
+            "win_pct": win_pct,
+            "avg_margin": avg_margin,
+            "avg_adj_margin": avg_adj_margin,
+            "sos_avg_opp_rating": avg_opp_rating,
+            "avg_home_flag": avg_home_flag,
+        }
+
+    return components
+
+
 # ------------ SRS ITERATION ------------
 
 def iterate_ratings(records_by_team):
@@ -308,7 +382,7 @@ def load_last_week_ranks_from_csv(season_int: int, today):
     return ranks
 
 
-def build_ratings_payload(ratings, last_week_ranks, yesterday_ranks, season_int, as_of_utc, run_date_utc):
+def build_ratings_payload(ratings, last_week_ranks, yesterday_ranks, season_int, as_of_utc, run_date_utc, components=None):
     """Build ratings payload with metadata and ranks."""
     sorted_items = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
 
@@ -323,6 +397,7 @@ def build_ratings_payload(ratings, last_week_ranks, yesterday_ranks, season_int,
                 "rank": rank,
                 "yest_rank": int(yest_rank) if yest_rank is not None else None,
                 "last_week_rank": int(lw_rank) if lw_rank is not None else None,
+                "components": (components or {}).get(team),
             }
         )
 
@@ -476,6 +551,7 @@ def run_season(season_int):
     for team, r in sorted(ratings.items(), key=lambda x: x[1], reverse=True):
         print(f"{team}: {r:.3f}")
 
+    components = compute_component_stats(conn, records_by_team, ratings, season_int)
     payload = build_ratings_payload(
         ratings,
         last_week_ranks,
@@ -483,6 +559,7 @@ def run_season(season_int):
         season_int,
         as_of_utc_str,
         run_date_utc,
+        components,
     )
 
     write_ratings_json(payload, canonical_json_path)
