@@ -168,6 +168,12 @@ jobs:
             cp -f data/metrics/* public/data/metrics/ || true
           fi
 
+      - name: Clean python caches
+        run: |
+          find . -type d -name "__pycache__" -print0 | xargs -0 rm -rf || true
+          find . -type f -name "*.pyc" -delete || true
+          rm -rf .pytest_cache || true
+
       - name: Clean ingest state
         run: |
           rm -f data/ingest_state.json
@@ -189,7 +195,7 @@ jobs:
           git add data/games_*.json || true
           git add data/metrics/*.json || true
           git add data/metrics/*.csv || true
-          git add data/ingest_state.json || true
+          if [ -f data/ingest_state.json ]; then git add data/ingest_state.json; fi
           git add public/data/metrics/*.json || true
           git add public/data/metrics/*.csv || true
           git add data/player_values_2026.csv || true
