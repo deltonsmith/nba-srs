@@ -12,6 +12,7 @@ from typing import Iterable, List, Mapping
 from config import DB_PATH
 from balldontlie_client import fetch_games
 from db import init_db, upsert_games
+from src.team_normalize import normalize_team_id
 
 
 def daterange(start_date: datetime.date, end_date: datetime.date) -> Iterable[datetime.date]:
@@ -31,8 +32,8 @@ def normalize_games(raw_games: List[Mapping]) -> List[Mapping]:
                 "game_id": int(game_id),
                 "season": g.get("season"),
                 "date": g.get("date"),
-                "home_team_id": (g.get("home_team") or {}).get("abbreviation"),
-                "away_team_id": (g.get("visitor_team") or {}).get("abbreviation"),
+                "home_team_id": normalize_team_id(g.get("home_team") or {}),
+                "away_team_id": normalize_team_id(g.get("visitor_team") or {}),
                 "home_team_bdl_id": (g.get("home_team") or {}).get("id"),
                 "away_team_bdl_id": (g.get("visitor_team") or {}).get("id"),
                 "home_score": g.get("home_team_score"),

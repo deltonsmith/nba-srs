@@ -13,6 +13,7 @@ from typing import Dict, Iterable, List
 import requests
 import time
 
+from src.team_normalize import normalize_team_id
 from config import DB_PATH
 from db import get_conn, init_db, upsert_team_game_stats
 
@@ -77,7 +78,7 @@ def normalize_team_stats(game_id: int, stats_rows: List[Dict]) -> List[Dict]:
     agg: Dict[str, Dict] = {}
     for row in stats_rows:
         team = row.get("team") or {}
-        team_id = team.get("abbreviation")
+        team_id = normalize_team_id(team)
         team_bdl_id = team.get("id")
         if not team_id:
             continue

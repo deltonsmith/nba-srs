@@ -11,6 +11,7 @@ from typing import Dict, List, Tuple
 import requests
 import time
 
+from src.team_normalize import normalize_team_id
 # ---- CONFIGURE THE SEASON YOU WANT ----
 # 2024 = 2023-24 season, 2026 = 2025-26 season, etc.
 SEASON_INT = 2026
@@ -130,7 +131,7 @@ def aggregate_player_values(season_int: int) -> Dict[Tuple[int, str], Dict]:
             first = player.get("first_name", "").strip()
             last = player.get("last_name", "").strip()
             player_name = f"{first} {last}".strip()
-            team_abbr = team.get("abbreviation")
+            team_abbr = normalize_team_id(team)
 
             if player_id is None or not player_name or not team_abbr:
                 continue

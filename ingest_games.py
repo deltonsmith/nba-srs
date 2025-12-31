@@ -15,6 +15,7 @@ from typing import Callable, Dict, Iterable, List, Optional
 
 import requests
 
+from src.team_normalize import normalize_team_id
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 DB_PATH = DATA_DIR / "nba_ratings.db"
@@ -213,8 +214,8 @@ def normalize_game_row(game: Dict, season_int: int) -> Optional[Dict]:
     home = game.get("home_team") or {}
     away = game.get("visitor_team") or {}
 
-    home_abbr = home.get("abbreviation")
-    away_abbr = away.get("abbreviation")
+    home_abbr = normalize_team_id(home)
+    away_abbr = normalize_team_id(away)
 
     home_pts = game.get("home_team_score")
     away_pts = game.get("visitor_team_score")

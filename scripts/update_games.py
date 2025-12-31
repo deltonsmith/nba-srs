@@ -13,6 +13,7 @@ from typing import Dict, List, Optional
 
 import requests
 
+from src.team_normalize import normalize_team_id
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data" / "games"
@@ -83,8 +84,8 @@ def normalize_game(game: Dict) -> Optional[Dict]:
     return {
         "game_id": int(game.get("id")),
         "date_utc": date_utc,
-        "home_team_id": (game.get("home_team") or {}).get("abbreviation"),
-        "visitor_team_id": (game.get("visitor_team") or {}).get("abbreviation"),
+        "home_team_id": normalize_team_id(game.get("home_team") or {}),
+        "visitor_team_id": normalize_team_id(game.get("visitor_team") or {}),
         "home_score": int(home_score),
         "visitor_score": int(away_score),
         "status": game.get("status"),

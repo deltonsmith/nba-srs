@@ -6,6 +6,7 @@ from typing import Dict, List
 
 import requests
 
+from src.team_normalize import normalize_team_id
 DB_PATH = "data/nba_ratings.db"
 BALLDONTLIE_BASE = "https://api.balldontlie.io/v1"
 API_KEY = os.environ.get("BALLDONTLIE_API_KEY")
@@ -136,7 +137,7 @@ def save_appearances(game_id: str, season_int: int):
         team = row.get("team") or {}
 
         player_name = f"{player.get('first_name', '').strip()} {player.get('last_name', '').strip()}".strip()
-        team_abbr = team.get("abbreviation")
+        team_abbr = normalize_team_id(team)
 
         if not player_name or not team_abbr:
             continue
