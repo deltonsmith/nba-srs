@@ -87,6 +87,61 @@ def _ensure_schema(conn: sqlite3.Connection) -> None:
             """
         )
 
+    if not _table_exists(conn, "model_predictions"):
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS model_predictions (
+                game_id            INTEGER PRIMARY KEY,
+                as_of_utc          TEXT,
+                vendor_rule        TEXT,
+                game_date          TEXT,
+                start_time_utc     TEXT,
+                home_team_id       TEXT,
+                away_team_id       TEXT,
+                market_spread_home REAL,
+                market_total       REAL,
+                model_spread_home  REAL,
+                model_total        REAL,
+                edge_spread        REAL,
+                edge_total         REAL,
+                actual_margin      REAL,
+                actual_total       REAL,
+                FOREIGN KEY (game_id) REFERENCES games (game_id)
+            )
+            """
+        )
+
+
+def upsert_model_predictions(db_path, rows: Iterable[Mapping]) -> int:
+    """
+    Insert or replace model predictions by game_id.
+    Expected keys per item: game_id, as_of_utc, vendor_rule, game_date, start_time_utc,
+    home_team_id, away_team_id, market_spread_home, market_total, model_spread_home,
+    model_total, edge_spread, edge_total, actual_margin, actual_total.
+    """
+    rows = list(rows)
+    if not rows:
+        return 0
+    conn = get_conn(db_path)
+    try:
+        conn.executemany(
+            """
+            INSERT OR REPLACE INTO model_predictions
+                (game_id, as_of_utc, vendor_rule, game_date, start_time_utc, home_team_id, away_team_id,
+                 market_spread_home, market_total, model_spread_home, model_total, edge_spread, edge_total,
+                 actual_margin, actual_total)
+            VALUES
+                (:game_id, :as_of_utc, :vendor_rule, :game_date, :start_time_utc, :home_team_id, :away_team_id,
+                 :market_spread_home, :market_total, :model_spread_home, :model_total, :edge_spread, :edge_total,
+                 :actual_margin, :actual_total)
+            """,
+            rows,
+        )
+        conn.commit()
+    finally:
+        conn.close()
+    return len(rows)
+
 
 def upsert_games(db_path, games: Iterable[Mapping]) -> None:
     """

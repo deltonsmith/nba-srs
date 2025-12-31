@@ -109,3 +109,23 @@ CREATE TABLE IF NOT EXISTS model_runs (
     train_end_date   TEXT,
     notes            TEXT
 );
+
+-- Model predictions (published outputs with outcomes if available)
+CREATE TABLE IF NOT EXISTS model_predictions (
+    game_id            INTEGER PRIMARY KEY,
+    as_of_utc          TEXT,
+    vendor_rule        TEXT,
+    game_date          TEXT,
+    start_time_utc     TEXT,
+    home_team_id       TEXT,
+    away_team_id       TEXT,
+    market_spread_home REAL,
+    market_total       REAL,
+    model_spread_home  REAL,
+    model_total        REAL,
+    edge_spread        REAL,
+    edge_total         REAL,
+    actual_margin      REAL,
+    actual_total       REAL,
+    FOREIGN KEY (game_id) REFERENCES games (game_id)
+);
