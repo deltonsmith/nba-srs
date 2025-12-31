@@ -1,5 +1,10 @@
 import argparse
+import sys
 from datetime import datetime, timezone
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(BASE_DIR))
 
 from src.time_window import compute_time_window_payload
 

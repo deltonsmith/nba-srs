@@ -12,3 +12,14 @@ Optional (regenerate model artifacts before evaluating):
 ```bash
 REGEN_MODEL=1 bash scripts/run_last7d_upset_pipeline.sh
 ```
+### Windows PowerShell
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\run_last7d_upset_pipeline.ps1
+```
+
+Optional (regenerate model artifacts before evaluating):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\run_last7d_upset_pipeline.ps1 -RegenModel
+```
