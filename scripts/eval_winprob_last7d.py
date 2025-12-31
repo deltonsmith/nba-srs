@@ -1,6 +1,9 @@
 import argparse
+import json
+import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Dict
 
 import numpy as np
 import pandas as pd
@@ -9,7 +12,12 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, log_loss
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(BASE_DIR / "new_model" / "src"))
+
+from db import init_db
+
 DB_PATH = BASE_DIR / "new_model" / "data" / "new_model.sqlite"
+PRED_DIR = BASE_DIR / "data" / "new_model"
 
 FEATURES = [
     "model_spread_home",
@@ -25,24 +33,60 @@ def _sigmoid(x: np.ndarray) -> np.ndarray:
     return 1.0 / (1.0 + np.exp(-x))
 
 
+def load_predictions(start_date: str, end_date: str) -> Dict[int, float]:
+    preds: Dict[int, float] = {}
+    if not PRED_DIR.exists():
+        return preds
+    for path in sorted(PRED_DIR.glob("predictions_*.json")):
+        date_part = path.stem.split("_", 1)[-1]
+        if not date_part:
+            continue
+        if date_part < start_date or date_part > end_date:
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        for g in payload.get("games", []):
+            game_id = g.get("gameId")
+            model = g.get("realLine") or {}
+            spread = model.get("spreadHome")
+            if game_id is None or spread is None:
+                continue
+            try:
+                preds[int(game_id)] = float(spread)
+            except Exception:
+                continue
+    return preds
+
+
 def load_eval_data(conn, start_date: str, end_date: str) -> pd.DataFrame:
-    preds = pd.read_sql(
+    preds_map = load_predictions(start_date, end_date)
+    if not preds_map:
+        return pd.DataFrame()
+
+    games = pd.read_sql(
         """
-        SELECT mp.game_id, mp.game_date, mp.model_spread_home,
-               g.home_score, g.away_score, g.home_team_id, g.away_team_id
-        FROM model_predictions mp
-        JOIN games g ON g.game_id = mp.game_id
-        WHERE mp.game_date BETWEEN ? AND ?
+        SELECT game_id, date, home_score, away_score, home_team_id, away_team_id
+        FROM games
+        WHERE date BETWEEN ? AND ?
         """,
         conn,
         params=[start_date, end_date],
     )
+    if games.empty:
+        return pd.DataFrame()
+
+    games = games[games["game_id"].isin(preds_map.keys())].copy()
+    if games.empty:
+        return pd.DataFrame()
+    games["model_spread_home"] = games["game_id"].map(preds_map)
     feats = pd.read_sql("SELECT * FROM team_game_features", conn)
-    if preds.empty or feats.empty:
+    if games.empty or feats.empty:
         return pd.DataFrame()
 
     home_feats = feats.merge(
-        preds[["game_id", "home_team_id"]],
+        games[["game_id", "home_team_id"]],
         left_on=["game_id", "team_id"],
         right_on=["game_id", "home_team_id"],
         how="inner",
@@ -52,7 +96,7 @@ def load_eval_data(conn, start_date: str, end_date: str) -> pd.DataFrame:
     home_feats = home_feats.rename(columns={"game_id_home": "game_id"})
 
     away_feats = feats.merge(
-        preds[["game_id", "away_team_id"]],
+        games[["game_id", "away_team_id"]],
         left_on=["game_id", "team_id"],
         right_on=["game_id", "away_team_id"],
         how="inner",
@@ -61,7 +105,7 @@ def load_eval_data(conn, start_date: str, end_date: str) -> pd.DataFrame:
     away_feats = away_feats.add_suffix("_away")
     away_feats = away_feats.rename(columns={"game_id_away": "game_id"})
 
-    df = preds.merge(home_feats, on="game_id", how="left").merge(away_feats, on="game_id", how="left")
+    df = games.merge(home_feats, on="game_id", how="left").merge(away_feats, on="game_id", how="left")
     df["home_court"] = 1.0
     df["rest_days_diff"] = df["rest_days_home"] - df["rest_days_away"]
     df["back_to_back_diff"] = df["back_to_back_home"] - df["back_to_back_away"]
@@ -80,6 +124,7 @@ def main() -> None:
     end_date = (now_utc - timedelta(days=1)).date()
     start_date = end_date - timedelta(days=args.days - 1)
 
+    init_db(str(DB_PATH))
     conn = sqlite3.connect(DB_PATH)
     try:
         df = load_eval_data(conn, start_date.isoformat(), end_date.isoformat())
@@ -87,11 +132,13 @@ def main() -> None:
         conn.close()
 
     if df.empty:
-        raise SystemExit("No data available for evaluation window.")
+        print("No data available for evaluation window.")
+        return
 
     df = df[df["home_score"].notna() & df["away_score"].notna() & df["model_spread_home"].notna()].copy()
     if df.empty:
-        raise SystemExit("No scored games with model spreads for evaluation window.")
+        print("No scored games with model spreads for evaluation window.")
+        return
 
     df["home_win"] = (df["home_score"] > df["away_score"]).astype(int)
     df[FEATURES] = df[FEATURES].fillna(0)
@@ -116,5 +163,5 @@ def main() -> None:
     print(f"Base accuracy: {base_acc:.3f} | Calibrated accuracy: {calib_acc:.3f}")
 
 
-if __name__ == \"__main__\":
+if __name__ == "__main__":
     main()
