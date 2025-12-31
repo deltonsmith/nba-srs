@@ -4390,5 +4390,14 @@
     "away_team_id": "SAC",
     "home_pts": 131,
     "away_pts": 90
+  },
+  {
+    "game_id": 18447276,
+    "season": 2026,
+    "date": "2025-12-31",
+    "home_team_id": "CHA",
+    "away_team_id": "GSW",
+    "home_pts": 96,
+    "away_pts": 94
   }
 ]
