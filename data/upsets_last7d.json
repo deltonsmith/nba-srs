@@ -26,10 +26,45 @@
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
     "travel_proxy_away": "away_away",
+    "repeat_matchup": false,
+    "days_since_last_matchup": 54,
     "key_injuries_count_home": null,
     "key_injuries_count_away": null,
     "star_absence_proxy_home": null,
-    "star_absence_proxy_away": null
+    "star_absence_proxy_away": null,
+    "team_stats_home": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    },
+    "team_stats_away": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    },
+    "style_deltas": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    }
   },
   {
     "game_id": 18447265,
@@ -58,10 +93,45 @@
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
     "travel_proxy_away": "home_to_away",
+    "repeat_matchup": false,
+    "days_since_last_matchup": null,
     "key_injuries_count_home": null,
     "key_injuries_count_away": null,
     "star_absence_proxy_home": null,
-    "star_absence_proxy_away": null
+    "star_absence_proxy_away": null,
+    "team_stats_home": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    },
+    "team_stats_away": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    },
+    "style_deltas": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    }
   },
   {
     "game_id": 18447270,
@@ -90,10 +160,45 @@
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
     "travel_proxy_away": "away_away",
+    "repeat_matchup": false,
+    "days_since_last_matchup": 24,
     "key_injuries_count_home": null,
     "key_injuries_count_away": null,
     "star_absence_proxy_home": null,
-    "star_absence_proxy_away": null
+    "star_absence_proxy_away": null,
+    "team_stats_home": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    },
+    "team_stats_away": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    },
+    "style_deltas": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    }
   },
   {
     "game_id": 18447274,
@@ -122,9 +227,44 @@
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
     "travel_proxy_away": "away_away",
+    "repeat_matchup": false,
+    "days_since_last_matchup": null,
     "key_injuries_count_home": null,
     "key_injuries_count_away": null,
     "star_absence_proxy_home": null,
-    "star_absence_proxy_away": null
+    "star_absence_proxy_away": null,
+    "team_stats_home": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    },
+    "team_stats_away": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    },
+    "style_deltas": {
+      "pace": null,
+      "ortg": null,
+      "drtg": null,
+      "three_pa_rate": null,
+      "reb_pct": null,
+      "orb": null,
+      "tov": null,
+      "efg": null,
+      "ftr": null
+    }
   }
 ]

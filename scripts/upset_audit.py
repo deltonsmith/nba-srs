@@ -9,6 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR))
 
 from src.injuries import compute_team_injury_features, load_injuries_for_date
+from src.team_stats import load_team_stats
 from src.team_normalize import normalize_team_id
 from src.time_window import last_n_days
 
@@ -175,6 +176,87 @@ def build_game_context(games: List[Dict]) -> Dict[int, Dict[str, object]]:
     return context
 
 
+def build_matchup_context(games: List[Dict], repeat_days: int) -> Dict[int, Dict[str, object]]:
+    rows: List[Tuple[datetime, int, str, str]] = []
+    for g in games:
+        game_id = g.get("game_id")
+        game_dt = parse_iso(g.get("date_utc"))
+        if game_dt is None or game_id is None:
+            continue
+        home_id = normalize_team_id(g.get("home_team_id"))
+        away_id = normalize_team_id(g.get("visitor_team_id"))
+        if not home_id or not away_id:
+            continue
+        rows.append((game_dt, int(game_id), home_id, away_id))
+
+    rows.sort(key=lambda r: (r[0], r[1]))
+    last_meeting: Dict[Tuple[str, str], datetime] = {}
+    context: Dict[int, Dict[str, object]] = {}
+
+    for game_dt, game_id, home_id, away_id in rows:
+        pair = tuple(sorted([home_id, away_id]))
+        prev_dt = last_meeting.get(pair)
+        repeat_matchup = False
+        days_since = None
+        if prev_dt is not None:
+            days_since = (game_dt.date() - prev_dt.date()).days
+            repeat_matchup = days_since <= repeat_days
+
+        context[int(game_id)] = {
+            "repeat_matchup": repeat_matchup,
+            "days_since_last_matchup": days_since,
+        }
+
+        last_meeting[pair] = game_dt
+
+    return context
+
+
+def _stat_value(stats: Dict, key: str) -> Optional[float]:
+    if stats is None:
+        return None
+    candidates = [
+        key,
+        key.lower(),
+        key.upper(),
+        key.replace("_", ""),
+        key.replace("_", "").lower(),
+        key.replace("_", "").upper(),
+    ]
+    for cand in candidates:
+        if cand in stats and stats.get(cand) is not None:
+            try:
+                return float(stats.get(cand))
+            except Exception:
+                return None
+    return None
+
+
+def _collect_team_stat_subset(stats: Optional[Dict], keys: List[str]) -> Dict[str, Optional[float]]:
+    return {key: _stat_value(stats or {}, key) for key in keys}
+
+
+def _delta_lower_minus_higher(
+    stats_by_team: Optional[Dict[str, Dict]],
+    lower_team: str,
+    higher_team: str,
+    keys: List[str],
+) -> Dict[str, Optional[float]]:
+    if stats_by_team is None:
+        return {key: None for key in keys}
+    lower_stats = stats_by_team.get(lower_team) if stats_by_team else None
+    higher_stats = stats_by_team.get(higher_team) if stats_by_team else None
+    deltas: Dict[str, Optional[float]] = {}
+    for key in keys:
+        lower_val = _stat_value(lower_stats or {}, key)
+        higher_val = _stat_value(higher_stats or {}, key)
+        if lower_val is None or higher_val is None:
+            deltas[key] = None
+        else:
+            deltas[key] = lower_val - higher_val
+    return deltas
+
+
 def _date_from_game(g: Dict) -> Optional[str]:
     game_dt = parse_iso(g.get("date_utc"))
     if game_dt is None:
@@ -186,6 +268,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Audit upsets from last N days using rating snapshots.")
     parser.add_argument("--days", type=int, default=7, help="Number of days to include (default: 7)")
     parser.add_argument("--season", type=int, help="Season end year (e.g., 2026)")
+    parser.add_argument("--repeat-days", type=int, default=7, help="Repeat matchup window in days")
     args = parser.parse_args()
 
     now_utc = datetime.now(timezone.utc)
@@ -198,6 +281,18 @@ def main() -> None:
     seasons = [args.season] if args.season else sorted(snapshots_by_season.keys())
     all_rows: List[Dict] = []
     injuries_cache: Dict[str, Optional[Dict[str, Dict[str, int]]]] = {}
+    team_stats = load_team_stats()
+    stat_keys = [
+        "pace",
+        "ortg",
+        "drtg",
+        "three_pa_rate",
+        "reb_pct",
+        "orb",
+        "tov",
+        "efg",
+        "ftr",
+    ]
 
     for season in seasons:
         snapshots = snapshots_by_season.get(season, [])
@@ -205,6 +300,7 @@ def main() -> None:
             continue
         games = load_games(season)
         game_context = build_game_context(games)
+        matchup_context = build_matchup_context(games, repeat_days=args.repeat_days)
 
         for g in games:
             game_dt = parse_iso(g.get("date_utc"))
@@ -256,6 +352,7 @@ def main() -> None:
             margin_higher = None
 
             context = game_context.get(int(g.get("game_id")) or 0, {})
+            matchup = matchup_context.get(int(g.get("game_id")) or 0, {})
             game_date = _date_from_game(g)
             injury_features = None
             if game_date:
@@ -276,6 +373,10 @@ def main() -> None:
                 key_injuries_away = away_inj.get("key_injuries_count")
                 star_absence_home = home_inj.get("star_absence_proxy")
                 star_absence_away = away_inj.get("star_absence_proxy")
+
+            home_stats_subset = _collect_team_stat_subset(team_stats.get(home_id) if team_stats else None, stat_keys)
+            away_stats_subset = _collect_team_stat_subset(team_stats.get(away_id) if team_stats else None, stat_keys)
+            style_deltas = _delta_lower_minus_higher(team_stats, lower_team, higher_team, stat_keys)
 
             row = {
                 "game_id": g.get("game_id"),
@@ -304,10 +405,15 @@ def main() -> None:
                 "back_to_back_away": context.get("back_to_back_away"),
                 "travel_proxy_home": context.get("travel_proxy_home"),
                 "travel_proxy_away": context.get("travel_proxy_away"),
+                "repeat_matchup": matchup.get("repeat_matchup"),
+                "days_since_last_matchup": matchup.get("days_since_last_matchup"),
                 "key_injuries_count_home": key_injuries_home,
                 "key_injuries_count_away": key_injuries_away,
                 "star_absence_proxy_home": star_absence_home,
                 "star_absence_proxy_away": star_absence_away,
+                "team_stats_home": home_stats_subset,
+                "team_stats_away": away_stats_subset,
+                "style_deltas": style_deltas,
             }
             all_rows.append(row)
 
