@@ -6,6 +6,7 @@ Output: data/games/games_YYYY_season.json
 import argparse
 import json
 import os
+import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -13,9 +14,11 @@ from typing import Dict, List, Optional
 
 import requests
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(BASE_DIR))
+
 from src.team_normalize import normalize_team_id
 
-BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data" / "games"
 BALLDONTLIE_BASE = "https://api.balldontlie.io/v1"
 
