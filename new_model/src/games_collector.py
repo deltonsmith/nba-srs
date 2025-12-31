@@ -6,8 +6,13 @@ Usage:
 """
 
 import argparse
+import sys
 from datetime import datetime, timedelta
+from pathlib import Path
 from typing import Iterable, List, Mapping
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+sys.path.append(str(BASE_DIR))
 
 from config import DB_PATH
 from balldontlie_client import fetch_games

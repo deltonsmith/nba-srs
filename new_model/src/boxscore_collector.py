@@ -7,11 +7,16 @@ Usage:
 
 import argparse
 import os
+import sys
 from datetime import datetime, timedelta
+from pathlib import Path
 from typing import Dict, Iterable, List
 
 import requests
 import time
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+sys.path.append(str(BASE_DIR))
 
 from src.team_normalize import normalize_team_id
 from config import DB_PATH
