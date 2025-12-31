@@ -8,6 +8,7 @@ from typing import Dict, List, Optional, Tuple
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR))
 
+from src.injuries import compute_team_injury_features, load_injuries_for_date
 from src.team_normalize import normalize_team_id
 from src.time_window import last_n_days
 
@@ -174,6 +175,13 @@ def build_game_context(games: List[Dict]) -> Dict[int, Dict[str, object]]:
     return context
 
 
+def _date_from_game(g: Dict) -> Optional[str]:
+    game_dt = parse_iso(g.get("date_utc"))
+    if game_dt is None:
+        return None
+    return game_dt.date().isoformat()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Audit upsets from last N days using rating snapshots.")
     parser.add_argument("--days", type=int, default=7, help="Number of days to include (default: 7)")
@@ -189,6 +197,7 @@ def main() -> None:
 
     seasons = [args.season] if args.season else sorted(snapshots_by_season.keys())
     all_rows: List[Dict] = []
+    injuries_cache: Dict[str, Optional[Dict[str, Dict[str, int]]]] = {}
 
     for season in seasons:
         snapshots = snapshots_by_season.get(season, [])
@@ -244,9 +253,29 @@ def main() -> None:
                         margin_higher = away_score - home_score
             except Exception:
                 margin_abs = None
-                margin_higher = None
+            margin_higher = None
 
             context = game_context.get(int(g.get("game_id")) or 0, {})
+            game_date = _date_from_game(g)
+            injury_features = None
+            if game_date:
+                if game_date not in injuries_cache:
+                    rows = load_injuries_for_date(game_date)
+                    injuries_cache[game_date] = compute_team_injury_features(rows)
+                injury_features = injuries_cache.get(game_date)
+
+            if injury_features is None:
+                key_injuries_home = None
+                key_injuries_away = None
+                star_absence_home = None
+                star_absence_away = None
+            else:
+                home_inj = injury_features.get(home_id, {"key_injuries_count": 0, "star_absence_proxy": 0})
+                away_inj = injury_features.get(away_id, {"key_injuries_count": 0, "star_absence_proxy": 0})
+                key_injuries_home = home_inj.get("key_injuries_count")
+                key_injuries_away = away_inj.get("key_injuries_count")
+                star_absence_home = home_inj.get("star_absence_proxy")
+                star_absence_away = away_inj.get("star_absence_proxy")
 
             row = {
                 "game_id": g.get("game_id"),
@@ -275,6 +304,10 @@ def main() -> None:
                 "back_to_back_away": context.get("back_to_back_away"),
                 "travel_proxy_home": context.get("travel_proxy_home"),
                 "travel_proxy_away": context.get("travel_proxy_away"),
+                "key_injuries_count_home": key_injuries_home,
+                "key_injuries_count_away": key_injuries_away,
+                "star_absence_proxy_home": star_absence_home,
+                "star_absence_proxy_away": star_absence_away,
             }
             all_rows.append(row)
 

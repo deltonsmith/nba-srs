@@ -19,13 +19,17 @@
     "upset": false,
     "home_indicator": true,
     "margin_abs": 10.0,
-    "margin_higher": 10.0,
+    "margin_higher": null,
     "rest_days_home": 3,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "away_to_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447262,
@@ -47,13 +51,17 @@
     "upset": false,
     "home_indicator": true,
     "margin_abs": 14.0,
-    "margin_higher": 14.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447263,
@@ -75,13 +83,17 @@
     "upset": false,
     "home_indicator": true,
     "margin_abs": 13.0,
-    "margin_higher": 13.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "away_to_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447264,
@@ -103,13 +115,17 @@
     "upset": true,
     "home_indicator": true,
     "margin_abs": 24.0,
-    "margin_higher": -24.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447265,
@@ -131,13 +147,17 @@
     "upset": true,
     "home_indicator": true,
     "margin_abs": 1.0,
-    "margin_higher": -1.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "home_to_away"
+    "travel_proxy_away": "home_to_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447266,
@@ -159,13 +179,17 @@
     "upset": false,
     "home_indicator": true,
     "margin_abs": 35.0,
-    "margin_higher": 35.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "home_to_away"
+    "travel_proxy_away": "home_to_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447267,
@@ -187,13 +211,17 @@
     "upset": false,
     "home_indicator": false,
     "margin_abs": 7.0,
-    "margin_higher": 7.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447268,
@@ -215,13 +243,17 @@
     "upset": false,
     "home_indicator": true,
     "margin_abs": 5.0,
-    "margin_higher": 5.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447269,
@@ -243,13 +275,17 @@
     "upset": false,
     "home_indicator": false,
     "margin_abs": 11.0,
-    "margin_higher": 11.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "home_to_away"
+    "travel_proxy_away": "home_to_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447270,
@@ -271,13 +307,17 @@
     "upset": true,
     "home_indicator": false,
     "margin_abs": 12.0,
-    "margin_higher": -12.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447271,
@@ -299,13 +339,17 @@
     "upset": false,
     "home_indicator": false,
     "margin_abs": 3.0,
-    "margin_higher": 3.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 3,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447272,
@@ -327,13 +371,17 @@
     "upset": false,
     "home_indicator": true,
     "margin_abs": 3.0,
-    "margin_higher": 3.0,
+    "margin_higher": null,
     "rest_days_home": 3,
     "rest_days_away": 3,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "away_to_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447273,
@@ -355,13 +403,17 @@
     "upset": false,
     "home_indicator": true,
     "margin_abs": 10.0,
-    "margin_higher": 10.0,
+    "margin_higher": null,
     "rest_days_home": 3,
     "rest_days_away": 3,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "away_to_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447274,
@@ -383,13 +435,17 @@
     "upset": true,
     "home_indicator": false,
     "margin_abs": 22.0,
-    "margin_higher": -22.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   },
   {
     "game_id": 18447275,
@@ -411,12 +467,16 @@
     "upset": false,
     "home_indicator": false,
     "margin_abs": 41.0,
-    "margin_higher": 41.0,
+    "margin_higher": null,
     "rest_days_home": 2,
     "rest_days_away": 2,
     "back_to_back_home": false,
     "back_to_back_away": false,
     "travel_proxy_home": "home_home",
-    "travel_proxy_away": "away_away"
+    "travel_proxy_away": "away_away",
+    "key_injuries_count_home": null,
+    "key_injuries_count_away": null,
+    "star_absence_proxy_home": null,
+    "star_absence_proxy_away": null
   }
 ]
