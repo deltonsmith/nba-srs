@@ -15,6 +15,7 @@ import sqlite3
 
 from config import DB_PATH
 from db import init_db
+from feature_engineering import add_game_deltas, EXTRA_GAME_FEATURE_COLS
 
 
 FEATURE_COLS = [
@@ -39,6 +40,33 @@ GAME_FEATURE_COLS = [
 ]
 
 CALIBRATION_PATH = Path("data") / "new_model" / "calibration.json"
+WINPROB_CALIBRATION_PATH = Path("data") / "new_model" / "winprob_calibration.json"
+
+
+def _sigmoid(val: float) -> float:
+    return 1.0 / (1.0 + pow(2.718281828, -val))
+
+
+def _base_win_prob(spread_home: Optional[float], scale: float = 0.1) -> Optional[float]:
+    if spread_home is None:
+        return None
+    return _sigmoid(scale * (-float(spread_home)))
+
+
+def _calibrated_win_prob(calibration: Optional[Dict], features: Dict[str, Optional[float]]) -> Optional[float]:
+    if not calibration:
+        return None
+    intercept = calibration.get("intercept", 0.0)
+    coefs = calibration.get("coef") or {}
+    if not isinstance(coefs, dict):
+        return None
+    logit = float(intercept)
+    for name, coef in coefs.items():
+        val = features.get(name)
+        if val is None:
+            continue
+        logit += float(coef) * float(val)
+    return _sigmoid(logit)
 
 
 def load_models(base_dir: Path):
@@ -78,6 +106,12 @@ def load_games_and_features(conn, target_date: str):
             df[h] = 0
             df[a] = 0
             feat_cols.extend([h, a])
+        df = add_game_deltas(df)
+        for col in EXTRA_GAME_FEATURE_COLS:
+            if col not in df.columns:
+                df[col] = 0
+        feat_cols.extend(GAME_FEATURE_COLS)
+        feat_cols.extend(EXTRA_GAME_FEATURE_COLS)
         return df, feat_cols
 
     # Home features
@@ -103,11 +137,13 @@ def load_games_and_features(conn, target_date: str):
     away_feats = away_feats.rename(columns={"game_id_away": "game_id"})
 
     df = games.merge(home_feats, on="game_id", how="left").merge(away_feats, on="game_id", how="left")
+    df = add_game_deltas(df)
     feat_cols = []
     for col in FEATURE_COLS:
         feat_cols.append(f"{col}_home")
         feat_cols.append(f"{col}_away")
     feat_cols.extend(GAME_FEATURE_COLS)
+    feat_cols.extend(EXTRA_GAME_FEATURE_COLS)
     df[feat_cols] = df[feat_cols].fillna(0)
     return df, feat_cols
 
@@ -332,6 +368,7 @@ def build_predictions(
     baseline: Optional[tuple],
     market_map: Dict[int, Dict[str, Optional[float]]],
     calibration: Optional[Dict],
+    winprob_calibration: Optional[Dict],
 ) -> Dict:
     if m_margin is None or m_total is None:
         base_margin, base_total = baseline if baseline else (0.0, 220.0)
@@ -342,6 +379,10 @@ def build_predictions(
         preds_total = m_total.predict(df[feat_cols])
 
     games_out: List[Dict] = []
+    base_scale = 0.1
+    if winprob_calibration and isinstance(winprob_calibration.get("scale"), (int, float)):
+        base_scale = float(winprob_calibration.get("scale"))
+
     for (_, row), pm, pt in zip(df.iterrows(), preds_margin, preds_total):
         market_entry = market_map.get(int(row["game_id"]), {})
         market_spread_val = market_entry.get("spreadHome")
@@ -385,6 +426,17 @@ def build_predictions(
         if model_total is not None and market_total_val is not None:
             edge_total = model_total - market_total_val
 
+        winprob_features = {
+            "model_spread_home": model_spread if model_spread is not None else market_spread_val,
+            "home_court": row.get("home_court"),
+            "rest_days_diff": row.get("rest_days_diff"),
+            "back_to_back_diff": row.get("back_to_back_diff"),
+            "inj_out_diff": row.get("inj_out_diff"),
+            "pace_diff": row.get("pace_diff"),
+        }
+        base_win_prob = _base_win_prob(winprob_features["model_spread_home"], scale=base_scale)
+        calibrated_win_prob = _calibrated_win_prob(winprob_calibration, winprob_features)
+
         games_out.append({
             "gameId": int(row["game_id"]),
             "startTimeUtc": row.get("start_time_utc"),
@@ -403,6 +455,8 @@ def build_predictions(
                 "resid_total_raw": model_resid_total,
                 "resid_spread_calibrated": calibrated_spread,
                 "resid_total_calibrated": calibrated_total,
+                "win_prob_home_base": base_win_prob,
+                "win_prob_home_calibrated": calibrated_win_prob,
             },
             "edge": {
                 "spread": edge_spread,
@@ -433,11 +487,17 @@ def main():
     init_db(DB_PATH)
     m_margin, m_total = load_models(base_dir)
     calibration = None
+    winprob_calibration = None
     if CALIBRATION_PATH.exists():
         try:
             calibration = json.loads(CALIBRATION_PATH.read_text(encoding="utf-8"))
         except Exception as exc:
             print(f"Warning: failed to read calibration file {CALIBRATION_PATH}: {exc}")
+    if WINPROB_CALIBRATION_PATH.exists():
+        try:
+            winprob_calibration = json.loads(WINPROB_CALIBRATION_PATH.read_text(encoding="utf-8"))
+        except Exception as exc:
+            print(f"Warning: failed to read winprob calibration file {WINPROB_CALIBRATION_PATH}: {exc}")
 
     conn = sqlite3.connect(DB_PATH)
     try:
@@ -493,6 +553,7 @@ def main():
         baseline,
         market_map,
         calibration,
+        winprob_calibration,
     )
 
     if payload["games"]:

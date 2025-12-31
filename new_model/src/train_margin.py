@@ -18,6 +18,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 from config import DB_PATH
 from db import init_db
+from feature_engineering import add_game_deltas, EXTRA_GAME_FEATURE_COLS
 
 
 FEATURE_COLS = [
@@ -88,6 +89,7 @@ def load_dataset(db_path: str) -> pd.DataFrame:
     away_feats = away_feats.rename(columns={"game_id_away": "game_id"})
 
     df = games.merge(home_feats, on="game_id", how="left").merge(away_feats, on="game_id", how="left")
+    df = add_game_deltas(df)
 
     df["date"] = pd.to_datetime(df["date"])
     df["margin"] = df["home_score"] - df["away_score"]
@@ -98,6 +100,7 @@ def load_dataset(db_path: str) -> pd.DataFrame:
         feat_cols.append(f"{col}_home")
         feat_cols.append(f"{col}_away")
     feat_cols.extend(GAME_FEATURE_COLS)
+    feat_cols.extend(EXTRA_GAME_FEATURE_COLS)
 
     # Fill missing with 0 for now (TODO: consider better imputation)
     df[feat_cols] = df[feat_cols].fillna(0)
