@@ -4354,5 +4354,41 @@
     "away_team_id": "DAL",
     "home_pts": 125,
     "away_pts": 122
+  },
+  {
+    "game_id": 18447272,
+    "season": 2026,
+    "date": "2025-12-30",
+    "home_team_id": "MEM",
+    "away_team_id": "PHI",
+    "home_pts": 136,
+    "away_pts": 139
+  },
+  {
+    "game_id": 18447273,
+    "season": 2026,
+    "date": "2025-12-30",
+    "home_team_id": "UTA",
+    "away_team_id": "BOS",
+    "home_pts": 119,
+    "away_pts": 129
+  },
+  {
+    "game_id": 18447274,
+    "season": 2026,
+    "date": "2025-12-30",
+    "home_team_id": "LAL",
+    "away_team_id": "DET",
+    "home_pts": 106,
+    "away_pts": 128
+  },
+  {
+    "game_id": 18447275,
+    "season": 2026,
+    "date": "2025-12-30",
+    "home_team_id": "LAC",
+    "away_team_id": "SAC",
+    "home_pts": 131,
+    "away_pts": 90
   }
 ]
