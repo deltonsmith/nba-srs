@@ -48,6 +48,11 @@ jobs:
           python new_model/src/predict.py --date $TODAY --vendor-rule draftkings
           python new_model/src/publish_predictions.py --date $TODAY
 
+      - name: Sync with origin/master
+        run: |
+          git fetch origin master
+          git rebase origin/master
+
       - name: Commit published predictions
         run: |
           git config user.name "github-actions"
@@ -60,4 +65,15 @@ jobs:
             exit 0
           fi
           git commit -m "Publish new model predictions"
-          git push origin HEAD:master
+          for i in 1 2 3; do
+            if git push origin HEAD:master; then
+              break
+            fi
+            if [ "$i" -eq 3 ]; then
+              echo "Push failed after retries"
+              exit 1
+            fi
+            git fetch origin master
+            git rebase origin/master
+            sleep 5
+          done
