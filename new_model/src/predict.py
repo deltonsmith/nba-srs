@@ -69,6 +69,16 @@ def _calibrated_win_prob(calibration: Optional[Dict], features: Dict[str, Option
     return _sigmoid(logit)
 
 
+def _predict_with_model(model, df: pd.DataFrame, fallback_cols: List[str]) -> List[float]:
+    if model is None:
+        return []
+    expected_cols = list(getattr(model, "feature_names_in_", fallback_cols))
+    for col in expected_cols:
+        if col not in df.columns:
+            df[col] = 0
+    return model.predict(df[expected_cols])
+
+
 def load_models(base_dir: Path):
     models_dir = base_dir / "models"
     try:
@@ -375,8 +385,8 @@ def build_predictions(
         preds_margin = [base_margin] * len(df)
         preds_total = [base_total] * len(df)
     else:
-        preds_margin = m_margin.predict(df[feat_cols])
-        preds_total = m_total.predict(df[feat_cols])
+        preds_margin = _predict_with_model(m_margin, df, feat_cols)
+        preds_total = _predict_with_model(m_total, df, feat_cols)
 
     games_out: List[Dict] = []
     base_scale = 0.1
