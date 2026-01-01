@@ -1,5 +1,5 @@
 {
-  "asOfUtc": "2025-12-29T23:15:20Z",
+  "asOfUtc": "2026-01-01T17:36:08Z",
   "date": "2025-12-16",
   "timezone": "America/Chicago",
   "vendorRule": "draftkings",
@@ -22,12 +22,20 @@
         "total": 236.5
       },
       "realLine": {
-        "spreadHome": 11.69906856326627,
-        "total": 233.54689584925433
+        "spreadHome": -12.705089897650163,
+        "total": 233.54974571606434
+      },
+      "model": {
+        "resid_spread_raw": 2.205089897650163,
+        "resid_total_raw": -2.9502542839356773,
+        "resid_spread_calibrated": 2.205089897650163,
+        "resid_total_calibrated": -2.9502542839356773,
+        "win_prob_home_base": 0.7808298660790303,
+        "win_prob_home_calibrated": null
       },
       "edge": {
-        "spread": 22.19906856326627,
-        "total": -2.9531041507456735
+        "spread": -2.205089897650163,
+        "total": -2.9502542839356636
       }
     }
   ]

@@ -35,4 +35,5 @@ def add_game_deltas(df: pd.DataFrame) -> pd.DataFrame:
     df["back_to_back_diff"] = _col(df, "back_to_back_home") - _col(df, "back_to_back_away")
     df["inj_out_diff"] = _col(df, "inj_out_home") - _col(df, "inj_out_away")
     df["pace_diff"] = _col(df, "pace_home") - _col(df, "pace_away")
+    df["pace_diff"] = df["pace_diff"].clip(lower=-6, upper=6)
     return df

@@ -1,5 +1,5 @@
 {
-  "asOfUtc": "2025-12-29T23:13:29Z",
+  "asOfUtc": "2026-01-01T17:33:02Z",
   "date": "2025-11-13",
   "timezone": "America/Chicago",
   "vendorRule": "draftkings",
@@ -22,12 +22,20 @@
         "total": 242.5
       },
       "realLine": {
-        "spreadHome": -13.76808465707635,
-        "total": 236.56559829140753
+        "spreadHome": 13.287423156624078,
+        "total": 240.0045984939718
+      },
+      "model": {
+        "resid_spread_raw": -0.7874231566240781,
+        "resid_total_raw": -2.4954015060282155,
+        "resid_spread_calibrated": -0.7874231566240781,
+        "resid_total_calibrated": -2.4954015060282155,
+        "win_prob_home_base": 0.20936747708309347,
+        "win_prob_home_calibrated": null
       },
       "edge": {
-        "spread": -26.26808465707635,
-        "total": -5.934401708592475
+        "spread": 0.7874231566240777,
+        "total": -2.4954015060282018
       }
     },
     {
@@ -48,12 +56,20 @@
         "total": 235.5
       },
       "realLine": {
-        "spreadHome": 35.220300713258624,
-        "total": 231.95844886358577
+        "spreadHome": -35.027676509466694,
+        "total": 231.17802662425066
+      },
+      "model": {
+        "resid_spread_raw": 0.5276765094666962,
+        "resid_total_raw": -4.321973375749344,
+        "resid_spread_calibrated": 0.5276765094666962,
+        "resid_total_calibrated": -4.321973375749344,
+        "win_prob_home_base": 0.9707664147686343,
+        "win_prob_home_calibrated": null
       },
       "edge": {
-        "spread": 69.72030071325862,
-        "total": -3.5415511364142276
+        "spread": -0.5276765094666942,
+        "total": -4.321973375749337
       }
     },
     {
@@ -74,12 +90,20 @@
         "total": 259.5
       },
       "realLine": {
-        "spreadHome": -9.738341640050727,
-        "total": 255.05495828662444
+        "spreadHome": 9.991454069349057,
+        "total": 252.89475479018787
+      },
+      "model": {
+        "resid_spread_raw": -0.49145406934905633,
+        "resid_total_raw": -6.605245209812129,
+        "resid_spread_calibrated": -0.49145406934905633,
+        "resid_total_calibrated": -6.605245209812129,
+        "win_prob_home_base": 0.2691094777722059,
+        "win_prob_home_calibrated": null
       },
       "edge": {
-        "spread": -19.238341640050727,
-        "total": -4.445041713375559
+        "spread": 0.4914540693490572,
+        "total": -6.605245209812125
       }
     }
   ]

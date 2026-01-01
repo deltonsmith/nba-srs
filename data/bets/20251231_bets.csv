@@ -1,0 +1,10 @@
+game_id,bet_date,bet_type,teams,market_line,model_line,edge,recommended_bet
+18447284,2025-12-31,Spread,"POR @ OKC","OKC -15.5","OKC -43.1",27.6,"OKC -15.5"
+18447281,2025-12-31,Total,"NYK @ SAS","237.5","259.1",21.6,"Over 237.5"
+18447283,2025-12-31,Spread,"WAS @ MIL","MIL -10.5","MIL -27.7",17.2,"MIL -10.5"
+18447282,2025-12-31,Spread,"DEN @ TOR","TOR -7.5","TOR -21.1",13.6,"TOR -7.5"
+18447276,2025-12-31,Spread,"GSW @ CHA","CHA +6.5","CHA +19.1",12.6,"GSW -6.5"
+18447279,2025-12-31,Spread,"PHX @ CLE","CLE -6.5","CLE -17.7",-11.2,"CLE -6.5"
+18447277,2025-12-31,Spread,"MIN @ ATL","ATL +4.5","ATL +11.8",7.3,"MIN -4.5"
+18447278,2025-12-31,Spread,"ORL @ IND","IND +3.5","IND +9.6",6.1,"ORL -3.5"
+18447280,2025-12-31,Spread,"NOP @ CHI","CHI +1.5","CHI +3.7",2.2,"NOP -1.5"

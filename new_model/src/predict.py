@@ -41,6 +41,7 @@ GAME_FEATURE_COLS = [
 
 CALIBRATION_PATH = Path("data") / "new_model" / "calibration.json"
 WINPROB_CALIBRATION_PATH = Path("data") / "new_model" / "winprob_calibration.json"
+EFF_FEATURE_BASE = ["efg", "tov", "orb", "ftr"]
 
 
 def _sigmoid(val: float) -> float:
@@ -387,6 +388,23 @@ def build_predictions(
     else:
         preds_margin = _predict_with_model(m_margin, df, feat_cols)
         preds_total = _predict_with_model(m_total, df, feat_cols)
+        if preds_margin is not None and len(preds_margin) > 0:
+            df_eff = df.copy()
+            eff_cols = []
+            for base in EFF_FEATURE_BASE:
+                eff_cols.append(f"{base}_home")
+                eff_cols.append(f"{base}_away")
+            if any(col in df_eff.columns for col in eff_cols):
+                for col in eff_cols:
+                    if col in df_eff.columns:
+                        df_eff[col] = 0
+                preds_no_eff = _predict_with_model(m_margin, df_eff, feat_cols)
+                if preds_no_eff is not None and len(preds_no_eff) == len(preds_margin):
+                    clamped_eff = [
+                        max(-4.0, min(4.0, float(full) - float(no_eff)))
+                        for full, no_eff in zip(preds_margin, preds_no_eff)
+                    ]
+                    preds_margin = [float(no_eff) + eff for no_eff, eff in zip(preds_no_eff, clamped_eff)]
 
     games_out: List[Dict] = []
     base_scale = 0.1
@@ -426,6 +444,9 @@ def build_predictions(
         if calibrated_spread is not None and market_spread_val is not None:
             # Model predicts residual vs expected margin; convert back to betting line.
             model_spread = market_spread_val - calibrated_spread
+            spread_delta = model_spread - market_spread_val
+            if abs(spread_delta) > 18:
+                model_spread = market_spread_val + (18 if spread_delta > 0 else -18)
         if calibrated_total is not None and market_total_val is not None:
             model_total = market_total_val + calibrated_total
 

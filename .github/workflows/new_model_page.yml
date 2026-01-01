@@ -48,6 +48,11 @@ jobs:
           python new_model/src/predict.py --date $TODAY --vendor-rule draftkings
           python new_model/src/publish_predictions.py --date $TODAY
 
+      - name: Log daily recommendations
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          python scripts/bets/log_recommendations.py --date $TODAY
+
       - name: Clean python caches
         run: |
           find . -type d -name "__pycache__" -print0 | xargs -0 rm -rf || true
@@ -61,6 +66,7 @@ jobs:
           git add public/new_model/predictions_today.json || true
           git add data/new_model/predictions_*.json || true
           git add data/new_model/calibration.json || true
+          git add data/bets/bets_master.csv || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
