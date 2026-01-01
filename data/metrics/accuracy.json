@@ -1,22 +1,22 @@
 {
-  "as_of_utc": "2025-12-31T20:16:01Z",
+  "as_of_utc": "2026-01-01T09:51:12Z",
   "tie_policy": "skip",
   "overall": {
-    "games_total": 488,
-    "win_rate_total": 0.6823770491803278,
-    "games_last_7": 44,
-    "win_rate_last_7": 0.6363636363636364,
+    "games_total": 497,
+    "win_rate_total": 0.682092555331992,
+    "games_last_7": 53,
+    "win_rate_last_7": 0.6415094339622641,
     "games_last_30": 189,
-    "win_rate_last_30": 0.5873015873015873
+    "win_rate_last_30": 0.5978835978835979
   },
   "seasons": {
     "2026": {
-      "games_total": 488,
-      "win_rate_total": 0.6823770491803278,
-      "games_last_7": 44,
-      "win_rate_last_7": 0.6363636363636364,
+      "games_total": 497,
+      "win_rate_total": 0.682092555331992,
+      "games_last_7": 53,
+      "win_rate_last_7": 0.6415094339622641,
       "games_last_30": 189,
-      "win_rate_last_30": 0.5873015873015873
+      "win_rate_last_30": 0.5978835978835979
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "season": 2026,
-  "updated_at_utc": "2025-12-31T20:16:01Z",
+  "updated_at_utc": "2026-01-01T09:51:12Z",
   "games": [
     {
       "game_id": 18446819,
@@ -4392,6 +4392,87 @@
       "visitor_team_id": "SAC",
       "home_score": 131,
       "visitor_score": 90,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447276,
+      "date_utc": "2025-12-31T18:00:00Z",
+      "home_team_id": "CHA",
+      "visitor_team_id": "GSW",
+      "home_score": 125,
+      "visitor_score": 132,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447277,
+      "date_utc": "2025-12-31T20:00:00Z",
+      "home_team_id": "ATL",
+      "visitor_team_id": "MIN",
+      "home_score": 126,
+      "visitor_score": 102,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447278,
+      "date_utc": "2025-12-31T20:00:00Z",
+      "home_team_id": "IND",
+      "visitor_team_id": "ORL",
+      "home_score": 110,
+      "visitor_score": 112,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447279,
+      "date_utc": "2025-12-31T20:30:00Z",
+      "home_team_id": "CLE",
+      "visitor_team_id": "PHX",
+      "home_score": 129,
+      "visitor_score": 113,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447280,
+      "date_utc": "2026-01-01T00:00:00Z",
+      "home_team_id": "CHI",
+      "visitor_team_id": "NOP",
+      "home_score": 134,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447281,
+      "date_utc": "2026-01-01T00:00:00Z",
+      "home_team_id": "SAS",
+      "visitor_team_id": "NYK",
+      "home_score": 134,
+      "visitor_score": 132,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447282,
+      "date_utc": "2026-01-01T00:30:00Z",
+      "home_team_id": "TOR",
+      "visitor_team_id": "DEN",
+      "home_score": 103,
+      "visitor_score": 106,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447283,
+      "date_utc": "2026-01-01T01:00:00Z",
+      "home_team_id": "MIL",
+      "visitor_team_id": "WAS",
+      "home_score": 113,
+      "visitor_score": 114,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447284,
+      "date_utc": "2026-01-01T01:00:00Z",
+      "home_team_id": "OKC",
+      "visitor_team_id": "POR",
+      "home_score": 124,
+      "visitor_score": 95,
       "status": "Final"
     }
   ]
