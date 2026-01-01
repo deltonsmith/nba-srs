@@ -48,10 +48,11 @@ jobs:
           python new_model/src/predict.py --date $TODAY --vendor-rule draftkings
           python new_model/src/publish_predictions.py --date $TODAY
 
-      - name: Sync with origin/master
+      - name: Clean python caches
         run: |
-          git fetch origin master
-          git rebase origin/master
+          find . -type d -name "__pycache__" -print0 | xargs -0 rm -rf || true
+          find . -type f -name "*.pyc" -delete || true
+          rm -rf .pytest_cache || true
 
       - name: Commit published predictions
         run: |
@@ -74,6 +75,7 @@ jobs:
               exit 1
             fi
             git fetch origin master
+            git stash push -u -m "pre-rebase" || true
             git rebase origin/master
             sleep 5
           done
