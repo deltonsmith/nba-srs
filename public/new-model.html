@@ -27,6 +27,9 @@
         <th class="nowrap">Time (CT)</th>
         <th>Away</th>
         <th>Home</th>
+        <th class="num nowrap">Rating A</th>
+        <th class="num nowrap">Rating H</th>
+        <th class="num nowrap">Rating H-A</th>
         <th class="num nowrap">Away ML</th>
         <th class="num nowrap">Home ML</th>
         <th class="num nowrap">Market Spread (Home)</th>
@@ -67,6 +70,24 @@
       }).format(d);
     }
 
+    async function loadRatings() {
+      try {
+        const res = await fetch("./data/ratings_current.json?cachebust=" + Date.now());
+        if (!res.ok) return {};
+        const data = await res.json();
+        const ratings = Array.isArray(data?.ratings) ? data.ratings : [];
+        const map = {};
+        for (const r of ratings) {
+          const key = r.team_id ?? r.team ?? r.team_abbr;
+          if (!key) continue;
+          map[String(key)] = r.rating;
+        }
+        return map;
+      } catch (e) {
+        return {};
+      }
+    }
+
     async function main() {
       const url = "./public/new_model/predictions_today.json?cachebust=" + Date.now();
       const errEl = document.getElementById("err");
@@ -74,6 +95,7 @@
       const rowsEl = document.getElementById("rows");
 
       try {
+        const ratingsMap = await loadRatings();
         const res = await fetch(url);
         if (!res.ok) throw new Error("Fetch failed: " + res.status + " " + res.statusText);
         const data = await res.json();
@@ -96,6 +118,25 @@
 
           const home = document.createElement("td");
           home.textContent = (g.home && (g.home.abbr || g.home.name)) ? (g.home.abbr || g.home.name) : "�";
+
+          const ratingA = document.createElement("td");
+          ratingA.className = "num";
+          const awayKey = g.away?.abbr || g.away?.id;
+          const awayRating = awayKey ? ratingsMap[String(awayKey)] : null;
+          ratingA.textContent = fmt1(awayRating);
+
+          const ratingH = document.createElement("td");
+          ratingH.className = "num";
+          const homeKey = g.home?.abbr || g.home?.id;
+          const homeRating = homeKey ? ratingsMap[String(homeKey)] : null;
+          ratingH.textContent = fmt1(homeRating);
+
+          const ratingDiff = document.createElement("td");
+          ratingDiff.className = "num";
+          const diff = (homeRating === null || homeRating === undefined || awayRating === null || awayRating === undefined)
+            ? null
+            : Number(homeRating) - Number(awayRating);
+          ratingDiff.textContent = fmt1(diff);
 
           const mlAway = document.createElement("td");
           mlAway.className = "num";
@@ -132,6 +173,9 @@
           tr.appendChild(t);
           tr.appendChild(away);
           tr.appendChild(home);
+          tr.appendChild(ratingA);
+          tr.appendChild(ratingH);
+          tr.appendChild(ratingDiff);
           tr.appendChild(mlAway);
           tr.appendChild(mlHome);
           tr.appendChild(ms);
