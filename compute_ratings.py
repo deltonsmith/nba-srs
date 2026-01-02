@@ -27,6 +27,11 @@ DB_PATH = DATA_DIR / "nba_ratings.db"
 SEASONS = [2026]
 
 HCA = 2.5          # home-court advantage in points
+LINEUP_SHRINK = 0.5  # shrink lineup adjustment to reduce over-correction
+BLOWOUT_CAP = 20.0   # cap margins to limit outlier blowouts
+WIN_BLEND_W = 0.25   # blend weight toward win%
+WIN_BLEND_SCALE = 20.0  # scale win% into rating points
+RECENCY_HALF_LIFE_GAMES = 15.0  # exponential decay half-life in games
 MAX_ITERS = 100    # SRS iteration count
 
 
@@ -135,25 +140,31 @@ def compute_game_records(conn, player_values, team_full_values, season_int):
 
         E_home = L_home - L_away
         margin_home = home_pts - away_pts
-        M_adj_home = margin_home - E_home
+        if margin_home > BLOWOUT_CAP:
+            margin_home = BLOWOUT_CAP
+        elif margin_home < -BLOWOUT_CAP:
+            margin_home = -BLOWOUT_CAP
+        M_adj_home = margin_home - LINEUP_SHRINK * E_home
 
         records_by_team[home_team].append(
             {
                 "opp": away_team,
                 "M_adj": M_adj_home,
                 "home_flag": 1,
+                "date": date,
             }
         )
 
         E_away = -E_home
         margin_away = -margin_home
-        M_adj_away = margin_away - E_away
+        M_adj_away = margin_away - LINEUP_SHRINK * E_away
 
         records_by_team[away_team].append(
             {
                 "opp": home_team,
                 "M_adj": M_adj_away,
                 "home_flag": -1,
+                "date": date,
             }
         )
 
@@ -254,9 +265,27 @@ def iterate_ratings(records_by_team):
                 new_ratings[t] = ratings[t]
                 continue
 
-            avg_M_adj = sum(r["M_adj"] for r in recs) / len(recs)
-            avg_home_flag = sum(r["home_flag"] for r in recs) / len(recs)
-            avg_opp_rating = sum(ratings[r["opp"]] for r in recs) / len(recs)
+            total_weight = 0.0
+            sum_M_adj = 0.0
+            sum_home_flag = 0.0
+            sum_opp_rating = 0.0
+            # Recency weights: newer games count more (half-life in games).
+            n = len(recs)
+            for idx, r in enumerate(recs):
+                age = (n - 1) - idx
+                weight = 0.5 ** (age / RECENCY_HALF_LIFE_GAMES)
+                total_weight += weight
+                sum_M_adj += weight * r["M_adj"]
+                sum_home_flag += weight * r["home_flag"]
+                sum_opp_rating += weight * ratings[r["opp"]]
+
+            if total_weight == 0:
+                new_ratings[t] = ratings[t]
+                continue
+
+            avg_M_adj = sum_M_adj / total_weight
+            avg_home_flag = sum_home_flag / total_weight
+            avg_opp_rating = sum_opp_rating / total_weight
 
             new_ratings[t] = (avg_M_adj - HCA * avg_home_flag) + avg_opp_rating
 
@@ -547,6 +576,16 @@ def run_season(season_int):
     last_week_ranks = load_last_week_ranks_from_csv(season_int, as_of_date)
 
     ratings = iterate_ratings(records_by_team)
+    # Blend ratings toward win% to improve winner prediction.
+    team_results = compute_team_results(conn, season_int)
+    blended = {}
+    for team, rating in ratings.items():
+        wins = team_results.get(team, {}).get("wins", 0)
+        games_played = team_results.get(team, {}).get("games", 0)
+        win_pct = (wins / games_played) if games_played else 0.0
+        win_component = WIN_BLEND_SCALE * (win_pct - 0.5)
+        blended[team] = (1 - WIN_BLEND_W) * rating + WIN_BLEND_W * win_component
+    ratings = blended
     print(f"Final ratings for season {season_int}:")
     for team, r in sorted(ratings.items(), key=lambda x: x[1], reverse=True):
         print(f"{team}: {r:.3f}")

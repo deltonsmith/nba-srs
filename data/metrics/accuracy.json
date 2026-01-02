@@ -1,22 +1,7 @@
 {
-  "as_of_utc": "2026-01-02T19:35:59Z",
-  "tie_policy": "skip",
-  "overall": {
-    "games_total": 502,
-    "win_rate_total": 0.6852589641434262,
-    "games_last_7": 53,
-    "win_rate_last_7": 0.660377358490566,
-    "games_last_30": 188,
-    "win_rate_last_30": 0.601063829787234
-  },
-  "seasons": {
-    "2026": {
-      "games_total": 502,
-      "win_rate_total": 0.6852589641434262,
-      "games_last_7": 53,
-      "win_rate_last_7": 0.660377358490566,
-      "games_last_30": 188,
-      "win_rate_last_30": 0.601063829787234
-    }
-  }
+  "season": 2026,
+  "run_date_utc": "2026-01-02",
+  "games_count": 858,
+  "mae": 10.121842519282461,
+  "rmse": 12.828315177513387
 }
