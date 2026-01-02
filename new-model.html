@@ -28,10 +28,10 @@
         <th>Away</th>
         <th>Home</th>
         <th class="num nowrap">Market Spread (Home)</th>
-        <th class="num nowrap">Market Total</th>
         <th class="num nowrap">New Model Real Spread (Home)</th>
-        <th class="num nowrap">New Model Real Total</th>
         <th class="num nowrap">Edge Spread</th>
+        <th class="num nowrap">Market Total</th>
+        <th class="num nowrap">New Model Real Total</th>
         <th class="num nowrap">Edge Total</th>
       </tr>
     </thead>
@@ -99,21 +99,21 @@
           ms.className = "num";
           ms.textContent = fmt1(g.market?.spreadHome);
 
-          const mt = document.createElement("td");
-          mt.className = "num";
-          mt.textContent = fmt1(g.market?.total);
-
           const rs = document.createElement("td");
           rs.className = "num";
           rs.textContent = fmt1(g.realLine?.spreadHome);
 
-          const rt = document.createElement("td");
-          rt.className = "num";
-          rt.textContent = fmt1(g.realLine?.total);
-
           const es = document.createElement("td");
           es.className = "num";
           es.textContent = fmt1(g.edge?.spread);
+
+          const mt = document.createElement("td");
+          mt.className = "num";
+          mt.textContent = fmt1(g.market?.total);
+
+          const rt = document.createElement("td");
+          rt.className = "num";
+          rt.textContent = fmt1(g.realLine?.total);
 
           const et = document.createElement("td");
           et.className = "num";
@@ -123,10 +123,10 @@
           tr.appendChild(away);
           tr.appendChild(home);
           tr.appendChild(ms);
-          tr.appendChild(mt);
           tr.appendChild(rs);
-          tr.appendChild(rt);
           tr.appendChild(es);
+          tr.appendChild(mt);
+          tr.appendChild(rt);
           tr.appendChild(et);
 
           rowsEl.appendChild(tr);
