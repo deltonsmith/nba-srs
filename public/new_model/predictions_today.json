@@ -1,5 +1,5 @@
 {
-  "asOfUtc": "2026-01-02T10:01:26Z",
+  "asOfUtc": "2026-01-02T15:06:36Z",
   "date": "2026-01-02",
   "timezone": "America/Chicago",
   "vendorRule": "draftkings",
@@ -19,11 +19,11 @@
       },
       "market": {
         "spreadHome": 6.5,
-        "total": 236.5
+        "total": 238.5
       },
       "realLine": {
         "spreadHome": 5.789225650732738,
-        "total": 239.75536773543
+        "total": 241.75536773543
       },
       "model": {
         "resid_spread_raw": 0.7107743492672622,
@@ -53,23 +53,23 @@
       },
       "market": {
         "spreadHome": 1.5,
-        "total": 225.5
+        "total": 226.5
       },
       "realLine": {
         "spreadHome": 0.7892256507327378,
-        "total": 227.61479686214662
+        "total": 228.97109654276707
       },
       "model": {
         "resid_spread_raw": 0.7107743492672622,
-        "resid_total_raw": 2.1147968621466258,
+        "resid_total_raw": 2.4710965427670604,
         "resid_spread_calibrated": 0.7107743492672622,
-        "resid_total_calibrated": 2.1147968621466258,
+        "resid_total_calibrated": 2.4710965427670604,
         "win_prob_home_base": 0.48027959383081714,
         "win_prob_home_calibrated": null
       },
       "edge": {
         "spread": -0.7107743492672622,
-        "total": 2.114796862146619
+        "total": 2.4710965427670715
       }
     },
     {
@@ -87,23 +87,23 @@
       },
       "market": {
         "spreadHome": -13.5,
-        "total": 236.5
+        "total": 240.5
       },
       "realLine": {
         "spreadHome": -13.356190300639835,
-        "total": 235.17733493234792
+        "total": 239.2608835385927
       },
       "model": {
         "resid_spread_raw": -0.1438096993601654,
-        "resid_total_raw": -1.3226650676520897,
+        "resid_total_raw": -1.2391164614072865,
         "resid_spread_calibrated": -0.1438096993601654,
-        "resid_total_calibrated": -1.3226650676520897,
+        "resid_total_calibrated": -1.2391164614072865,
         "win_prob_home_base": 0.7917685692949724,
         "win_prob_home_calibrated": null
       },
       "edge": {
         "spread": 0.1438096993601654,
-        "total": -1.322665067652082
+        "total": -1.239116461407292
       }
     },
     {
@@ -155,23 +155,23 @@
       },
       "market": {
         "spreadHome": 5.5,
-        "total": 235.5
+        "total": 233.5
       },
       "realLine": {
         "spreadHome": 4.789225650732738,
-        "total": 238.75536773543
+        "total": 236.8171222346506
       },
       "model": {
         "resid_spread_raw": 0.7107743492672622,
-        "resid_total_raw": 3.2553677354300015,
+        "resid_total_raw": 3.317122234650601,
         "resid_spread_calibrated": 0.7107743492672622,
-        "resid_total_calibrated": 3.2553677354300015,
+        "resid_total_calibrated": 3.317122234650601,
         "win_prob_home_base": 0.3825065780748926,
         "win_prob_home_calibrated": null
       },
       "edge": {
         "spread": -0.710774349267262,
-        "total": 3.2553677354300135
+        "total": 3.3171222346506113
       }
     },
     {
@@ -189,11 +189,11 @@
       },
       "market": {
         "spreadHome": -5.5,
-        "total": 233.5
+        "total": 232.5
       },
       "realLine": {
         "spreadHome": -5.445700252679837,
-        "total": 226.39597381605847
+        "total": 225.39597381605847
       },
       "model": {
         "resid_spread_raw": -0.05429974732016374,
@@ -223,11 +223,11 @@
       },
       "market": {
         "spreadHome": 1.5,
-        "total": 243.5
+        "total": 244.5
       },
       "realLine": {
         "spreadHome": 0.7892256507327378,
-        "total": 245.7152455064712
+        "total": 246.7152455064712
       },
       "model": {
         "resid_spread_raw": 0.7107743492672622,
@@ -257,23 +257,23 @@
       },
       "market": {
         "spreadHome": -12.5,
-        "total": 227.5
+        "total": 226.5
       },
       "realLine": {
-        "spreadHome": -12.05835002483156,
-        "total": 224.8127047104429
+        "spreadHome": -12.356190300639835,
+        "total": 225.08983382565003
       },
       "model": {
-        "resid_spread_raw": -0.44164997516843957,
-        "resid_total_raw": -2.6872952895571225,
-        "resid_spread_calibrated": -0.44164997516843957,
-        "resid_total_calibrated": -2.6872952895571225,
-        "win_prob_home_base": 0.7695611711687159,
+        "resid_spread_raw": -0.1438096993601654,
+        "resid_total_raw": -1.4101661743499545,
+        "resid_spread_calibrated": -0.1438096993601654,
+        "resid_total_calibrated": -1.4101661743499545,
+        "win_prob_home_base": 0.77480052251014,
         "win_prob_home_calibrated": null
       },
       "edge": {
-        "spread": 0.4416499751684402,
-        "total": -2.687295289557113
+        "spread": 0.1438096993601654,
+        "total": -1.4101661743499676
       }
     },
     {
@@ -324,24 +324,24 @@
         "abbr": "LAL"
       },
       "market": {
-        "spreadHome": -4.5,
-        "total": 238.5
+        "spreadHome": -3.5,
+        "total": 240.5
       },
       "realLine": {
-        "spreadHome": -4.445700252679837,
-        "total": 261.5137654534454
+        "spreadHome": -3.445700252679836,
+        "total": 261.9102455807491
       },
       "model": {
         "resid_spread_raw": -0.05429974732016374,
-        "resid_total_raw": 23.013765453445384,
+        "resid_total_raw": 21.41024558074913,
         "resid_spread_calibrated": -0.05429974732016374,
-        "resid_total_calibrated": 23.013765453445384,
-        "win_prob_home_base": 0.6093474358894941,
+        "resid_total_calibrated": 21.41024558074913,
+        "win_prob_home_base": 0.5853002078116905,
         "win_prob_home_calibrated": null
       },
       "edge": {
-        "spread": 0.054299747320163405,
-        "total": 23.013765453445387
+        "spread": 0.05429974732016385,
+        "total": 21.41024558074912
       }
     }
   ]
