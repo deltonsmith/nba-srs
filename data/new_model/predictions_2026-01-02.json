@@ -1,5 +1,5 @@
 {
-  "asOfUtc": "2026-01-02T21:37:42Z",
+  "asOfUtc": "2026-01-02T22:19:32Z",
   "date": "2026-01-02",
   "timezone": "America/Chicago",
   "vendorRule": "draftkings",
@@ -127,25 +127,25 @@
       },
       "market": {
         "spreadHome": -6.5,
-        "total": 242.5,
+        "total": 241.5,
         "homeMl": -270.0,
         "awayMl": 220.0
       },
       "realLine": {
         "spreadHome": -6.445700252679837,
-        "total": 233.85296073091266
+        "total": 233.2196565883845
       },
       "model": {
         "resid_spread_raw": -0.05429974732016374,
-        "resid_total_raw": -8.647039269087347,
+        "resid_total_raw": -8.280343411615481,
         "resid_spread_calibrated": -0.05429974732016374,
-        "resid_total_calibrated": -8.647039269087347,
+        "resid_total_calibrated": -8.280343411615481,
         "win_prob_home_base": 0.6557857891506355,
         "win_prob_home_calibrated": null
       },
       "edge": {
         "spread": 0.054299747320163405,
-        "total": -8.647039269087344
+        "total": -8.28034341161549
       }
     },
     {
@@ -162,26 +162,26 @@
         "abbr": "CHI"
       },
       "market": {
-        "spreadHome": 4.5,
-        "total": 233.5,
+        "spreadHome": 5.5,
+        "total": 232.5,
         "homeMl": 170.0,
         "awayMl": -205.0
       },
       "realLine": {
-        "spreadHome": 3.789225650732738,
-        "total": 236.53436291334646
+        "spreadHome": 4.789225650732738,
+        "total": 235.8171222346506
       },
       "model": {
         "resid_spread_raw": 0.7107743492672622,
-        "resid_total_raw": 3.034362913346467,
+        "resid_total_raw": 3.317122234650601,
         "resid_spread_calibrated": 0.7107743492672622,
-        "resid_total_calibrated": 3.034362913346467,
-        "win_prob_home_base": 0.40638678754534074,
+        "resid_total_calibrated": 3.317122234650601,
+        "win_prob_home_base": 0.3825065780748926,
         "win_prob_home_calibrated": null
       },
       "edge": {
         "spread": -0.710774349267262,
-        "total": 3.034362913346456
+        "total": 3.3171222346506113
       }
     },
     {
