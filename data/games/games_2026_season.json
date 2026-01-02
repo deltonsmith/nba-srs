@@ -1,6 +1,6 @@
 {
   "season": 2026,
-  "updated_at_utc": "2026-01-01T20:14:54Z",
+  "updated_at_utc": "2026-01-02T09:51:39Z",
   "games": [
     {
       "game_id": 18446819,
@@ -4473,6 +4473,51 @@
       "visitor_team_id": "POR",
       "home_score": 124,
       "visitor_score": 95,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447285,
+      "date_utc": "2026-01-01T23:00:00Z",
+      "home_team_id": "BKN",
+      "visitor_team_id": "HOU",
+      "home_score": 96,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447286,
+      "date_utc": "2026-01-02T00:00:00Z",
+      "home_team_id": "DET",
+      "visitor_team_id": "MIA",
+      "home_score": 112,
+      "visitor_score": 118,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447287,
+      "date_utc": "2026-01-02T01:30:00Z",
+      "home_team_id": "DAL",
+      "visitor_team_id": "PHI",
+      "home_score": 108,
+      "visitor_score": 123,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447288,
+      "date_utc": "2026-01-02T03:00:00Z",
+      "home_team_id": "SAC",
+      "visitor_team_id": "BOS",
+      "home_score": 106,
+      "visitor_score": 120,
+      "status": "Final"
+    },
+    {
+      "game_id": 18447289,
+      "date_utc": "2026-01-02T03:30:00Z",
+      "home_team_id": "LAC",
+      "visitor_team_id": "UTA",
+      "home_score": 118,
+      "visitor_score": 101,
       "status": "Final"
     }
   ]

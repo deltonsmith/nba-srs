@@ -4471,5 +4471,50 @@
     "away_team_id": "POR",
     "home_pts": 124,
     "away_pts": 95
+  },
+  {
+    "game_id": 18447285,
+    "season": 2026,
+    "date": "2026-01-01",
+    "home_team_id": "BKN",
+    "away_team_id": "HOU",
+    "home_pts": 96,
+    "away_pts": 120
+  },
+  {
+    "game_id": 18447286,
+    "season": 2026,
+    "date": "2026-01-01",
+    "home_team_id": "DET",
+    "away_team_id": "MIA",
+    "home_pts": 112,
+    "away_pts": 118
+  },
+  {
+    "game_id": 18447287,
+    "season": 2026,
+    "date": "2026-01-01",
+    "home_team_id": "DAL",
+    "away_team_id": "PHI",
+    "home_pts": 108,
+    "away_pts": 123
+  },
+  {
+    "game_id": 18447288,
+    "season": 2026,
+    "date": "2026-01-01",
+    "home_team_id": "SAC",
+    "away_team_id": "BOS",
+    "home_pts": 106,
+    "away_pts": 120
+  },
+  {
+    "game_id": 18447289,
+    "season": 2026,
+    "date": "2026-01-01",
+    "home_team_id": "LAC",
+    "away_team_id": "UTA",
+    "home_pts": 118,
+    "away_pts": 101
   }
 ]
