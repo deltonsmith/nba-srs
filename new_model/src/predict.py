@@ -340,7 +340,18 @@ def _build_market_map(odds: List[Dict], df: pd.DataFrame, vendor_rule: str) -> D
         market_type = str(market_type).lower()
         updated_at = _parse_iso(o.get("updated_at") or o.get("last_update") or o.get("updatedAt"))
 
-        entry = market_map.setdefault(int(game_id), {"spreadHome": None, "total": None, "_spread_updated": None, "_total_updated": None})
+        entry = market_map.setdefault(
+            int(game_id),
+            {
+                "spreadHome": None,
+                "total": None,
+                "homeMl": None,
+                "awayMl": None,
+                "_spread_updated": None,
+                "_total_updated": None,
+                "_ml_updated": None,
+            },
+        )
 
         if market_type == "spread" or (not market_type and (o.get("spread_home_value") is not None or o.get("spread_away_value") is not None)):
             spread_home = _normalize_spread_home(o.get("spread_home_value") or o.get("home_line"), o.get("spread_away_value") or o.get("away_line"))
@@ -362,9 +373,31 @@ def _build_market_map(odds: List[Dict], df: pd.DataFrame, vendor_rule: str) -> D
                 entry["total"] = total_val
                 entry["_total_updated"] = updated_at
 
+        if market_type == "moneyline" or (
+            not market_type
+            and (o.get("moneyline_home_odds") is not None or o.get("moneyline_away_odds") is not None)
+        ):
+            home_ml = o.get("moneyline_home_odds") or o.get("home_ml") or o.get("home_ml_odds")
+            away_ml = o.get("moneyline_away_odds") or o.get("away_ml") or o.get("away_ml_odds")
+            try:
+                home_ml = float(home_ml) if home_ml is not None else None
+            except (TypeError, ValueError):
+                home_ml = None
+            try:
+                away_ml = float(away_ml) if away_ml is not None else None
+            except (TypeError, ValueError):
+                away_ml = None
+            if home_ml is None and away_ml is None:
+                pass
+            elif _is_newer(entry["_ml_updated"], updated_at):
+                entry["homeMl"] = home_ml
+                entry["awayMl"] = away_ml
+                entry["_ml_updated"] = updated_at
+
     for entry in market_map.values():
         entry.pop("_spread_updated", None)
         entry.pop("_total_updated", None)
+        entry.pop("_ml_updated", None)
 
     return market_map
 
@@ -415,12 +448,17 @@ def build_predictions(
         market_entry = market_map.get(int(row["game_id"]), {})
         market_spread_val = market_entry.get("spreadHome")
         market_total_val = market_entry.get("total")
+        market_home_ml = market_entry.get("homeMl")
+        market_away_ml = market_entry.get("awayMl")
         if market_spread_val is None:
             db_spread = row.get("closing_spread_home")
             market_spread_val = float(db_spread) if pd.notna(db_spread) else None
         if market_total_val is None:
             db_total = row.get("closing_total")
             market_total_val = float(db_total) if pd.notna(db_total) else None
+        if market_home_ml is None:
+            db_ml = row.get("closing_home_ml")
+            market_home_ml = float(db_ml) if pd.notna(db_ml) else None
 
         model_resid_spread = float(pm) if pd.notna(pm) else None
         model_resid_total = float(pt) if pd.notna(pt) else None
@@ -476,6 +514,8 @@ def build_predictions(
             "market": {
                 "spreadHome": market_spread_val,
                 "total": market_total_val,
+                "homeMl": market_home_ml,
+                "awayMl": market_away_ml,
             },
             "realLine": {
                 "spreadHome": model_spread,

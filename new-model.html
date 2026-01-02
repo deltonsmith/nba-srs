@@ -27,6 +27,8 @@
         <th class="nowrap">Time (CT)</th>
         <th>Away</th>
         <th>Home</th>
+        <th class="num nowrap">Away ML</th>
+        <th class="num nowrap">Home ML</th>
         <th class="num nowrap">Market Spread (Home)</th>
         <th class="num nowrap">New Model Real Spread (Home)</th>
         <th class="num nowrap">Edge Spread</th>
@@ -95,6 +97,14 @@
           const home = document.createElement("td");
           home.textContent = (g.home && (g.home.abbr || g.home.name)) ? (g.home.abbr || g.home.name) : "—";
 
+          const mlAway = document.createElement("td");
+          mlAway.className = "num";
+          mlAway.textContent = fmt1(g.market?.awayMl);
+
+          const mlHome = document.createElement("td");
+          mlHome.className = "num";
+          mlHome.textContent = fmt1(g.market?.homeMl);
+
           const ms = document.createElement("td");
           ms.className = "num";
           ms.textContent = fmt1(g.market?.spreadHome);
@@ -122,6 +132,8 @@
           tr.appendChild(t);
           tr.appendChild(away);
           tr.appendChild(home);
+          tr.appendChild(mlAway);
+          tr.appendChild(mlHome);
           tr.appendChild(ms);
           tr.appendChild(rs);
           tr.appendChild(es);
