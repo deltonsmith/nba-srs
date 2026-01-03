@@ -103,7 +103,30 @@
         asofEl.textContent = "As of: " + fmtAsOf(data.asOfUtc);
 
         const games = Array.isArray(data.games) ? data.games : [];
-        games.sort((a,b) => new Date(a.startTimeUtc) - new Date(b.startTimeUtc));
+        const getRating = (team) => {
+          const key = team?.abbr || team?.id;
+          if (!key) return null;
+          const value = ratingsMap[String(key)];
+          return value === undefined ? null : value;
+        };
+        const getRatingDiff = (game) => {
+          const homeRating = getRating(game.home);
+          const awayRating = getRating(game.away);
+          if (homeRating === null || awayRating === null) return null;
+          return Number(homeRating) - Number(awayRating);
+        };
+        games.sort((a, b) => {
+          const diffA = getRatingDiff(a);
+          const diffB = getRatingDiff(b);
+          const aValid = diffA !== null && !Number.isNaN(diffA);
+          const bValid = diffB !== null && !Number.isNaN(diffB);
+          if (aValid && bValid && diffA !== diffB) {
+            return diffB - diffA;
+          }
+          if (aValid && !bValid) return -1;
+          if (!aValid && bValid) return 1;
+          return new Date(a.startTimeUtc) - new Date(b.startTimeUtc);
+        });
 
         rowsEl.innerHTML = "";
         for (const g of games) {
@@ -121,14 +144,12 @@
 
           const ratingA = document.createElement("td");
           ratingA.className = "num";
-          const awayKey = g.away?.abbr || g.away?.id;
-          const awayRating = awayKey ? ratingsMap[String(awayKey)] : null;
+          const awayRating = getRating(g.away);
           ratingA.textContent = fmt1(awayRating);
 
           const ratingH = document.createElement("td");
           ratingH.className = "num";
-          const homeKey = g.home?.abbr || g.home?.id;
-          const homeRating = homeKey ? ratingsMap[String(homeKey)] : null;
+          const homeRating = getRating(g.home);
           ratingH.textContent = fmt1(homeRating);
 
           const ratingDiff = document.createElement("td");
