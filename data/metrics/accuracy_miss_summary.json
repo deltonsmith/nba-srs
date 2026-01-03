@@ -1,14 +1,14 @@
 {
-  "as_of_utc": "2026-01-03T14:25:20Z",
-  "misses_total": 568,
-  "games_total": 1823,
-  "miss_rate": 0.3115743280307186,
-  "misses_higher_is_home": 242,
+  "as_of_utc": "2026-01-03T14:35:19Z",
+  "misses_total": 572,
+  "games_total": 1833,
+  "miss_rate": 0.3120567375886525,
+  "misses_higher_is_home": 243,
   "misses_by_gap_bucket": {
     "0-1": 82,
     "1-2": 103,
-    "5-8": 113,
-    "3-5": 114,
+    "5-8": 115,
+    "3-5": 116,
     "2-3": 91,
     "8+": 65
   }
