@@ -1,0 +1,186 @@
+{
+  "as_of_utc": "2024-11-28T00:00:00Z",
+  "season": 2025,
+  "ratings": [
+    {
+      "team_id": "CLE",
+      "team_abbr": "CLE",
+      "rating": 6.827720264844856,
+      "rank": 1
+    },
+    {
+      "team_id": "OKC",
+      "team_abbr": "OKC",
+      "rating": 6.605447591833817,
+      "rank": 2
+    },
+    {
+      "team_id": "BOS",
+      "team_abbr": "BOS",
+      "rating": 6.244239336916434,
+      "rank": 3
+    },
+    {
+      "team_id": "DEN",
+      "team_abbr": "DEN",
+      "rating": 4.928104571977407,
+      "rank": 4
+    },
+    {
+      "team_id": "IND",
+      "team_abbr": "IND",
+      "rating": 4.06090818516113,
+      "rank": 5
+    },
+    {
+      "team_id": "LAL",
+      "team_abbr": "LAL",
+      "rating": 3.6989047918017586,
+      "rank": 6
+    },
+    {
+      "team_id": "MIL",
+      "team_abbr": "MIL",
+      "rating": 3.395135033760642,
+      "rank": 7
+    },
+    {
+      "team_id": "MIN",
+      "team_abbr": "MIN",
+      "rating": 3.3175133466642075,
+      "rank": 8
+    },
+    {
+      "team_id": "LAC",
+      "team_abbr": "LAC",
+      "rating": 3.0677801207310944,
+      "rank": 9
+    },
+    {
+      "team_id": "NYK",
+      "team_abbr": "NYK",
+      "rating": 1.8535994713763915,
+      "rank": 10
+    },
+    {
+      "team_id": "GSW",
+      "team_abbr": "GSW",
+      "rating": 1.1722241022472923,
+      "rank": 11
+    },
+    {
+      "team_id": "MIA",
+      "team_abbr": "MIA",
+      "rating": 1.0913928143972176,
+      "rank": 12
+    },
+    {
+      "team_id": "ORL",
+      "team_abbr": "ORL",
+      "rating": 0.9504876761636984,
+      "rank": 13
+    },
+    {
+      "team_id": "HOU",
+      "team_abbr": "HOU",
+      "rating": 0.8507179844152237,
+      "rank": 14
+    },
+    {
+      "team_id": "CHI",
+      "team_abbr": "CHI",
+      "rating": -0.24230641696730065,
+      "rank": 15
+    },
+    {
+      "team_id": "DET",
+      "team_abbr": "DET",
+      "rating": -0.5471154821322421,
+      "rank": 16
+    },
+    {
+      "team_id": "ATL",
+      "team_abbr": "ATL",
+      "rating": -0.778548046168128,
+      "rank": 17
+    },
+    {
+      "team_id": "SAC",
+      "team_abbr": "SAC",
+      "rating": -1.4370866139298315,
+      "rank": 18
+    },
+    {
+      "team_id": "MEM",
+      "team_abbr": "MEM",
+      "rating": -1.5554960939686329,
+      "rank": 19
+    },
+    {
+      "team_id": "SAS",
+      "team_abbr": "SAS",
+      "rating": -1.622405681561864,
+      "rank": 20
+    },
+    {
+      "team_id": "POR",
+      "team_abbr": "POR",
+      "rating": -1.989002016747131,
+      "rank": 21
+    },
+    {
+      "team_id": "PHX",
+      "team_abbr": "PHX",
+      "rating": -2.0765099337808763,
+      "rank": 22
+    },
+    {
+      "team_id": "DAL",
+      "team_abbr": "DAL",
+      "rating": -2.255310190126571,
+      "rank": 23
+    },
+    {
+      "team_id": "TOR",
+      "team_abbr": "TOR",
+      "rating": -2.5595220204772557,
+      "rank": 24
+    },
+    {
+      "team_id": "BKN",
+      "team_abbr": "BKN",
+      "rating": -2.685911522533388,
+      "rank": 25
+    },
+    {
+      "team_id": "UTA",
+      "team_abbr": "UTA",
+      "rating": -4.406994252212711,
+      "rank": 26
+    },
+    {
+      "team_id": "CHA",
+      "team_abbr": "CHA",
+      "rating": -6.134744080098709,
+      "rank": 27
+    },
+    {
+      "team_id": "WAS",
+      "team_abbr": "WAS",
+      "rating": -6.253606349274026,
+      "rank": 28
+    },
+    {
+      "team_id": "PHI",
+      "team_abbr": "PHI",
+      "rating": -6.541100573484265,
+      "rank": 29
+    },
+    {
+      "team_id": "NOP",
+      "team_abbr": "NOP",
+      "rating": -7.2378039445248366,
+      "rank": 30
+    }
+  ]
+}

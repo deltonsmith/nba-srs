@@ -51,23 +51,40 @@ def load_player_values(conn, season_int):
     return {pid: v for (pid, v) in cur.fetchall()}
 
 
-def compute_team_full_values(conn, player_values, season_int, core_size=8):
+def compute_team_full_values(conn, player_values, season_int, core_size=8, as_of_date=None):
     """
     For each team, compute its 'full-strength' value by summing v_p
     for its top N (core_size) players by minutes played over the season.
     Returns dict: team_id -> full_strength_v.
     """
     cur = conn.cursor()
-    cur.execute(
-        """
-        SELECT a.team_id, p.player_id, SUM(a.minutes) AS total_min
-        FROM appearances a
-        JOIN players p ON a.player_id = p.player_id
-        WHERE p.season = ?
-        GROUP BY a.team_id, p.player_id
-        """,
-        (season_int,),
-    )
+    if as_of_date is None:
+        cur.execute(
+            """
+            SELECT a.team_id, p.player_id, SUM(a.minutes) AS total_min
+            FROM appearances a
+            JOIN players p ON a.player_id = p.player_id
+            JOIN games g ON a.game_id = g.game_id
+            WHERE p.season = ?
+              AND g.season = ?
+            GROUP BY a.team_id, p.player_id
+            """,
+            (season_int, season_int),
+        )
+    else:
+        cur.execute(
+            """
+            SELECT a.team_id, p.player_id, SUM(a.minutes) AS total_min
+            FROM appearances a
+            JOIN players p ON a.player_id = p.player_id
+            JOIN games g ON a.game_id = g.game_id
+            WHERE p.season = ?
+              AND g.season = ?
+              AND g.date <= ?
+            GROUP BY a.team_id, p.player_id
+            """,
+            (season_int, season_int, as_of_date),
+        )
     rows = cur.fetchall()
 
     by_team = defaultdict(list)
@@ -84,7 +101,7 @@ def compute_team_full_values(conn, player_values, season_int, core_size=8):
     return full_values
 
 
-def compute_game_records(conn, player_values, team_full_values, season_int):
+def compute_game_records(conn, player_values, team_full_values, season_int, as_of_date=None):
     """
     Build per-team game records with lineup-adjusted margins.
 
@@ -98,14 +115,24 @@ def compute_game_records(conn, player_values, team_full_values, season_int):
     """
     cur = conn.cursor()
 
-    cur.execute(
-        """
-        SELECT game_id, date, home_team_id, away_team_id, home_pts, away_pts
-        FROM games
-        WHERE season = ?
-        """,
-        (season_int,),
-    )
+    if as_of_date is None:
+        cur.execute(
+            """
+            SELECT game_id, date, home_team_id, away_team_id, home_pts, away_pts
+            FROM games
+            WHERE season = ?
+            """,
+            (season_int,),
+        )
+    else:
+        cur.execute(
+            """
+            SELECT game_id, date, home_team_id, away_team_id, home_pts, away_pts
+            FROM games
+            WHERE season = ? AND date <= ?
+            """,
+            (season_int, as_of_date),
+        )
     games = cur.fetchall()
 
     cur.execute(
@@ -173,20 +200,30 @@ def compute_game_records(conn, player_values, team_full_values, season_int):
 
 # ------------ COMPONENT HELPERS ------------
 
-def compute_team_results(conn, season_int):
+def compute_team_results(conn, season_int, as_of_date=None):
     """
     Return per-team aggregates based on actual scores:
     games, wins, losses, point_diff_sum.
     """
     cur = conn.cursor()
-    cur.execute(
-        """
-        SELECT home_team_id, away_team_id, home_pts, away_pts
-        FROM games
-        WHERE season = ? AND home_pts IS NOT NULL AND away_pts IS NOT NULL
-        """,
-        (season_int,),
-    )
+    if as_of_date is None:
+        cur.execute(
+            """
+            SELECT home_team_id, away_team_id, home_pts, away_pts
+            FROM games
+            WHERE season = ? AND home_pts IS NOT NULL AND away_pts IS NOT NULL
+            """,
+            (season_int,),
+        )
+    else:
+        cur.execute(
+            """
+            SELECT home_team_id, away_team_id, home_pts, away_pts
+            FROM games
+            WHERE season = ? AND date <= ? AND home_pts IS NOT NULL AND away_pts IS NOT NULL
+            """,
+            (season_int, as_of_date),
+        )
     rows = cur.fetchall()
     stats = defaultdict(lambda: {"games": 0, "wins": 0, "losses": 0, "point_diff_sum": 0.0})
     for home_team, away_team, home_pts, away_pts in rows:
@@ -209,12 +246,12 @@ def compute_team_results(conn, season_int):
     return stats
 
 
-def compute_component_stats(conn, records_by_team, ratings, season_int):
+def compute_component_stats(conn, records_by_team, ratings, season_int, as_of_date=None):
     """
     Build per-team components to log alongside ratings.
     Components are intentionally simple and derived from existing data.
     """
-    results = compute_team_results(conn, season_int)
+    results = compute_team_results(conn, season_int, as_of_date=as_of_date)
     components = {}
     for team, rating in ratings.items():
         recs = records_by_team.get(team, [])
@@ -546,7 +583,7 @@ def write_accuracy_metrics(metrics, season_int, run_date_utc):
 
 # ------------ PER-SEASON RUNNER ------------
 
-def run_season(season_int):
+def run_season(season_int, as_of_date=None, as_of_utc=None, skip_current_output=False, skip_csv=False, skip_metrics=False):
     conn = sqlite3.connect(DB_PATH)
 
     player_values = load_player_values(conn, season_int)
@@ -564,20 +601,27 @@ def run_season(season_int):
 
     canonical_json_path = DATA_DIR / "ratings_current.json"
 
-    as_of_dt = datetime.now(timezone.utc).replace(microsecond=0)
+    if as_of_utc:
+        as_of_dt = datetime.fromisoformat(as_of_utc.replace("Z", "+00:00")).astimezone(timezone.utc)
+    else:
+        as_of_dt = datetime.now(timezone.utc).replace(microsecond=0)
     as_of_utc_str = as_of_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
-    as_of_date = as_of_dt.date()
-    run_date_utc = as_of_date.isoformat()
+    if as_of_date:
+        as_of_date_obj = datetime.strptime(as_of_date, "%Y-%m-%d").date()
+    else:
+        as_of_date_obj = as_of_dt.date()
+        as_of_date = as_of_date_obj.isoformat()
+    run_date_utc = as_of_date_obj.isoformat()
 
-    yesterday_ranks = load_prev_day_ranks_from_csv(season_int, as_of_date)
+    yesterday_ranks = load_prev_day_ranks_from_csv(season_int, as_of_date_obj)
     if not yesterday_ranks:
         yesterday_ranks = load_yesterday_ranks(canonical_json_path)
 
-    last_week_ranks = load_last_week_ranks_from_csv(season_int, as_of_date)
+    last_week_ranks = load_last_week_ranks_from_csv(season_int, as_of_date_obj)
 
     ratings = iterate_ratings(records_by_team)
     # Blend ratings toward win% to improve winner prediction.
-    team_results = compute_team_results(conn, season_int)
+    team_results = compute_team_results(conn, season_int, as_of_date=as_of_date)
     blended = {}
     for team, rating in ratings.items():
         wins = team_results.get(team, {}).get("wins", 0)
@@ -590,7 +634,7 @@ def run_season(season_int):
     for team, r in sorted(ratings.items(), key=lambda x: x[1], reverse=True):
         print(f"{team}: {r:.3f}")
 
-    components = compute_component_stats(conn, records_by_team, ratings, season_int)
+    components = compute_component_stats(conn, records_by_team, ratings, season_int, as_of_date=as_of_date)
     payload = build_ratings_payload(
         ratings,
         last_week_ranks,
@@ -601,13 +645,15 @@ def run_season(season_int):
         components,
     )
 
-    write_ratings_json(payload, canonical_json_path)
-    history_path = history_dir / f"{run_date_utc}.json"
-    write_ratings_json(payload, history_path)
-    print(f"Saved canonical JSON to {canonical_json_path}")
-    print(f"Saved history snapshot to {history_path}")
+    if not skip_current_output:
+        write_ratings_json(payload, canonical_json_path)
+        history_path = history_dir / f"{run_date_utc}.json"
+        write_ratings_json(payload, history_path)
+        print(f"Saved canonical JSON to {canonical_json_path}")
+        print(f"Saved history snapshot to {history_path}")
 
-    write_ratings_csv(ratings, season_int)
+    if not skip_csv:
+        write_ratings_csv(ratings, season_int)
 
     snapshots_dir = DATA_DIR / "ratings_snapshots"
     snapshots_dir.mkdir(parents=True, exist_ok=True)
@@ -615,20 +661,24 @@ def run_season(season_int):
     snapshot_name = f"ratings_{as_of_dt.strftime('%Y%m%d_%H%M%SZ')}.json"
     snapshot_path = snapshots_dir / snapshot_name
     write_ratings_json(snapshot_payload, snapshot_path)
-    latest_path = DATA_DIR / "ratings_latest.json"
-    write_ratings_json(snapshot_payload, latest_path)
-    print(f"Saved ratings snapshot to {snapshot_path}")
-    print(f"Updated ratings latest pointer to {latest_path}")
+    if not skip_current_output:
+        latest_path = DATA_DIR / "ratings_latest.json"
+        write_ratings_json(snapshot_payload, latest_path)
+        print(f"Saved ratings snapshot to {snapshot_path}")
+        print(f"Updated ratings latest pointer to {latest_path}")
+    else:
+        print(f"Saved ratings snapshot to {snapshot_path}")
 
     conn.close()
 
-    with sqlite3.connect(DB_PATH) as metrics_conn:
-        metrics = compute_accuracy_metrics(metrics_conn, ratings, season_int)
-    if metrics:
-        write_accuracy_metrics(metrics, season_int, run_date_utc)
-        print(f"Saved accuracy metrics to {DATA_DIR / 'metrics' / 'accuracy.json'}")
-    else:
-        print("No accuracy metrics computed (missing games or ratings).")
+    if not skip_metrics:
+        with sqlite3.connect(DB_PATH) as metrics_conn:
+            metrics = compute_accuracy_metrics(metrics_conn, ratings, season_int)
+        if metrics:
+            write_accuracy_metrics(metrics, season_int, run_date_utc)
+            print(f"Saved accuracy metrics to {DATA_DIR / 'metrics' / 'accuracy.json'}")
+        else:
+            print("No accuracy metrics computed (missing games or ratings).")
 
     print("-" * 40)
 
@@ -636,9 +686,27 @@ def run_season(season_int):
 # ------------ MAIN ------------
 
 def main():
-    for season_int in SEASONS:
+    import argparse
+    parser = argparse.ArgumentParser(description="Compute PowerIndex ratings for configured seasons.")
+    parser.add_argument("--season", type=int, help="Season end year (e.g., 2025 for 2024-25).")
+    parser.add_argument("--asof-date", help="Cutoff game date (YYYY-MM-DD) for historical snapshots.")
+    parser.add_argument("--asof-utc", help="Override as_of_utc in outputs (ISO 8601).")
+    parser.add_argument("--skip-current-output", action="store_true", help="Skip writing ratings_current.json and ratings_latest.json.")
+    parser.add_argument("--skip-csv", action="store_true", help="Skip writing CSV snapshot output.")
+    parser.add_argument("--skip-metrics", action="store_true", help="Skip writing accuracy metrics.")
+    args = parser.parse_args()
+
+    seasons_to_run = [args.season] if args.season else SEASONS
+    for season_int in seasons_to_run:
         print(f"=== Running ratings for season {season_int} ===")
-        run_season(season_int)
+        run_season(
+            season_int,
+            as_of_date=args.asof_date,
+            as_of_utc=args.asof_utc,
+            skip_current_output=args.skip_current_output,
+            skip_csv=args.skip_csv,
+            skip_metrics=args.skip_metrics,
+        )
 
 
 if __name__ == "__main__":

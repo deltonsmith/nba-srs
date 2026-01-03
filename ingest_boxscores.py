@@ -1,13 +1,17 @@
 # ingest_boxscores.py
+import argparse
+import json
 import os
 import sqlite3
+from pathlib import Path
 from time import sleep
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import requests
 
 from src.team_normalize import normalize_team_id
 DB_PATH = "data/nba_ratings.db"
+STATE_PATH = Path("data") / "boxscore_ingest_state.json"
 BALLDONTLIE_BASE = "https://api.balldontlie.io/v1"
 API_KEY = os.environ.get("BALLDONTLIE_API_KEY")
 SESSION = requests.Session()
@@ -36,6 +40,22 @@ def game_already_ingested(game_id: str) -> bool:
     row = cur.fetchone()
     conn.close()
     return row is not None
+
+
+def load_state() -> Optional[Dict]:
+    if not STATE_PATH.exists():
+        return None
+    try:
+        return json.loads(STATE_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def save_state(season_int: int, next_index: int) -> None:
+    payload = {"season": int(season_int), "next_index": int(next_index)}
+    tmp_path = STATE_PATH.with_suffix(STATE_PATH.suffix + ".tmp")
+    tmp_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    tmp_path.replace(STATE_PATH)
 
 
 def parse_minutes_to_float(value) -> float:
@@ -181,15 +201,36 @@ def save_appearances(game_id: str, season_int: int):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Ingest player boxscores into appearances table.")
+    parser.add_argument("--season", type=int, help="Season end year (e.g., 2025 for 2024-25).")
+    parser.add_argument("--max-games", type=int, help="Maximum games to process this run.")
+    parser.add_argument("--resume", action=argparse.BooleanOptionalAction, default=True, help="Resume from checkpoint (default: true).")
+    parser.add_argument("--reset", action="store_true", help="Delete checkpoint before running.")
+    args = parser.parse_args()
+
+    if args.reset and STATE_PATH.exists():
+        STATE_PATH.unlink()
+        print("Checkpoint reset: deleted data/boxscore_ingest_state.json")
+
     # season you are ingesting
-    SEASON_INT = 2026  # 2025–26 season
+    SEASON_INT = args.season or 2026  # 2025–26 season
 
     game_ids = get_all_game_ids(SEASON_INT)
+    start_index = 0
+    if args.resume:
+        state = load_state()
+        if state and state.get("season") == SEASON_INT:
+            start_index = int(state.get("next_index", 0))
     print(f"Found {len(game_ids)} games. Fetching box scores...")
 
-    for gid in game_ids:
+    processed = 0
+    for idx, gid in enumerate(game_ids[start_index:], start=start_index):
         if game_already_ingested(gid):
             print(f"  skipping {gid} (already in DB)")
+            processed += 1
+            save_state(SEASON_INT, idx + 1)
+            if args.max_games and processed >= args.max_games:
+                break
             continue
 
         print(f"  pulling box score for {gid} ...")
@@ -198,7 +239,14 @@ def main():
         except Exception as e:
             print(f"    ERROR on {gid}: {e}")
         sleep(1)  # throttle requests
+        processed += 1
+        save_state(SEASON_INT, idx + 1)
+        if args.max_games and processed >= args.max_games:
+            break
 
+    if start_index + processed >= len(game_ids) and STATE_PATH.exists():
+        STATE_PATH.unlink()
+        print("Completed full season; removed checkpoint.")
     print("Done.")
 
 
