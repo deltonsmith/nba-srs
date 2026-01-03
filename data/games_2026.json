@@ -4516,5 +4516,95 @@
     "away_team_id": "UTA",
     "home_pts": 118,
     "away_pts": 101
+  },
+  {
+    "game_id": 18447290,
+    "season": 2026,
+    "date": "2026-01-02",
+    "home_team_id": "IND",
+    "away_team_id": "SAS",
+    "home_pts": 113,
+    "away_pts": 123
+  },
+  {
+    "game_id": 18447291,
+    "season": 2026,
+    "date": "2026-01-02",
+    "home_team_id": "WAS",
+    "away_team_id": "BKN",
+    "home_pts": 119,
+    "away_pts": 99
+  },
+  {
+    "game_id": 18447292,
+    "season": 2026,
+    "date": "2026-01-02",
+    "home_team_id": "CLE",
+    "away_team_id": "DEN",
+    "home_pts": 113,
+    "away_pts": 108
+  },
+  {
+    "game_id": 18447293,
+    "season": 2026,
+    "date": "2026-01-02",
+    "home_team_id": "NYK",
+    "away_team_id": "ATL",
+    "home_pts": 99,
+    "away_pts": 111
+  },
+  {
+    "game_id": 18447294,
+    "season": 2026,
+    "date": "2026-01-02",
+    "home_team_id": "CHI",
+    "away_team_id": "ORL",
+    "home_pts": 121,
+    "away_pts": 114
+  },
+  {
+    "game_id": 18447295,
+    "season": 2026,
+    "date": "2026-01-02",
+    "home_team_id": "MIL",
+    "away_team_id": "CHA",
+    "home_pts": 122,
+    "away_pts": 121
+  },
+  {
+    "game_id": 18447296,
+    "season": 2026,
+    "date": "2026-01-02",
+    "home_team_id": "NOP",
+    "away_team_id": "POR",
+    "home_pts": 109,
+    "away_pts": 122
+  },
+  {
+    "game_id": 18447297,
+    "season": 2026,
+    "date": "2026-01-02",
+    "home_team_id": "PHX",
+    "away_team_id": "SAC",
+    "home_pts": 129,
+    "away_pts": 102
+  },
+  {
+    "game_id": 18447298,
+    "season": 2026,
+    "date": "2026-01-02",
+    "home_team_id": "GSW",
+    "away_team_id": "OKC",
+    "home_pts": 94,
+    "away_pts": 131
+  },
+  {
+    "game_id": 18447299,
+    "season": 2026,
+    "date": "2026-01-02",
+    "home_team_id": "LAL",
+    "away_team_id": "MEM",
+    "home_pts": 109,
+    "away_pts": 108
   }
 ]
