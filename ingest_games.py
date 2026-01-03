@@ -319,6 +319,7 @@ def upsert_games(games: List[Dict]):
 
 def main():
     parser = argparse.ArgumentParser(description="Ingest NBA games from Balldontlie.")
+    parser.add_argument("--season", type=int, help="Season end year (e.g., 2025 for 2024-25).")
     parser.add_argument("--resume", action=argparse.BooleanOptionalAction, default=True, help="Resume from checkpoint (default: true)")
     parser.add_argument("--reset", action="store_true", help="Delete ingest checkpoint before running")
     args = parser.parse_args()
@@ -328,7 +329,7 @@ def main():
         print("Checkpoint reset: deleted data/ingest_state.json")
 
     # live season
-    season_int = 2026
+    season_int = args.season or 2026
     print(f"Fetching Balldontlie games for season {season_int} (API season {season_int - 1}) ...")
 
     try:
