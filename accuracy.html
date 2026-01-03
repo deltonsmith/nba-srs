@@ -235,6 +235,7 @@
     </thead>
     <tbody id="gap8-table"></tbody>
   </table>
+  <p class="note" id="gap8-2425"></p>
 
   <h2>New model accuracy</h2>
   <p>
@@ -418,6 +419,12 @@
         `;
         gapTable.appendChild(tr);
       }
+
+      const seasonGap = (seasons["2025"] || {}).rating_gap_8_plus || {};
+      const seasonWinRate = seasonGap.season_to_date?.win_rate ?? null;
+      const seasonGames = seasonGap.season_to_date?.games ?? "-";
+      const seasonLine = `24-25 season 8+ win rate: ${fmtPct(seasonWinRate)} (${seasonGames} games)`;
+      document.getElementById("gap8-2425").textContent = seasonLine;
     };
 
     const updateModelMetrics = (data) => {

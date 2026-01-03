@@ -247,7 +247,9 @@ def main():
             continue
         rows = build_history_rows(season, snapshots, games)
         history_rows.extend(rows)
-        season_summaries[str(season)] = summarize(rows, now_utc)
+        summary = summarize(rows, now_utc)
+        summary["rating_gap_8_plus"] = summarize_gap_periods(rows, now_utc, 8.0)
+        season_summaries[str(season)] = summary
 
     overall_summary = summarize(history_rows, now_utc)
     overall_summary["rating_gap_8_plus"] = summarize_gap_periods(history_rows, now_utc, 8.0)
