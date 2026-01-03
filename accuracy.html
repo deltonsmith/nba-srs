@@ -224,6 +224,18 @@
     <tbody id="season-table"></tbody>
   </table>
 
+  <h2>8+ rating differential summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Time period</th>
+        <th>Higher-rated win %</th>
+        <th>Games counted</th>
+      </tr>
+    </thead>
+    <tbody id="gap8-table"></tbody>
+  </table>
+
   <h2>New model accuracy</h2>
   <p>
     Compares the new model's line against final scores.
@@ -377,7 +389,7 @@
         const row = seasons[season] || {};
         const tr = document.createElement("tr");
         const winRate = fmtPct(row.win_rate_total);
-        const games = row.games_total ?? "—";
+        const games = row.games_total ?? "-";
         tr.innerHTML = `
           <td>${season}</td>
           <td>${winRate}</td>
@@ -385,6 +397,26 @@
           <td>Snapshot-based</td>
         `;
         table.appendChild(tr);
+      }
+
+      const gapTable = document.getElementById("gap8-table");
+      gapTable.innerHTML = "";
+      const gapData = overall.rating_gap_8_plus || {};
+      const gapRows = [
+        { key: "season_to_date", label: "Season to date" },
+        { key: "last_30_days", label: "Last 30 days" },
+        { key: "last_7_days", label: "Last 7 days" },
+        { key: "yesterday", label: "Yesterday" },
+      ];
+      for (const entry of gapRows) {
+        const row = gapData[entry.key] || {};
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${entry.label}</td>
+          <td>${fmtPct(row.win_rate)}</td>
+          <td>${row.games ?? "-"}</td>
+        `;
+        gapTable.appendChild(tr);
       }
     };
 

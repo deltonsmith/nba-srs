@@ -188,6 +188,50 @@ def summarize(rows: List[Dict], now_utc: datetime) -> Dict:
     }
 
 
+def summarize_gap_periods(rows: List[Dict], now_utc: datetime, min_gap: float) -> Dict:
+    def win_rate(subset: List[Dict]) -> Optional[float]:
+        if not subset:
+            return None
+        return sum(r["correct"] for r in subset) / len(subset)
+
+    parsed_rows = []
+    for r in rows:
+        dt = parse_iso(r.get("date_utc"))
+        gap = r.get("rating_gap")
+        if dt is None or gap is None:
+            continue
+        parsed = dict(r)
+        parsed["_dt"] = dt
+        parsed["_gap"] = float(gap)
+        parsed_rows.append(parsed)
+
+    def subset_with_gap(subset: List[Dict]) -> List[Dict]:
+        return [r for r in subset if r["_gap"] >= min_gap]
+
+    def summarize_subset(subset: List[Dict]) -> Dict:
+        subset = subset_with_gap(subset)
+        return {
+            "games": len(subset),
+            "win_rate": win_rate(subset),
+        }
+
+    last_7_cutoff = now_utc - timedelta(days=7)
+    last_30_cutoff = now_utc - timedelta(days=30)
+    today_start = datetime(now_utc.year, now_utc.month, now_utc.day, tzinfo=timezone.utc)
+    yesterday_start = today_start - timedelta(days=1)
+
+    last_7 = [r for r in parsed_rows if r["_dt"] >= last_7_cutoff]
+    last_30 = [r for r in parsed_rows if r["_dt"] >= last_30_cutoff]
+    yesterday = [r for r in parsed_rows if yesterday_start <= r["_dt"] < today_start]
+
+    return {
+        "season_to_date": summarize_subset(parsed_rows),
+        "last_30_days": summarize_subset(last_30),
+        "last_7_days": summarize_subset(last_7),
+        "yesterday": summarize_subset(yesterday),
+    }
+
+
 def main():
     snapshots_by_season = load_snapshots()
     if not snapshots_by_season:
@@ -206,6 +250,7 @@ def main():
         season_summaries[str(season)] = summarize(rows, now_utc)
 
     overall_summary = summarize(history_rows, now_utc)
+    overall_summary["rating_gap_8_plus"] = summarize_gap_periods(history_rows, now_utc, 8.0)
     payload = {
         "as_of_utc": now_utc.replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "tie_policy": "skip",
